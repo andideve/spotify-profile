@@ -4,10 +4,10 @@ import Spotify from '../../../services/spotify';
 import refreshToken from '../../../services/api-middlewares/refresh-token';
 
 import runMiddleware from '../../../utils/api-middleware';
-import { User, SpotifyError } from '../../../types/spotify';
+import { UserID, User, SpotifyError } from '../../../types/spotify';
 
 export interface UserParameter {
-  uid: string;
+  uid: UserID;
 }
 
 export type UserData = User;
@@ -26,9 +26,9 @@ const handler: NextApiHandler<UserData | UserError> = async (req, res) => {
     return;
   }
 
-  const { uid } = req.query;
+  const query = req.query as Partial<UserParameter>;
 
-  if (!uid || !(typeof uid === 'string')) {
+  if (!query.uid || !(typeof query.uid === 'string')) {
     res.status(400).json({
       error: {
         status: 400,
@@ -39,7 +39,7 @@ const handler: NextApiHandler<UserData | UserError> = async (req, res) => {
   }
 
   const token = await runMiddleware(req, res, refreshToken);
-  const user = await Spotify.user({ uid, access_token: token.access_token });
+  const user = await Spotify.user({ uid: query.uid, access_token: token.access_token });
 
   if (!user) {
     res.status(404).json(notFound);

@@ -21,9 +21,9 @@ const handler: NextApiHandler<LoginData | LoginError> = async (req, res) => {
     return;
   }
 
-  const { code } = req.query;
+  const query = req.query as Partial<LoginParameter>;
 
-  if (!code || !(typeof code === 'string')) {
+  if (!query.code || !(typeof query.code === 'string')) {
     res.status(400).json({
       error: {
         status: 400,
@@ -34,7 +34,7 @@ const handler: NextApiHandler<LoginData | LoginError> = async (req, res) => {
   }
 
   try {
-    const token = await Spotify.accessToken({ code });
+    const token = await Spotify.accessToken({ code: query.code });
 
     res.setHeader(
       'Set-Cookie',
