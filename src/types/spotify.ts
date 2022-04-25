@@ -83,14 +83,14 @@ export interface AccessTokenBody {
   redirect_uri: string;
 }
 
-interface BaseAccessTokenResponse {
+interface BaseTokenResponse {
   access_token: string;
   token_type: 'Bearer';
   scope: string;
   expires_in: number; // in seconds
 }
 
-export interface AccessTokenResponse extends BaseAccessTokenResponse {
+export interface AccessTokenResponse extends BaseTokenResponse {
   refresh_token: string;
 }
 
@@ -99,7 +99,7 @@ export interface RefreshAccessTokenBody {
   refresh_token: string;
 }
 
-export type RefreshAccessTokenResponse = BaseAccessTokenResponse;
+export type RefreshAccessTokenResponse = BaseTokenResponse;
 
 // https://developer.spotify.com/documentation/web-api/reference/#/operations/get-current-users-profile
 export interface CurrentUserResponse {

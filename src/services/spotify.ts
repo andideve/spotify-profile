@@ -14,7 +14,7 @@ import {
   UserResponse,
 } from '../types/spotify';
 
-interface WithOAuth {
+interface WithOAuth2 {
   access_token: string;
 }
 
@@ -64,7 +64,7 @@ async function refreshToken(arg: Omit<RefreshAccessTokenBody, 'grant_type'>) {
   }).then((res) => res.json() as Promise<RefreshAccessTokenResponse>);
 }
 
-async function currentUser({ access_token }: WithOAuth) {
+async function currentUser({ access_token }: WithOAuth2) {
   return fetch(SPOTIFY_ENDPOINTS.CURRENT_USER, {
     headers: {
       Authorization: `Bearer ${access_token}`,
@@ -72,7 +72,7 @@ async function currentUser({ access_token }: WithOAuth) {
   }).then((res) => res.json() as Promise<CurrentUserResponse>);
 }
 
-async function user({ uid, access_token }: { uid: UserID } & WithOAuth) {
+async function user({ uid, access_token }: { uid: UserID } & WithOAuth2) {
   return fetch(SPOTIFY_ENDPOINTS.USER(uid), {
     headers: {
       Authorization: `Bearer ${access_token}`,
