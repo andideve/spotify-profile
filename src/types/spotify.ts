@@ -41,19 +41,6 @@ export interface Follower {
   total: number;
 }
 
-export interface User {
-  display_name: string;
-  external_urls: {
-    spotify: string;
-  };
-  followers: Follower[];
-  href: string;
-  id: UserID;
-  images: Image[];
-  type: string;
-  uri: string;
-}
-
 // request or response
 
 export interface SpotifyError {
@@ -124,6 +111,3 @@ export interface CurrentUserResponse {
   type: string;
   uri: string;
 }
-
-// https://developer.spotify.com/documentation/web-api/reference/#/operations/get-users-profile
-export type UserResponse = User | null;
