@@ -36,7 +36,7 @@ export interface Image {
   width: number;
 }
 
-export interface Follower {
+export interface Followers {
   href: string;
   total: number;
 }
@@ -100,10 +100,7 @@ export interface CurrentUserResponse {
   external_urls: {
     spotify: string;
   };
-  followers: {
-    href: string;
-    total: string;
-  };
+  followers: Followers;
   href: string;
   id: UserID;
   images: Image[];
