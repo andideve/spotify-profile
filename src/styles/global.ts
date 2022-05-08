@@ -20,4 +20,10 @@ export const globalStyles = (theme: Theme) => `
   main {
     flex: 1 1 auto;
   }
+  a.underlined {
+    text-decoration: none;
+    &:hover, &:focus {
+      text-decoration: underline;
+    }
+  }
 `;
