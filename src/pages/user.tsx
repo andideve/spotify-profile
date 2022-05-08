@@ -1,21 +1,18 @@
 import type { NextPage } from 'next';
 import React, { useState, useEffect } from 'react';
 
-import useLogout from '../hooks/useLogout';
+import Page from '../containers/templates/Page';
 
-import API from '../services/api';
+import API, { MeData } from '../services/api';
 
 const User: NextPage = () => {
   const [loading, setLoading] = useState(true);
-  const [name, setName] = useState('');
-
-  const logout = useLogout();
+  const [user, setUser] = useState<MeData>();
 
   useEffect(() => {
     (async () => {
       try {
-        const user = await API.spotify.me();
-        setName(user.display_name);
+        setUser(await API.spotify.me());
       } catch (err) {
         console.error(err);
       } finally {
@@ -24,16 +21,23 @@ const User: NextPage = () => {
     })();
   }, []);
 
+  if (loading || !user) return <Page />;
+
   return (
-    <main style={{ maxWidth: 576, margin: '0 auto' }}>
-      <h1>Profile</h1>
-      {loading ? <p>Loading...</p> : <p>Name: {name}</p>}
-      <div style={{ marginTop: '1rem' }}>
-        <button type="button" onClick={logout}>
-          Logout
-        </button>
-      </div>
-    </main>
+    <Page
+      title={user.display_name}
+      head={{
+        category: 'Profile',
+        title: user.display_name,
+        image: { radii: '999px', url: user.images[0].url },
+        stats: (
+          <>
+            <span>2 Public Playlists</span>
+            <span>3 Following</span>
+          </>
+        ),
+      }}
+    />
   );
 };
 
