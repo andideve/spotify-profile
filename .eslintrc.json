@@ -36,5 +36,8 @@
         "extensions": [".js", ".ts", ".tsx"]
       }
     }
+  },
+  "globals": {
+    "JSX": "readonly"
   }
 }
