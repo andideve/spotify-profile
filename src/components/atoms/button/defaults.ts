@@ -3,7 +3,6 @@ import { ButtonOptions } from './types';
 const defaults: Required<ButtonOptions> = {
   variant: 'outlined',
   size: 'lg',
-  withIcon: null,
 };
 
 export const transitionMs = 200;
