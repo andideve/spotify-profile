@@ -1,19 +1,27 @@
 import React from 'react';
+
 import { TracksTable, TracksTableRow } from '../../../organisms/TracksTable';
 
-function Tracks() {
+import { PlaylistsData } from '../../../../services/api';
+
+function Tracks({ items }: { items: PlaylistsData['tracks']['items'] }) {
   return (
     <>
       <h2 className="sr-only">tracks</h2>
       <TracksTable head={{ cellAddon: 'Album' }} headSticky>
-        <TracksTableRow
-          number={1}
-          image={{ alt: '', src: 'https://github.com/andideve.png' }}
-          title="Puisi Alam"
-          artistName="Fourtwnty"
-          durationMs={5.53}
-          cellAddon="Unknown"
-        />
+        {items.map(({ track }, i) => {
+          if (!track) return null;
+          return (
+            <TracksTableRow
+              number={i + 1}
+              image={{ alt: track.name, src: track.album.images[0].url }}
+              title={track.name}
+              artistName={track.artists[0].name}
+              durationMs={track.duration_ms}
+              cellAddon={track.album.name}
+            />
+          );
+        })}
       </TracksTable>
     </>
   );

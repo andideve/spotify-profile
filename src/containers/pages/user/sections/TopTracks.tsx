@@ -9,8 +9,10 @@ import {
 
 import { SITE_PATHS } from '../../../../config/globals';
 
+import { MyTopTracksData } from '../../../../services/api';
+
 interface TopTracksProps extends TracksTablePropsOptions {
-  items: unknown[];
+  items: MyTopTracksData['items'];
   headingTag?: keyof JSX.IntrinsicElements;
   max?: number;
 }
@@ -30,15 +32,15 @@ function TopTracks({ items, headingTag, max, ...options }: TopTracksProps) {
         }
       />
       <TracksTable head={{ cellAddon: 'Album' }} {...options}>
-        {list.map((val, i) => (
+        {list.map((track, i) => (
           <TracksTableRow
-            key={i}
+            key={track.id}
             number={i + 1}
-            image={{ alt: '', src: 'https://github.com/andideve.png' }}
-            title="Puisi Alam"
-            artistName="Fourtwnty"
-            durationMs={5.53}
-            cellAddon="Unknown"
+            image={{ alt: track.name, src: track.album.images[0].url }}
+            title={track.name}
+            artistName={track.artists[0].name}
+            durationMs={track.duration_ms}
+            cellAddon={track.album.name}
           />
         ))}
       </TracksTable>

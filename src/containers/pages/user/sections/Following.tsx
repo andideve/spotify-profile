@@ -6,18 +6,27 @@ import SectionHead from '../../../organisms/SectionHead';
 import AlbumItem from '../../../organisms/AlbumItem';
 
 import { SITE_PATHS } from '../../../../config/globals';
+import { MyFollowingArtistsData } from '../../../../services/api';
 
-function Following({ headingTag }: { headingTag?: keyof JSX.IntrinsicElements }) {
+interface FollowingProps {
+  items: MyFollowingArtistsData['artists']['items'];
+  headingTag?: keyof JSX.IntrinsicElements;
+}
+
+function Following({ items, headingTag }: FollowingProps) {
   return (
     <>
       <SectionHead headingTag={headingTag} title="Following" />
       <AlbumList>
-        <AlbumItem
-          link={SITE_PATHS.ARTIST('123')}
-          title="Pamungkas"
-          description="Profile"
-          image={{ alt: '', src: 'https://github.com/andideve.png' }}
-        />
+        {items.map((artist) => (
+          <AlbumItem
+            key={artist.id}
+            link={SITE_PATHS.ARTIST(artist.id)}
+            title={artist.name}
+            description="Profile"
+            image={{ alt: artist.name, src: artist.images[0].url }}
+          />
+        ))}
       </AlbumList>
     </>
   );
