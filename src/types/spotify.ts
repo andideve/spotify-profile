@@ -30,17 +30,6 @@ export type AuthScopes =
 
 export type UserID = string;
 
-export interface Image {
-  url: string;
-  height: number;
-  width: number;
-}
-
-export interface Followers {
-  href: string;
-  total: number;
-}
-
 // request or response
 
 export interface SpotifyError {
@@ -87,24 +76,3 @@ export interface RefreshAccessTokenBody {
 }
 
 export type RefreshAccessTokenResponse = BaseTokenResponse;
-
-// https://developer.spotify.com/documentation/web-api/reference/#/operations/get-current-users-profile
-export interface CurrentUserResponse {
-  country: string;
-  display_name: string;
-  email: string;
-  explicit_content: {
-    filter_enabled: boolean;
-    filter_locked: boolean;
-  };
-  external_urls: {
-    spotify: string;
-  };
-  followers: Followers;
-  href: string;
-  id: UserID;
-  images: Image[];
-  product: string;
-  type: string;
-  uri: string;
-}

@@ -39,6 +39,7 @@
     }
   },
   "globals": {
-    "JSX": "readonly"
+    "JSX": "readonly",
+    "SpotifyApi": "readonly"
   }
 }

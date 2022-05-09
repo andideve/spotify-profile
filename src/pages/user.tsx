@@ -38,13 +38,15 @@ const User: NextPage = () => {
 
   if (loading || !user) return <Page />;
 
+  const avatar = user.images?.[0];
+
   return (
     <Page
       title={user.display_name}
       head={{
         category: 'Profile',
-        title: user.display_name,
-        image: { radii: '999px', url: user.images[0].url },
+        title: user.display_name || '',
+        image: avatar && { radii: '999px', url: avatar.url },
         stats: (
           <>
             <span>2 Public Playlists</span>

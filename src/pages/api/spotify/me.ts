@@ -4,9 +4,9 @@ import Spotify from '../../../services/spotify';
 import refreshToken from '../../../services/api-middlewares/refresh-token';
 
 import runMiddleware from '../../../utils/api-middleware';
-import { CurrentUserResponse, SpotifyError } from '../../../types/spotify';
+import { SpotifyError } from '../../../types/spotify';
 
-export type MeData = CurrentUserResponse;
+export type MeData = SpotifyApi.CurrentUsersProfileResponse;
 export type MeError = SpotifyError;
 
 const handler: NextApiHandler<MeData | MeError> = async (req, res) => {
@@ -16,11 +16,10 @@ const handler: NextApiHandler<MeData | MeError> = async (req, res) => {
   }
 
   const token = await runMiddleware(req, res, refreshToken);
-  const response = await Spotify.currentUser({
-    access_token: token.access_token,
-  });
+  Spotify.setAccessToken(token.access_token);
+  const response = await Spotify.getMe();
 
-  res.status(200).json(response);
+  res.status(200).json(response.body);
 };
 
 export default handler;

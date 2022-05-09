@@ -18,12 +18,14 @@
     "next": "12.1.5",
     "query-string": "^7.1.1",
     "react": "18.0.0",
-    "react-dom": "18.0.0"
+    "react-dom": "18.0.0",
+    "spotify-web-api-node": "^5.0.2"
   },
   "devDependencies": {
     "@types/node": "17.0.25",
     "@types/react": "18.0.5",
     "@types/react-dom": "18.0.1",
+    "@types/spotify-web-api-node": "^5.0.7",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
     "eslint": "^8.2.0",
