@@ -7,10 +7,10 @@ import AlbumItem from '../../../organisms/AlbumItem';
 
 import { SITE_PATHS } from '../../../../config/globals';
 
-function Following() {
+function Following({ headingTag }: { headingTag?: keyof JSX.IntrinsicElements }) {
   return (
     <>
-      <SectionHead title="Following" />
+      <SectionHead headingTag={headingTag} title="Following" />
       <AlbumList>
         <AlbumItem
           link={SITE_PATHS.ARTIST('123')}
@@ -22,6 +22,8 @@ function Following() {
     </>
   );
 }
+
+Following.defaultProps = { headingTag: undefined };
 
 export { Following as FollowingSection };
 export default Following;

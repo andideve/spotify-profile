@@ -12,7 +12,7 @@ const BaseSection = Box.withComponent('section');
 const Tracks: NextPage = () => (
   <Page>
     <BaseSection>
-      <TopTracksSection items={Array(13).fill(undefined)} headSticky />
+      <TopTracksSection headingTag="h1" items={Array(13).fill(undefined)} headSticky />
     </BaseSection>
   </Page>
 );

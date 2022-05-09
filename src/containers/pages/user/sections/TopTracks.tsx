@@ -11,14 +11,16 @@ import { SITE_PATHS } from '../../../../config/globals';
 
 interface TopTracksProps extends TracksTablePropsOptions {
   items: unknown[];
+  headingTag?: keyof JSX.IntrinsicElements;
   max?: number;
 }
 
-function TopTracks({ items, max, ...options }: TopTracksProps) {
+function TopTracks({ items, headingTag, max, ...options }: TopTracksProps) {
   const list = useMemo(() => (max ? items.slice(0, max) : items), [items, max]);
   return (
     <>
       <SectionHead
+        headingTag={headingTag}
         title="Top tracks this month"
         description="Only visible to you"
         arrowLink={
@@ -44,7 +46,7 @@ function TopTracks({ items, max, ...options }: TopTracksProps) {
   );
 }
 
-TopTracks.defaultProps = { max: undefined };
+TopTracks.defaultProps = { headingTag: undefined, max: undefined };
 
 export { TopTracks as TopTracksSection };
 export default TopTracks;

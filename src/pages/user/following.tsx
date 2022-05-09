@@ -12,7 +12,7 @@ const BaseSection = Box.withComponent('section');
 const Following: NextPage = () => (
   <Page>
     <BaseSection>
-      <FollowingSection />
+      <FollowingSection headingTag="h1" />
     </BaseSection>
   </Page>
 );
