@@ -10,9 +10,10 @@ import { Table, TableRow } from '../../components/atoms/table';
 import media from '../../utils/media';
 import classes from '../../utils/classes';
 
+import { TOPBAR_HEIGHTS } from '../../config/globals';
+
 const TableHead = Box.withComponent('thead');
 
-const TOPBAR_HEIGHTS = 66;
 const CELL_ADDON_CLASS = 'cell-addon';
 const DISABLED_HEAD_CLASS = 'head-inactive';
 

@@ -24,10 +24,8 @@ import useLogout from '../../hooks/useLogout';
 import media from '../../utils/media';
 import createTransitions from '../../utils/transition';
 
-import { SITE_PATHS } from '../../config/globals';
+import { SITE_PATHS, NAVBAR_LG_WIDTHS } from '../../config/globals';
 import { siteMetadata } from '../../config/site-metadata';
-
-const NAVBAR_LG_WIDTH = '100px';
 
 const Nav = Box.withComponent('nav');
 const Header = Box.withComponent('header');
@@ -58,7 +56,7 @@ export function Content({ children }: { children: React.ReactNode }) {
       sx={{
         position: 'relative',
         flex: '1 1 auto',
-        [media('lg')]: { paddingLeft: NAVBAR_LG_WIDTH },
+        [media('lg')]: { paddingLeft: NAVBAR_LG_WIDTHS },
       }}
     >
       {children}
@@ -100,7 +98,7 @@ function Page({ children, title, description = siteMetadata.description, head }:
           [media('lg')]: {
             top: 0,
             right: 'unset',
-            '.Nav__NavbarTemplate': { padding: '1rem 0', width: NAVBAR_LG_WIDTH },
+            '.Nav__NavbarTemplate': { padding: '1rem 0', width: NAVBAR_LG_WIDTHS },
           },
         }}
       >
@@ -122,7 +120,7 @@ function Page({ children, title, description = siteMetadata.description, head }:
           right: 0,
           left: 0,
           zIndex: 999,
-          [media('lg')]: { left: NAVBAR_LG_WIDTH },
+          [media('lg')]: { left: NAVBAR_LG_WIDTHS },
         }}
       >
         <TopbarTemplate>
