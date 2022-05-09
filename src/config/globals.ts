@@ -4,6 +4,7 @@ export const SITE_PATHS = {
   USER_DASHBOARD: '/user',
   USER_TOP_TRACKS: '/user/top/tracks',
   USER_FOLLOWING: '/user/following',
+  USER_PLAYLISTS: '/user/playlists',
   ARTIST: (id: string | number) => `/artist?id=${id}`,
   PLAYLIST: (id: string | number) => `/playlist?id=${id}`,
   ALBUM: (id: string | number) => `/album?id=${id}`,
