@@ -7,7 +7,7 @@ import Section from '../containers/templates/Section';
 
 import {
   TopTracksSection,
-  AlbumSection,
+  PublicPlaylistsSection,
   FollowingSection,
 } from '../containers/pages/user/sections';
 
@@ -63,7 +63,7 @@ const User: NextPage = () => {
         <TopTracksSection items={Array(13).fill(undefined)} max={4} disableHead />
       </BaseSection>
       <Section>
-        <AlbumSection />
+        <PublicPlaylistsSection />
       </Section>
       <Section>
         <FollowingSection />

@@ -1,3 +1,3 @@
 export * from './TopTracks';
-export * from './Album';
+export * from './PublicPlaylists';
 export * from './Following';

@@ -7,7 +7,7 @@ import AlbumItem from '../../../organisms/AlbumItem';
 
 import { SITE_PATHS } from '../../../../config/globals';
 
-function Album() {
+function PublicPlaylists() {
   return (
     <>
       <SectionHead title="Public Playlists" />
@@ -22,5 +22,5 @@ function Album() {
   );
 }
 
-export { Album as AlbumSection };
-export default Album;
+export { PublicPlaylists as PublicPlaylistsSection };
+export default PublicPlaylists;
