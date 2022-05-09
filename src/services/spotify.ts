@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import qs from 'query-string';
+import SpotifyApi from 'spotify-web-api-node';
 
 import { SPOTIFY_ENDPOINTS } from '../config/api-endpoints';
 import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '../config/spotify';
@@ -9,18 +10,11 @@ import {
   AccessTokenResponse,
   RefreshAccessTokenBody,
   RefreshAccessTokenResponse,
-  CurrentUserResponse,
-  UserID,
-  UserResponse,
 } from '../types/spotify';
-
-interface WithOAuth2 {
-  access_token: string;
-}
 
 const BASIC = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
 
-async function accessToken(arg: Omit<AccessTokenBody, 'grant_type' | 'redirect_uri'>) {
+export async function accessToken(arg: Omit<AccessTokenBody, 'grant_type' | 'redirect_uri'>) {
   const body: AccessTokenBody = {
     grant_type: 'authorization_code',
     redirect_uri: REDIRECT_URI,
@@ -48,7 +42,7 @@ async function accessToken(arg: Omit<AccessTokenBody, 'grant_type' | 'redirect_u
   });
 }
 
-async function refreshToken(arg: Omit<RefreshAccessTokenBody, 'grant_type'>) {
+export async function refreshToken(arg: Omit<RefreshAccessTokenBody, 'grant_type'>) {
   const body: RefreshAccessTokenBody = {
     grant_type: 'refresh_token',
     ...arg,
@@ -64,22 +58,10 @@ async function refreshToken(arg: Omit<RefreshAccessTokenBody, 'grant_type'>) {
   }).then((res) => res.json() as Promise<RefreshAccessTokenResponse>);
 }
 
-async function currentUser({ access_token }: WithOAuth2) {
-  return fetch(SPOTIFY_ENDPOINTS.CURRENT_USER, {
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-    },
-  }).then((res) => res.json() as Promise<CurrentUserResponse>);
-}
-
-async function user({ uid, access_token }: { uid: UserID } & WithOAuth2) {
-  return fetch(SPOTIFY_ENDPOINTS.USER(uid), {
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-    },
-  }).then((res) => res.json() as Promise<UserResponse>);
-}
-
-const Spotify = { accessToken, refreshToken, currentUser, user };
+const Spotify = new SpotifyApi({
+  clientId: CLIENT_ID,
+  clientSecret: CLIENT_SECRET,
+  redirectUri: REDIRECT_URI,
+});
 
 export default Spotify;

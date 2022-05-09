@@ -1,4 +1,5 @@
 import { Theme } from '../theme';
+import media from '../utils/media';
 
 export const globalStyles = (theme: Theme) => `
   :root {
@@ -19,5 +20,20 @@ export const globalStyles = (theme: Theme) => `
   }
   main {
     flex: 1 1 auto;
+  }
+  a.underlined {
+    text-decoration: none;
+    &:focus {
+      text-decoration: underline;
+    }
+    ${media('lg')} {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  .sr-only {
+    position: absolute;
+    left: -100vw;
   }
 `;

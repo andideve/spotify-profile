@@ -1,4 +1,4 @@
-import Spotify from '../spotify';
+import * as Spotify from '../spotify';
 
 import { MiddlewareFunction } from '../../utils/api-middleware';
 

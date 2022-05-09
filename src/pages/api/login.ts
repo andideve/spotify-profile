@@ -1,6 +1,6 @@
 import type { NextApiHandler } from 'next';
 
-import Spotify from '../../services/spotify';
+import * as Spotify from '../../services/spotify';
 
 import { createTokenCookies } from '../../config/cookies';
 import { SpotifyError } from '../../types/spotify';
