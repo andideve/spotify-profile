@@ -29,6 +29,12 @@ export type AuthScopes =
   | LibraryScopes;
 
 export type UserID = string;
+export type PlaylistID = string;
+export type ArtistID = string;
+export type AlbumID = string;
+
+export type MyTopItemsTypes = 'artists' | 'tracks';
+export type MyFollowingTypes = 'artist';
 
 // request or response
 
