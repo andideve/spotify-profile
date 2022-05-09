@@ -10,8 +10,6 @@ import {
   RefreshAccessTokenBody,
   RefreshAccessTokenResponse,
   CurrentUserResponse,
-  UserID,
-  UserResponse,
 } from '../types/spotify';
 
 interface WithOAuth2 {
@@ -72,14 +70,6 @@ async function currentUser({ access_token }: WithOAuth2) {
   }).then((res) => res.json() as Promise<CurrentUserResponse>);
 }
 
-async function user({ uid, access_token }: { uid: UserID } & WithOAuth2) {
-  return fetch(SPOTIFY_ENDPOINTS.USER(uid), {
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-    },
-  }).then((res) => res.json() as Promise<UserResponse>);
-}
-
-const Spotify = { accessToken, refreshToken, currentUser, user };
+const Spotify = { accessToken, refreshToken, currentUser };
 
 export default Spotify;
