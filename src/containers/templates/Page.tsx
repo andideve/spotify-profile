@@ -24,7 +24,7 @@ import useLogout from '../../hooks/useLogout';
 import media from '../../utils/media';
 import createTransitions from '../../utils/transition';
 
-import { SITE_PATHS, NAVBAR_LG_WIDTHS } from '../../config/globals';
+import { SITE_PATHS, NAVBAR_LG_WIDTHS, TOPBAR_HEIGHTS } from '../../config/globals';
 import { siteMetadata } from '../../config/site-metadata';
 
 const Nav = Box.withComponent('nav');
@@ -179,7 +179,12 @@ function Page({ children, title, description = siteMetadata.description, head }:
               <HeadBuilder {...head} />
             </HeadTemplate>
           )}
-          {children && <MainTemplate as="div">{children}</MainTemplate>}
+          {children && (
+            <MainTemplate as="div">
+              {!head && <Box sx={{ height: TOPBAR_HEIGHTS }} />}
+              {children}
+            </MainTemplate>
+          )}
         </Content>
       </main>
     </>
