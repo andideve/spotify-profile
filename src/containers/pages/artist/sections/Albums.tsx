@@ -18,6 +18,7 @@ function Album({ items }: { items: ArtistAlbumsData['items'] }) {
       <AlbumList>
         {items.map((album) => (
           <AlbumItem
+            key={album.id}
             link={SITE_PATHS.ALBUM(album.id)}
             title={album.name}
             description={

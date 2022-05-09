@@ -13,6 +13,7 @@ function Tracks({ items }: { items: PlaylistsData['tracks']['items'] }) {
           if (!track) return null;
           return (
             <TracksTableRow
+              key={track.id}
               number={i + 1}
               image={{ alt: track.name, src: track.album.images[0].url }}
               title={track.name}
