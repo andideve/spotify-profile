@@ -2,6 +2,11 @@ export const SITE_PATHS = {
   LOGIN_DASHBOARD: '/',
   LOGIN_SPOTIFY: '/login',
   USER_DASHBOARD: '/user',
+  USER_TOP_TRACKS: '/user/top/tracks',
+  USER_FOLLOWING: '/user/following',
+  ARTIST: (id: string | number) => `/artist?id=${id}`,
+  PLAYLIST: (id: string | number) => `/playlist?id=${id}`,
+  ALBUM: (id: string | number) => `/album?id=${id}`,
 };
 
 export const PROTECTED_PATHS = [SITE_PATHS.USER_DASHBOARD];
