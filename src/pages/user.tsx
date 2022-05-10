@@ -11,6 +11,7 @@ import {
   FollowingSection,
 } from '../containers/pages/user/sections';
 
+import { Container } from '../components/atoms/container';
 import { Box } from '../components/atoms/box';
 
 import API, {
@@ -84,17 +85,23 @@ const User: NextPage = () => {
     >
       {topTracks?.items.length ? (
         <BaseSection>
-          <TopTracksSection items={topTracks.items} max={4} disableHead />
+          <Container>
+            <TopTracksSection items={topTracks.items} max={4} disableHead />
+          </Container>
         </BaseSection>
       ) : null}
       {publicPlaylists?.length ? (
         <Section>
-          <PublicPlaylistsSection items={publicPlaylists} />
+          <Container>
+            <PublicPlaylistsSection items={publicPlaylists} />
+          </Container>
         </Section>
       ) : null}
       {followedArtists?.artists.items.length ? (
         <Section>
-          <FollowingSection items={followedArtists.artists.items} />
+          <Container>
+            <FollowingSection items={followedArtists.artists.items} />
+          </Container>
         </Section>
       ) : null}
     </Page>

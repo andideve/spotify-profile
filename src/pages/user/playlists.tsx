@@ -6,6 +6,7 @@ import Page from '../../containers/templates/Page';
 
 import { PublicPlaylistsSection } from '../../containers/pages/user/sections';
 
+import { Container } from '../../components/atoms/container';
 import { Box } from '../../components/atoms/box';
 
 import API, { UserPlaylistsData } from '../../services/api';
@@ -45,7 +46,9 @@ const Playlists: NextPage = () => {
   return (
     <Page>
       <BaseSection>
-        <PublicPlaylistsSection headingTag="h1" items={playlists?.items || []} />
+        <Container>
+          <PublicPlaylistsSection headingTag="h1" items={playlists?.items || []} />
+        </Container>
       </BaseSection>
     </Page>
   );

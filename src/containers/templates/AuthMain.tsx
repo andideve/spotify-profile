@@ -3,10 +3,9 @@ import React from 'react';
 import { Box, BoxProps } from '../../components/atoms/box';
 import media from '../../utils/media';
 
-const Main = React.forwardRef<HTMLDivElement, Omit<BoxProps, 'sx'>>(
-  ({ children, ...rest }, ref) => (
+export default function AuthMain({ children, ...rest }: Omit<BoxProps, 'sx'>) {
+  return (
     <Box
-      ref={ref}
       as="main"
       sx={{
         padding: '2rem 4vw',
@@ -16,7 +15,5 @@ const Main = React.forwardRef<HTMLDivElement, Omit<BoxProps, 'sx'>>(
     >
       {children}
     </Box>
-  ),
-);
-
-export default Main;
+  );
+}

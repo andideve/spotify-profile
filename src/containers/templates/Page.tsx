@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 
 import NavbarTemplate from './Navbar';
@@ -11,6 +11,7 @@ import HeadTemplate from './Head';
 import { MenuList, MenuItem } from '../organisms/navbar';
 import HeadBuilder, { HeadProps } from '../organisms/Head';
 
+import { Container } from '../../components/atoms/container';
 import { Box } from '../../components/atoms/box';
 import { Button } from '../../components/atoms/button';
 import { Text } from '../../components/atoms/typography';
@@ -72,12 +73,25 @@ interface PageProps {
 }
 
 function Page({ children, title, description = siteMetadata.description, head }: PageProps) {
+  const [mainOffsetTop, setMainOffsetTop] = useState(0);
+
   const router = useRouter();
-  const scrolled = useScrolled();
   const logout = useLogout();
+
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  const scrolled = useScrolled({
+    min: mainOffsetTop > 0 ? mainOffsetTop - 32 - TOPBAR_HEIGHTS : 0,
+  });
 
   const defaultTitle = siteMetadata.title;
   const fullTitle = title ? [defaultTitle, title].join(' – ') : defaultTitle;
+
+  useEffect(() => {
+    if (mainRef.current) {
+      setMainOffsetTop(mainRef.current.offsetTop);
+    }
+  }, [mainRef.current]);
 
   const isMenuActive = (path: string) => router.asPath === path;
 
@@ -139,50 +153,56 @@ function Page({ children, title, description = siteMetadata.description, head }:
               '&.unscrolled': { backgroundColor: 'transparent' },
             })}
           />
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            {/* Topbar left side */}
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Box sx={{ button: { marginRight: '1rem' } }}>
-                <ArrowButton aria-label="go back" disabled>
-                  <ArrowLeft />
-                </ArrowButton>
-                <ArrowButton aria-label="go forward" disabled>
-                  <ArrowRight />
-                </ArrowButton>
+          <Container>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              {/* Topbar left side */}
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ button: { marginRight: '1rem' } }}>
+                  <ArrowButton aria-label="go back" disabled>
+                    <ArrowLeft />
+                  </ArrowButton>
+                  <ArrowButton aria-label="go forward" disabled>
+                    <ArrowRight />
+                  </ArrowButton>
+                </Box>
+                {title && (
+                  <Text
+                    className={scrolled ? undefined : 'unscrolled'}
+                    size="2xl"
+                    sx={{
+                      marginLeft: '1rem',
+                      fontWeight: 500,
+                      transition: createTransitions('opacity'),
+                      '&.unscrolled': { opacity: 0 },
+                    }}
+                  >
+                    {title}
+                  </Text>
+                )}
               </Box>
-              {title && (
-                <Text
-                  className={scrolled ? undefined : 'unscrolled'}
-                  size="2xl"
-                  sx={{
-                    marginLeft: '1rem',
-                    fontWeight: 500,
-                    transition: createTransitions('opacity'),
-                    '&.unscrolled': { opacity: 0 },
-                  }}
-                >
-                  {title}
-                </Text>
-              )}
+              {/* Topbar right side */}
+              <Button type="button" size="xs" onClick={logout}>
+                Logout
+              </Button>
             </Box>
-            {/* Topbar right side */}
-            <Button type="button" size="xs" onClick={logout}>
-              Logout
-            </Button>
-          </Box>
+          </Container>
         </TopbarTemplate>
       </Header>
       <main>
         <Content>
           {head && (
             <HeadTemplate>
-              <HeadBuilder {...head} />
+              <Container>
+                <HeadBuilder {...head} />
+              </Container>
             </HeadTemplate>
           )}
           {children && (
-            <MainTemplate as="div">
-              {!head && <Box sx={{ height: TOPBAR_HEIGHTS }} />}
-              {children}
+            <MainTemplate as="div" ref={mainRef}>
+              <Container>
+                {!head && <Box sx={{ height: TOPBAR_HEIGHTS }} />}
+                {children}
+              </Container>
             </MainTemplate>
           )}
         </Content>

@@ -13,7 +13,7 @@ export const TOKEN_VERSION = 1;
 const authParameter: UserAuthParameter = {
   response_type: 'code',
   client_id: CLIENT_ID,
-  scope: createScope(['user-read-email', 'user-read-private', 'user-follow-read']),
+  scope: createScope(['user-read-email', 'user-read-private', 'user-follow-read', 'user-top-read']),
   redirect_uri: REDIRECT_URI,
 };
 

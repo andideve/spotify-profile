@@ -11,6 +11,7 @@ import {
   AlbumSection,
 } from '../containers/pages/artist/sections';
 
+import { Container } from '../components/atoms/container';
 import { Box } from '../components/atoms/box';
 
 import API, { SingleArtistData, ArtistTopTracksData, ArtistAlbumsData } from '../services/api';
@@ -86,17 +87,23 @@ const Artist: NextPage = () => {
     >
       {topTracks?.tracks.length ? (
         <BaseSection>
-          <PopularSection items={topTracks.tracks} />
+          <Container>
+            <PopularSection items={topTracks.tracks} />
+          </Container>
         </BaseSection>
       ) : null}
       {popularReleases.length ? (
         <Section>
-          <PopularReleasesSection items={popularReleases} />
+          <Container>
+            <PopularReleasesSection items={popularReleases} />
+          </Container>
         </Section>
       ) : null}
       {albums?.items.length ? (
         <Section>
-          <AlbumSection items={albums.items} />
+          <Container>
+            <AlbumSection items={albums.items} />
+          </Container>
         </Section>
       ) : null}
     </Page>
