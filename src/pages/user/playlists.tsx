@@ -10,6 +10,8 @@ import { Container } from '../../components/atoms/container';
 import { Box } from '../../components/atoms/box';
 
 import API, { UserPlaylistsData } from '../../services/api';
+
+import getCurrentUid from '../../utils/get-current-uid';
 import { SITE_PATHS } from '../../config/globals';
 
 const BaseSection = Box.withComponent('section');
@@ -23,9 +25,9 @@ const Playlists: NextPage = () => {
   useEffect(() => {
     if (!router.isReady) return;
 
-    const { uid } = router.query;
+    const uid = getCurrentUid();
 
-    if (typeof uid !== 'string') {
+    if (!uid) {
       router.push(SITE_PATHS.USER_DASHBOARD);
       return;
     }

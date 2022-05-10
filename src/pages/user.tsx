@@ -21,6 +21,7 @@ import API, {
   MyFollowingArtistsData,
 } from '../services/api';
 
+import { afterLogin } from '../utils/on-login-logout';
 import { SITE_PATHS } from '../config/globals';
 import { UserID } from '../types/spotify';
 
@@ -48,6 +49,7 @@ const User: NextPage = () => {
         setUser(userData);
 
         uid = userData.id;
+        afterLogin({ uid: userData.id });
       } catch (err) {
         console.error(err);
       } finally {
@@ -63,6 +65,8 @@ const User: NextPage = () => {
   if (loading || !user) return <Page />;
 
   const avatar = user.images?.[0];
+  const publicPlaylistsTotal = publicPlaylists?.length || 0;
+  const followedArtistsTotal = followedArtists?.artists.total || 0;
 
   return (
     <Page
@@ -73,10 +77,12 @@ const User: NextPage = () => {
         image: avatar && { radii: '999px', url: avatar.url },
         stats: (
           <>
-            <span>2 Public Playlists</span>
+            <span>
+              {publicPlaylistsTotal} Public Playlist{publicPlaylistsTotal > 1 ? 's' : ''}
+            </span>
             <span>
               <Link href={SITE_PATHS.USER_FOLLOWING} passHref>
-                <Anchor className="underlined">3 Following</Anchor>
+                <Anchor className="underlined">{followedArtistsTotal} Following</Anchor>
               </Link>
             </span>
           </>
