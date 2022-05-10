@@ -5,6 +5,7 @@ import Page from '../../containers/templates/Page';
 
 import { FollowingSection } from '../../containers/pages/user/sections';
 
+import { Container } from '../../components/atoms/container';
 import { Box } from '../../components/atoms/box';
 
 import API, { MyFollowingArtistsData } from '../../services/api';
@@ -32,7 +33,9 @@ const Following: NextPage = () => {
   return (
     <Page>
       <BaseSection>
-        <FollowingSection headingTag="h1" items={followedArtists?.artists.items || []} />
+        <Container>
+          <FollowingSection headingTag="h1" items={followedArtists?.artists.items || []} />
+        </Container>
       </BaseSection>
     </Page>
   );

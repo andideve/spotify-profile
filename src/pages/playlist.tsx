@@ -6,6 +6,7 @@ import Page from '../containers/templates/Page';
 
 import { TracksSection } from '../containers/pages/playlist/sections';
 
+import { Container } from '../components/atoms/container';
 import { Box } from '../components/atoms/box';
 
 import API, { SinglePlaylistData } from '../services/api';
@@ -63,7 +64,9 @@ const Playlist: NextPage = () => {
       }}
     >
       <BaseSection>
-        <TracksSection items={playlist.tracks.items} />
+        <Container>
+          <TracksSection items={playlist.tracks.items} />
+        </Container>
       </BaseSection>
     </Page>
   );

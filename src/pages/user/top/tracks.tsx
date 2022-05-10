@@ -5,6 +5,7 @@ import Page from '../../../containers/templates/Page';
 
 import { TopTracksSection } from '../../../containers/pages/user/sections';
 
+import { Container } from '../../../components/atoms/container';
 import { Box } from '../../../components/atoms/box';
 
 import API, { MyTopTracksData } from '../../../services/api';
@@ -32,7 +33,9 @@ const Tracks: NextPage = () => {
   return (
     <Page>
       <BaseSection>
-        <TopTracksSection headingTag="h1" items={topTracks?.items || []} headSticky />
+        <Container>
+          <TopTracksSection headingTag="h1" items={topTracks?.items || []} headSticky />
+        </Container>
       </BaseSection>
     </Page>
   );

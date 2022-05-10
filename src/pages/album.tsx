@@ -8,6 +8,7 @@ import { TracksSection } from '../containers/pages/album/sections';
 
 import AlbumYear from '../components/molecules/AlbumYear';
 
+import { Container } from '../components/atoms/container';
 import { Box } from '../components/atoms/box';
 
 import API, { SingleAlbumData } from '../services/api';
@@ -65,7 +66,9 @@ const Album: NextPage = () => {
       }}
     >
       <BaseSection>
-        <TracksSection items={album.tracks.items} />
+        <Container>
+          <TracksSection items={album.tracks.items} />
+        </Container>
       </BaseSection>
     </Page>
   );
