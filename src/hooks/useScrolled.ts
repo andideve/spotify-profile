@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
 
-const useScrolled = () => {
+export interface ScrolledOptions {
+  min?: number;
+}
+
+const useScrolled = ({ min = 0 }: ScrolledOptions = {}) => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 0);
+    const handleScroll = () => setScrolled(window.scrollY > min);
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [min]);
 
   return scrolled;
 };

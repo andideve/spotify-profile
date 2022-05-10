@@ -3,9 +3,10 @@ import React from 'react';
 import { Box, BoxProps } from '../../components/atoms/box';
 import media from '../../utils/media';
 
-export default function Main({ children, ...rest }: Omit<BoxProps, 'sx'>) {
-  return (
+const Main = React.forwardRef<HTMLDivElement, Omit<BoxProps, 'sx'>>(
+  ({ children, ...rest }, ref) => (
     <Box
+      ref={ref}
       as="main"
       sx={{
         padding: '2rem 4vw',
@@ -15,5 +16,7 @@ export default function Main({ children, ...rest }: Omit<BoxProps, 'sx'>) {
     >
       {children}
     </Box>
-  );
-}
+  ),
+);
+
+export default Main;

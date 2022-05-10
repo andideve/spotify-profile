@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 
 import NavbarTemplate from './Navbar';
@@ -72,12 +72,25 @@ interface PageProps {
 }
 
 function Page({ children, title, description = siteMetadata.description, head }: PageProps) {
+  const [mainOffsetTop, setMainOffsetTop] = useState(0);
+
   const router = useRouter();
-  const scrolled = useScrolled();
   const logout = useLogout();
+
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  const scrolled = useScrolled({
+    min: mainOffsetTop > 0 ? mainOffsetTop - 32 - TOPBAR_HEIGHTS : 0,
+  });
 
   const defaultTitle = siteMetadata.title;
   const fullTitle = title ? [defaultTitle, title].join(' – ') : defaultTitle;
+
+  useEffect(() => {
+    if (mainRef.current) {
+      setMainOffsetTop(mainRef.current.offsetTop);
+    }
+  }, [mainRef.current]);
 
   const isMenuActive = (path: string) => router.asPath === path;
 
@@ -180,7 +193,7 @@ function Page({ children, title, description = siteMetadata.description, head }:
             </HeadTemplate>
           )}
           {children && (
-            <MainTemplate as="div">
+            <MainTemplate as="div" ref={mainRef}>
               {!head && <Box sx={{ height: TOPBAR_HEIGHTS }} />}
               {children}
             </MainTemplate>
