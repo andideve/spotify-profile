@@ -21,6 +21,7 @@ import API, {
   MyFollowingArtistsData,
 } from '../services/api';
 
+import { afterLogin } from '../utils/on-login-logout';
 import { SITE_PATHS } from '../config/globals';
 import { UserID } from '../types/spotify';
 
@@ -48,6 +49,7 @@ const User: NextPage = () => {
         setUser(userData);
 
         uid = userData.id;
+        afterLogin({ uid: userData.id });
       } catch (err) {
         console.error(err);
       } finally {
