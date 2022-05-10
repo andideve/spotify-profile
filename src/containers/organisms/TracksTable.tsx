@@ -2,6 +2,7 @@ import React from 'react';
 import { CSSObject } from '@emotion/serialize';
 
 import Image, { ImageProps } from '../../components/molecules/Image';
+import Duration from '../../components/molecules/Duration';
 
 import { Box } from '../../components/atoms/box';
 import { Paragraph, Text, TextProps } from '../../components/atoms/typography';
@@ -112,7 +113,9 @@ export function TracksTableRow({
         </td>
       )}
       <td>
-        <SecondaryText sx={{ display: 'block', textAlign: 'right' }}>{durationMs}</SecondaryText>
+        <SecondaryText sx={{ display: 'block', textAlign: 'right' }}>
+          <Duration ms={durationMs} />
+        </SecondaryText>
       </td>
     </TableRow>
   );
