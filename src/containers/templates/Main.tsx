@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { Box, BoxProps } from '../../components/atoms/box';
+
+import { NAVBAR_WIDTHS } from '../../config/globals';
 import media from '../../utils/media';
 
 const Main = React.forwardRef<HTMLDivElement, Omit<BoxProps, 'sx'>>(
@@ -10,7 +12,12 @@ const Main = React.forwardRef<HTMLDivElement, Omit<BoxProps, 'sx'>>(
       as="main"
       sx={{
         padding: '2rem 4vw',
-        [media('lg')]: { paddingRight: '2vw', paddingLeft: '2vw' },
+        paddingBottom: `calc(2rem + ${NAVBAR_WIDTHS}px)`,
+        [media('lg')]: {
+          paddingRight: '2vw',
+          paddingBottom: '2rem',
+          paddingLeft: '2vw',
+        },
       }}
       {...rest}
     >

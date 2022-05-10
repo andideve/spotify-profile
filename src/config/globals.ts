@@ -14,5 +14,6 @@ export const SITE_PATHS = {
 
 export const PROTECTED_PATHS = [SITE_PATHS.USER_DASHBOARD];
 
+export const NAVBAR_WIDTHS = 74;
 export const NAVBAR_LG_WIDTHS = 100;
 export const TOPBAR_HEIGHTS = 66;
