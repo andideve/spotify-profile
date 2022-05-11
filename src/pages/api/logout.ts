@@ -7,7 +7,8 @@ export interface LogoutData {
 }
 
 const handler: NextApiHandler<LogoutData> = (req, res) => {
-  if (req.method !== 'GET') {
+  // to avoid the similarity of method and response with /login
+  if (req.method !== 'POST') {
     res.status(404).json({ message: 'Not Found' });
     return;
   }
