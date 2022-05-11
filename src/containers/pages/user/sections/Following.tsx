@@ -10,13 +10,14 @@ import { MyFollowingArtistsData } from '../../../../services/api';
 
 interface FollowingProps {
   items: MyFollowingArtistsData['artists']['items'];
+  title?: string;
   headingTag?: keyof JSX.IntrinsicElements;
 }
 
-function Following({ items, headingTag }: FollowingProps) {
+function Following({ items, title = 'Following', headingTag }: FollowingProps) {
   return (
     <>
-      <SectionHead headingTag={headingTag} title="Following" />
+      <SectionHead headingTag={headingTag} title={title} />
       <AlbumList>
         {items.map((artist) => (
           <AlbumItem
@@ -32,7 +33,7 @@ function Following({ items, headingTag }: FollowingProps) {
   );
 }
 
-Following.defaultProps = { headingTag: undefined };
+Following.defaultProps = { title: undefined, headingTag: undefined };
 
 export { Following as FollowingSection };
 export default Following;

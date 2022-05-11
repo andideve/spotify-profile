@@ -19,6 +19,7 @@ import { Text } from '../../components/atoms/typography';
 import Profile from '../../components/atoms/icons/Profile';
 import ArrowLeft from '../../components/atoms/icons/ArrowLeft';
 import ArrowRight from '../../components/atoms/icons/ArrowRight';
+import Library from '../../components/atoms/icons/Library';
 
 import useScrolled from '../../hooks/useScrolled';
 import useLogout from '../../hooks/useLogout';
@@ -26,7 +27,12 @@ import useLogout from '../../hooks/useLogout';
 import media from '../../utils/media';
 import createTransitions from '../../utils/transition';
 
-import { SITE_PATHS, NAVBAR_LG_WIDTHS, TOPBAR_HEIGHTS } from '../../config/globals';
+import {
+  SITE_PATHS,
+  NAVBAR_LG_WIDTHS,
+  TOPBAR_HEIGHTS,
+  COLLECTION_TOP_NAVS,
+} from '../../config/globals';
 import { siteMetadata } from '../../config/site-metadata';
 
 import { StyledProps } from '../../types/styled';
@@ -145,6 +151,12 @@ function Page({
               icon={<Profile />}
               label="Profile"
               active={isMenuActive(SITE_PATHS.USER_DASHBOARD)}
+            />
+            <MenuItem
+              path={COLLECTION_TOP_NAVS[0].to}
+              icon={<Library />}
+              label="Your Library"
+              active={isMenuActive(COLLECTION_TOP_NAVS[0].to)}
             />
           </MenuList>
         </NavbarTemplate>
