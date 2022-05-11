@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import AlbumList from '../../../templates/AlbumList';
 
@@ -8,15 +8,25 @@ import AlbumItem from '../../../organisms/AlbumItem';
 import { SITE_PATHS } from '../../../../config/globals';
 import { UserPlaylistsData } from '../../../../services/api';
 
-interface PublicPlaylistsProps {
+interface PlaylistsProps {
   items: UserPlaylistsData['items'];
+  title?: string;
   headingTag?: keyof JSX.IntrinsicElements;
+  max?: number;
 }
 
-function PublicPlaylists({ items, headingTag }: PublicPlaylistsProps) {
+function Playlists({ items, title = 'Playlists', headingTag, max }: PlaylistsProps) {
+  const list = useMemo(() => (max ? items.slice(0, max) : items), [items, max]);
   return (
     <>
-      <SectionHead title="Public Playlists" />
+      <SectionHead
+        title={title}
+        arrowLink={
+          items.length > list.length
+            ? { to: SITE_PATHS.USER_PLAYLISTS, label: 'See all' }
+            : undefined
+        }
+      />
       <AlbumList>
         {items.map((playlist) => (
           <AlbumItem
@@ -32,7 +42,7 @@ function PublicPlaylists({ items, headingTag }: PublicPlaylistsProps) {
   );
 }
 
-PublicPlaylists.defaultProps = { headingTag: undefined };
+Playlists.defaultProps = { title: undefined, headingTag: undefined, max: undefined };
 
-export { PublicPlaylists as PublicPlaylistsSection };
-export default PublicPlaylists;
+export { Playlists as PlaylistsSection };
+export default Playlists;

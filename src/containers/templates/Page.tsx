@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 
@@ -18,6 +19,7 @@ import { Text } from '../../components/atoms/typography';
 import Profile from '../../components/atoms/icons/Profile';
 import ArrowLeft from '../../components/atoms/icons/ArrowLeft';
 import ArrowRight from '../../components/atoms/icons/ArrowRight';
+import Library from '../../components/atoms/icons/Library';
 
 import useScrolled from '../../hooks/useScrolled';
 import useLogout from '../../hooks/useLogout';
@@ -25,8 +27,17 @@ import useLogout from '../../hooks/useLogout';
 import media from '../../utils/media';
 import createTransitions from '../../utils/transition';
 
-import { SITE_PATHS, NAVBAR_LG_WIDTHS, TOPBAR_HEIGHTS } from '../../config/globals';
+import {
+  SITE_PATHS,
+  NAVBAR_LG_WIDTHS,
+  TOPBAR_HEIGHTS,
+  COLLECTION_TOP_NAVS,
+  USER_SITE_PATHS,
+  COLLECTION_SITE_PATHS,
+} from '../../config/globals';
 import { siteMetadata } from '../../config/site-metadata';
+
+import { StyledProps } from '../../types/styled';
 
 const Nav = Box.withComponent('nav');
 const Header = Box.withComponent('header');
@@ -51,6 +62,18 @@ const ArrowButton = styled.button`
 
 ArrowButton.defaultProps = { type: 'button' };
 
+const ButtonAnchor = styled.a<StyledProps<HTMLButtonElement>>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  &.active {
+    background-color: ${({ theme }) => theme.colors.card.hovered};
+  }
+`;
+
 export function Content({ children }: { children: React.ReactNode }) {
   return (
     <Box
@@ -70,9 +93,16 @@ interface PageProps {
   title?: string;
   description?: string;
   head?: HeadProps;
+  topnavs?: { to: string; label: string }[];
 }
 
-function Page({ children, title, description = siteMetadata.description, head }: PageProps) {
+function Page({
+  children,
+  title,
+  description = siteMetadata.description,
+  head,
+  topnavs,
+}: PageProps) {
   const [mainOffsetTop, setMainOffsetTop] = useState(0);
 
   const router = useRouter();
@@ -93,7 +123,10 @@ function Page({ children, title, description = siteMetadata.description, head }:
     }
   }, [mainRef.current]);
 
-  const isMenuActive = (path: string) => router.asPath === path;
+  const isMenuActive = (arg: string | string[]) => {
+    const paths = Array.isArray(arg) ? arg : [arg];
+    return paths.some((path) => path === router.asPath);
+  };
 
   return (
     <>
@@ -122,7 +155,13 @@ function Page({ children, title, description = siteMetadata.description, head }:
               path={SITE_PATHS.USER_DASHBOARD}
               icon={<Profile />}
               label="Profile"
-              active={isMenuActive(SITE_PATHS.USER_DASHBOARD)}
+              active={isMenuActive(USER_SITE_PATHS)}
+            />
+            <MenuItem
+              path={COLLECTION_TOP_NAVS[0].to}
+              icon={<Library />}
+              label="Your Library"
+              active={isMenuActive(COLLECTION_SITE_PATHS)}
             />
           </MenuList>
         </NavbarTemplate>
@@ -165,7 +204,7 @@ function Page({ children, title, description = siteMetadata.description, head }:
                     <ArrowRight />
                   </ArrowButton>
                 </Box>
-                {title && (
+                {title && !topnavs && (
                   <Text
                     className={scrolled ? undefined : 'unscrolled'}
                     size="2xl"
@@ -178,6 +217,17 @@ function Page({ children, title, description = siteMetadata.description, head }:
                   >
                     {title}
                   </Text>
+                )}
+                {topnavs && (
+                  <Nav sx={{ margin: '-.3125rem 1.5rem', a: { marginRight: '.5rem' } }}>
+                    {topnavs.map((nav) => (
+                      <Link key={nav.to} href={nav.to} passHref>
+                        <ButtonAnchor className={isMenuActive(nav.to) ? 'active' : undefined}>
+                          <Text lineHeight="relaxed">{nav.label}</Text>
+                        </ButtonAnchor>
+                      </Link>
+                    ))}
+                  </Nav>
                 )}
               </Box>
               {/* Topbar right side */}
@@ -216,6 +266,7 @@ Page.defaultProps = {
   title: undefined,
   description: undefined,
   head: undefined,
+  topnavs: undefined,
 };
 
 export default Page;

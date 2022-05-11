@@ -4,17 +4,12 @@ import React, { useEffect, useState } from 'react';
 
 import Page from '../../containers/templates/Page';
 
-import { PlaylistsSection } from '../../containers/pages/user/sections';
-
-import { Container } from '../../components/atoms/container';
-import { Box } from '../../components/atoms/box';
+import { PlaylistsSection } from '../../containers/pages/user/sections/Playlists';
 
 import API, { UserPlaylistsData } from '../../services/api';
 
 import getCurrentUid from '../../utils/get-current-uid';
-import { SITE_PATHS } from '../../config/globals';
-
-const BaseSection = Box.withComponent('section');
+import { COLLECTION_TOP_NAVS, SITE_PATHS } from '../../config/globals';
 
 const Playlists: NextPage = () => {
   const [loading, setLoading] = useState(true);
@@ -23,8 +18,6 @@ const Playlists: NextPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!router.isReady) return;
-
     const uid = getCurrentUid();
 
     if (!uid) {
@@ -41,17 +34,13 @@ const Playlists: NextPage = () => {
         setLoading(false);
       }
     })();
-  }, [router.isReady]);
+  }, []);
 
-  if (loading) return <Page />;
+  if (loading) return <Page title="Your Library" topnavs={COLLECTION_TOP_NAVS} />;
 
   return (
-    <Page>
-      <BaseSection>
-        <Container>
-          <PlaylistsSection headingTag="h1" items={playlists?.items || []} />
-        </Container>
-      </BaseSection>
+    <Page title="Your Library" topnavs={COLLECTION_TOP_NAVS}>
+      <PlaylistsSection items={playlists?.items || []} />
     </Page>
   );
 };
