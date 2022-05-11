@@ -7,7 +7,7 @@ import Section from '../containers/templates/Section';
 
 import {
   TopTracksSection,
-  PublicPlaylistsSection,
+  PlaylistsSection,
   FollowingSection,
 } from '../containers/pages/user/sections';
 
@@ -99,7 +99,7 @@ const User: NextPage = () => {
       {publicPlaylists?.length ? (
         <Section>
           <Container>
-            <PublicPlaylistsSection items={publicPlaylists} />
+            <PlaylistsSection title="Public Playlists" items={publicPlaylists} />
           </Container>
         </Section>
       ) : null}

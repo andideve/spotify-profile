@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import Page from '../../containers/templates/Page';
 
-import { PublicPlaylistsSection } from '../../containers/pages/user/sections';
+import { PlaylistsSection } from '../../containers/pages/user/sections';
 
 import { Container } from '../../components/atoms/container';
 import { Box } from '../../components/atoms/box';
@@ -49,7 +49,7 @@ const Playlists: NextPage = () => {
     <Page>
       <BaseSection>
         <Container>
-          <PublicPlaylistsSection headingTag="h1" items={playlists?.items || []} />
+          <PlaylistsSection headingTag="h1" items={playlists?.items || []} />
         </Container>
       </BaseSection>
     </Page>
