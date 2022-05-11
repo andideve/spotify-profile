@@ -32,6 +32,8 @@ import {
   NAVBAR_LG_WIDTHS,
   TOPBAR_HEIGHTS,
   COLLECTION_TOP_NAVS,
+  USER_SITE_PATHS,
+  COLLECTION_SITE_PATHS,
 } from '../../config/globals';
 import { siteMetadata } from '../../config/site-metadata';
 
@@ -121,7 +123,10 @@ function Page({
     }
   }, [mainRef.current]);
 
-  const isMenuActive = (path: string) => router.asPath === path;
+  const isMenuActive = (arg: string | string[]) => {
+    const paths = Array.isArray(arg) ? arg : [arg];
+    return paths.some((path) => path === router.asPath);
+  };
 
   return (
     <>
@@ -150,13 +155,13 @@ function Page({
               path={SITE_PATHS.USER_DASHBOARD}
               icon={<Profile />}
               label="Profile"
-              active={isMenuActive(SITE_PATHS.USER_DASHBOARD)}
+              active={isMenuActive(USER_SITE_PATHS)}
             />
             <MenuItem
               path={COLLECTION_TOP_NAVS[0].to}
               icon={<Library />}
               label="Your Library"
-              active={isMenuActive(COLLECTION_TOP_NAVS[0].to)}
+              active={isMenuActive(COLLECTION_SITE_PATHS)}
             />
           </MenuList>
         </NavbarTemplate>
