@@ -55,6 +55,7 @@ import type {
   AlbumsData,
   SingleAlbumData,
 } from '../pages/api/spotify/albums';
+import type { MySavedAlbumsData } from '../pages/api/spotify/me/albums';
 
 export type { LoginParameter, LoginData };
 export type { LogoutData };
@@ -85,6 +86,7 @@ export type { ArtistTopTracksParameter, RequiredArtistTopTracksParameter, Artist
 export type { CountryCodeParameter, RequiredCountryCodeParameter, CountryCodeData };
 export type { ArtistAlbumsParameter, RequiredArtistAlbumsParameter, ArtistAlbumsData };
 export type { AlbumsParameter, RequiredSingleAlbumParameter, AlbumsData, SingleAlbumData };
+export type { MySavedAlbumsData };
 
 async function login(parameter: LoginParameter) {
   return fetch(`/api/login?${qs.stringify(parameter)}`).then(
@@ -115,6 +117,12 @@ const spotify = {
     async following<T = MyFollowingData>(parameter: RequiredMyFollowingParameter) {
       return fetch(`/api/spotify/me/following?${qs.stringify(parameter)}`).then(
         (res) => res.json() as Promise<T>,
+      );
+    },
+
+    async albums() {
+      return fetch('/api/spotify/me/albums').then(
+        (res) => res.json() as Promise<MySavedAlbumsData>,
       );
     },
   },
