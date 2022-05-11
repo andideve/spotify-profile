@@ -18,6 +18,15 @@ const spotifyErrors = {
       },
     };
   },
+
+  notFound(): SpotifyError {
+    return {
+      error: {
+        status: 404,
+        message: 'Not Found',
+      },
+    };
+  },
 };
 
 export default spotifyErrors;

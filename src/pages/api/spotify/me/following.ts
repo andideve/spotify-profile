@@ -20,7 +20,7 @@ export type MyFollowingError = SpotifyError;
 
 const handler: NextApiHandler<MyFollowingData | MyFollowingError> = async (req, res) => {
   if (req.method !== 'GET') {
-    res.status(404);
+    res.status(404).json(spotifyErrors.notFound());
     return;
   }
 

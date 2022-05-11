@@ -18,7 +18,7 @@ export type UserPlaylistsError = SpotifyError;
 
 const handler: NextApiHandler<UserPlaylistsData | UserPlaylistsError> = async (req, res) => {
   if (req.method !== 'GET') {
-    res.status(404);
+    res.status(404).json(spotifyErrors.notFound());
     return;
   }
 
