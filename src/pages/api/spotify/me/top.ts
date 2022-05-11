@@ -30,7 +30,7 @@ export type MyTopItemsError = SpotifyError;
 
 const handler: NextApiHandler<MyTopItemsData | MyTopItemsError> = async (req, res) => {
   if (req.method !== 'GET') {
-    res.status(404);
+    res.status(404).json(spotifyErrors.notFound());
     return;
   }
 

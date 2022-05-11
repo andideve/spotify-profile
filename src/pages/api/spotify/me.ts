@@ -4,6 +4,8 @@ import Spotify from '../../../services/spotify';
 import refreshToken from '../../../services/api-middlewares/refresh-token';
 
 import runMiddleware from '../../../utils/api-middleware';
+import spotifyErrors from '../../../utils/spotify-errors';
+
 import { SpotifyError } from '../../../types/spotify';
 
 export type MeData = SpotifyApi.CurrentUsersProfileResponse;
@@ -11,7 +13,7 @@ export type MeError = SpotifyError;
 
 const handler: NextApiHandler<MeData | MeError> = async (req, res) => {
   if (req.method !== 'GET') {
-    res.status(404);
+    res.status(404).json(spotifyErrors.notFound());
     return;
   }
 

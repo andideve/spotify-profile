@@ -93,7 +93,7 @@ async function login(parameter: LoginParameter) {
 }
 
 async function logout() {
-  return fetch('/api/logout').then((res) => res.json() as Promise<LogoutData>);
+  return fetch('/api/logout', { method: 'POST' }).then((res) => res.json() as Promise<LogoutData>);
 }
 
 const spotify = {

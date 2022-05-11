@@ -17,7 +17,7 @@ export type LoginError = SpotifyError;
 
 const handler: NextApiHandler<LoginData | LoginError> = async (req, res) => {
   if (req.method !== 'GET') {
-    res.status(404);
+    res.status(404).json({ message: 'Not Found' });
     return;
   }
 
