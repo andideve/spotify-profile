@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import AlbumList from '../../../templates/AlbumList';
 
@@ -12,12 +12,22 @@ interface FollowingProps {
   items: MyFollowingArtistsData['artists']['items'];
   title?: string;
   headingTag?: keyof JSX.IntrinsicElements;
+  max?: number;
 }
 
-function Following({ items, title = 'Following', headingTag }: FollowingProps) {
+function Following({ items, title = 'Following', headingTag, max }: FollowingProps) {
+  const list = useMemo(() => (max ? items.slice(0, max) : items), [items, max]);
   return (
     <>
-      <SectionHead headingTag={headingTag} title={title} />
+      <SectionHead
+        headingTag={headingTag}
+        title={title}
+        arrowLink={
+          items.length > list.length
+            ? { to: SITE_PATHS.USER_FOLLOWING, label: 'See all' }
+            : undefined
+        }
+      />
       <AlbumList>
         {items.map((artist) => (
           <AlbumItem
@@ -33,7 +43,7 @@ function Following({ items, title = 'Following', headingTag }: FollowingProps) {
   );
 }
 
-Following.defaultProps = { title: undefined, headingTag: undefined };
+Following.defaultProps = { title: undefined, headingTag: undefined, max: undefined };
 
 export { Following as FollowingSection };
 export default Following;

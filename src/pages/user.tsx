@@ -99,14 +99,14 @@ const User: NextPage = () => {
       {publicPlaylists?.length ? (
         <Section>
           <Container>
-            <PlaylistsSection title="Public Playlists" items={publicPlaylists} />
+            <PlaylistsSection title="Public Playlists" items={publicPlaylists} max={6} />
           </Container>
         </Section>
       ) : null}
       {followedArtists?.artists.items.length ? (
         <Section>
           <Container>
-            <FollowingSection items={followedArtists.artists.items} />
+            <FollowingSection items={followedArtists.artists.items} max={6} />
           </Container>
         </Section>
       ) : null}
