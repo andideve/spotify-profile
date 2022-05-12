@@ -50,7 +50,7 @@ const Playlist: NextPage = () => {
       head={{
         category: 'Playlist',
         title: playlist.name,
-        image: { url: playlist.images[0].url },
+        image: { src: playlist.images[0].url },
         stats: (
           <>
             <Box as="span" sx={{ fontWeight: 500 }}>

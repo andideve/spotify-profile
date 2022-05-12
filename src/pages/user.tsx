@@ -74,7 +74,7 @@ const User: NextPage = () => {
       head={{
         category: 'Profile',
         title: user.display_name || '',
-        image: avatar && { radii: '999px', url: avatar.url },
+        image: avatar && { radii: '999px', src: avatar.url },
         stats: (
           <>
             <span>
