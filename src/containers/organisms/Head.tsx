@@ -3,7 +3,7 @@ import { CSSObject } from '@emotion/serialize';
 
 import HeadGrid from '../templates/grid-layouts/Head';
 
-import Image from '../../components/molecules/Image';
+import Image, { ImageProps } from '../../components/molecules/Image';
 import { Box } from '../../components/atoms/box';
 import { Paragraph, Text } from '../../components/atoms/typography';
 import { H1 } from '../../components/atoms/headings';
@@ -16,23 +16,26 @@ const titleStyles: CSSObject = {
 
 export interface HeadProps {
   title: string;
-  image?: {
-    url: string;
-    radii?: string;
-  };
+  image?: Omit<ImageProps, 'sx'> & { radii?: string };
   category?: string;
   stats?: React.ReactNode;
 }
 
-export default function Head({ image, title, category, stats }: HeadProps) {
+export default function Head({
+  image: { radii: imgRadii, ...image } = { radii: undefined },
+  title,
+  category,
+  stats,
+}: HeadProps) {
   return (
     <HeadGrid
       image={
-        image && (
+        (image.src || image.srcSet) && (
           <Image
+            alt={title}
             ratio={1}
-            src={image.url}
-            sx={{ borderRadius: image.radii, boxShadow: '0 4px 60px hsla(0, 0%, 0%, .5)' }}
+            sx={{ borderRadius: imgRadii, boxShadow: '0 4px 60px hsla(0, 0%, 0%, .5)' }}
+            {...image}
           />
         )
       }

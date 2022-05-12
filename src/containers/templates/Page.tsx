@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 
 import NavbarTemplate from './Navbar';
@@ -43,6 +43,7 @@ const Nav = Box.withComponent('nav');
 const Header = Box.withComponent('header');
 
 const ArrowButton = styled.button`
+  opacity: 0.6;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -50,13 +51,18 @@ const ArrowButton = styled.button`
   height: 2rem;
   border-radius: 999px;
   background-color: hsl(0, 0%, 0%, 0.7);
-  &[disabled] {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+  transition: ${createTransitions('opacity', { ms: 150 })};
   svg {
     width: 1.375rem;
     height: 1.375rem;
+  }
+  &:focus {
+    opacity: 1;
+  }
+  ${media('lg')} {
+    &:hover {
+      opacity: 1;
+    }
   }
 `;
 
@@ -128,11 +134,24 @@ function Page({
     return paths.some((path) => path === router.asPath);
   };
 
+  const back = useCallback(() => {
+    window.history.back();
+  }, []);
+
+  const forward = useCallback(() => {
+    window.history.forward();
+  }, []);
+
   return (
     <>
       <Head>
         <title>{fullTitle}</title>
-        <meta name="description" content={description} />
+        {description && <meta name="description" content={description} />}
+        <link rel="icon" href="/favicons/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/favicons/favicon-16x16.png" type="image/png" />
+        <link rel="icon" href="/favicons/favicon-32x32.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/favicons/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
       </Head>
       <Nav
         sx={{
@@ -197,10 +216,10 @@ function Page({
               {/* Topbar left side */}
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Box sx={{ button: { marginRight: '1rem' } }}>
-                  <ArrowButton aria-label="go back" disabled>
+                  <ArrowButton aria-label="go back" onClick={back}>
                     <ArrowLeft />
                   </ArrowButton>
-                  <ArrowButton aria-label="go forward" disabled>
+                  <ArrowButton aria-label="go forward" onClick={forward}>
                     <ArrowRight />
                   </ArrowButton>
                 </Box>

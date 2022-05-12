@@ -52,7 +52,7 @@ const Album: NextPage = () => {
       head={{
         category: 'Album',
         title: album.name,
-        image: { url: album.images[0].url },
+        image: { src: album.images[0].url },
         stats: (
           <>
             <span>
