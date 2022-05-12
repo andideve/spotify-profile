@@ -214,8 +214,17 @@ function Page({
           <Container>
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
               {/* Topbar left side */}
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Box sx={{ button: { marginRight: '1rem' } }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', minWidth: 0 }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    columnGap: '1rem',
+                    'button:last-of-type': { display: 'none' },
+                    [media('lg')]: {
+                      'button:last-of-type': { display: 'inline-flex' },
+                    },
+                  }}
+                >
                   <ArrowButton aria-label="go back" onClick={back}>
                     <ArrowLeft />
                   </ArrowButton>
@@ -229,6 +238,9 @@ function Page({
                     size="2xl"
                     sx={{
                       marginLeft: '1rem',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
                       fontWeight: 500,
                       transition: createTransitions('opacity'),
                       '&.unscrolled': { opacity: 0 },
@@ -238,7 +250,17 @@ function Page({
                   </Text>
                 )}
                 {topnavs && (
-                  <Nav sx={{ margin: '-.3125rem 1.5rem', a: { marginRight: '.5rem' } }}>
+                  <Nav
+                    sx={{
+                      display: 'flex',
+                      flexWrap: 'nowrap',
+                      columnGap: '.5rem',
+                      overflowX: 'auto',
+                      margin: '-.3125rem 1.5rem',
+                      maxWidth: 175,
+                      [media('md')]: { maxWidth: 'unset' },
+                    }}
+                  >
                     {topnavs.map((nav) => (
                       <Link key={nav.to} href={nav.to} passHref>
                         <ButtonAnchor className={isMenuActive(nav.to) ? 'active' : undefined}>
