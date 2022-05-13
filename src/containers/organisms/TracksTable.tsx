@@ -6,6 +6,7 @@ import Duration from '../../components/molecules/Duration';
 import { Box } from '../../components/atoms/box';
 import { Paragraph, Text, TextProps } from '../../components/atoms/typography';
 import { Table, TableRow } from '../../components/atoms/table';
+import TimeCircle from '../../components/atoms/icons/TimeCircle';
 
 import media from '../../utils/media';
 import classes from '../../utils/classes';
@@ -143,7 +144,9 @@ export function TracksTable({ children, head, disableHead, headSticky }: TracksT
           <th>Title</th>
           {head?.cellAddon && <th>{head.cellAddon}</th>}
           <th>
-            <Box sx={{ textAlign: 'right' }}>Duration</Box>
+            <Box aria-label="Duration" sx={{ svg: { marginLeft: 'auto' } }}>
+              <TimeCircle />
+            </Box>
           </th>
         </TableRow>
       </TableHead>
