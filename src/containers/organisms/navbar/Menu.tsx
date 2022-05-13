@@ -6,6 +6,7 @@ import { Text } from '../../../components/atoms/typography';
 
 import media from '../../../utils/media';
 import createTransitions from '../../../utils/transition';
+import classes from '../../../utils/classes';
 
 import { MenuItemProps } from './types';
 
@@ -35,11 +36,10 @@ export function MenuItem({ icon, label, path, active }: MenuItemProps) {
     <li>
       <Link href={path} passHref>
         <Anchor
-          className={active ? 'active' : undefined}
+          className={classes([active ? 'active' : undefined, 'color-secondary'])}
           sx={({ theme }) => ({
             display: 'block',
             padding: '1rem',
-            color: theme?.colors.secondary.default,
             transition: createTransitions('color'),
             '&.active': { fontWeight: 500 },
             '&:focus, &.active': { color: theme?.colors.body.text },

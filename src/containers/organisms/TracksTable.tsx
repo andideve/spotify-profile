@@ -1,5 +1,4 @@
 import React from 'react';
-import { CSSObject } from '@emotion/serialize';
 
 import Image, { ImageProps } from '../../components/molecules/Image';
 import Duration from '../../components/molecules/Duration';
@@ -47,14 +46,9 @@ const rowStyles = `
   }
 `;
 
-function SecondaryText({ children, as, sx, ...rest }: Omit<TextProps, 'sx'> & { sx?: CSSObject }) {
+function SecondaryText({ children, as, className, ...rest }: TextProps) {
   return (
-    <Text
-      as={as}
-      size="sm"
-      sx={({ theme }) => ({ color: theme?.colors.secondary.default, ...sx })}
-      {...rest}
-    >
+    <Text as={as} className={classes(['color-secondary', className])} size="sm" {...rest}>
       {children}
     </Text>
   );
@@ -81,9 +75,7 @@ export function TracksTableRow({
 }: TracksTableRowProps) {
   return (
     <TableRow className={cellAddon ? CELL_ADDON_CLASS : undefined} sx={rowStyles}>
-      <td>
-        <Box sx={({ theme }) => ({ color: theme?.colors.secondary.default })}>{number}</Box>
-      </td>
+      <td className="color-secondary">{number}</td>
       <td>
         <Box
           className={image ? undefined : 'disable-image'}
@@ -97,10 +89,7 @@ export function TracksTableRow({
         >
           {image && <Image ratio={1} sx={{ borderRadius: '.125rem' }} alt={title} {...image} />}
           <Box sx={{ minWidth: 0 }}>
-            <Paragraph
-              title={title}
-              sx={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}
-            >
+            <Paragraph className="single-line-text" title={title}>
               {title}
             </Paragraph>
             <SecondaryText>{artistName}</SecondaryText>
@@ -152,7 +141,7 @@ export function TracksTable({ children, head, disableHead, headSticky }: TracksT
         <TableRow className={head?.cellAddon && CELL_ADDON_CLASS} sx={rowStyles}>
           <th>#</th>
           <th>Title</th>
-          {head?.cellAddon && <th>{head?.cellAddon}</th>}
+          {head?.cellAddon && <th>{head.cellAddon}</th>}
           <th>
             <Box sx={{ textAlign: 'right' }}>Duration</Box>
           </th>

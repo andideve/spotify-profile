@@ -26,6 +26,7 @@ import useLogout from '../../hooks/useLogout';
 
 import media from '../../utils/media';
 import createTransitions from '../../utils/transition';
+import classes from '../../utils/classes';
 
 import {
   SITE_PATHS,
@@ -234,13 +235,10 @@ function Page({
                 </Box>
                 {title && !topnavs && (
                   <Text
-                    className={scrolled ? undefined : 'unscrolled'}
+                    className={classes([scrolled && 'unscrolled', 'single-line-text'])}
                     size="2xl"
                     sx={{
                       marginLeft: '1rem',
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
-                      whiteSpace: 'nowrap',
                       fontWeight: 500,
                       transition: createTransitions('opacity'),
                       '&.unscrolled': { opacity: 0 },

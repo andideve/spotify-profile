@@ -38,10 +38,7 @@ export default function SectionHead({
           {title}
         </H2>
         {description && (
-          <Paragraph
-            size="sm"
-            sx={({ theme }) => ({ marginTop: '.25rem', color: theme?.colors.secondary.default })}
-          >
+          <Paragraph size="sm" className="color-secondary" sx={{ marginTop: '.25rem' }}>
             {description}
           </Paragraph>
         )}

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import React from 'react';
-import { CSSObject } from '@emotion/serialize';
 
 import Image, { ImageProps } from '../../components/molecules/Image';
 
@@ -9,18 +8,17 @@ import { Paragraph, Text, TextProps } from '../../components/atoms/typography';
 
 import media from '../../utils/media';
 import createTransitions from '../../utils/transition';
+import classes from '../../utils/classes';
 
 const Anchor = Box.withComponent('a');
 
-function SecondaryText({ children, sx }: Omit<TextProps, 'sx'> & { sx?: CSSObject }) {
+function SecondaryText({ children, className, ...rest }: TextProps) {
   return (
-    <Text size="sm" sx={({ theme }) => ({ color: theme?.colors.secondary.default, ...sx })}>
+    <Text size="sm" className={classes(['color-secondary', className])} {...rest}>
       {children}
     </Text>
   );
 }
-
-SecondaryText.defaultProps = { sx: undefined };
 
 export interface AlbumItemProps {
   image: ImageProps;
@@ -60,13 +58,9 @@ export default function AlbumItem({
       <Box sx={{ flex: '1 1 auto', marginTop: '1rem', minHeight: 62 }}>
         <Paragraph
           as={headingTag}
+          className="single-line-text"
           title={title}
-          sx={{
-            textOverflow: 'ellipsis',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            fontWeight: 500,
-          }}
+          sx={{ fontWeight: 500 }}
         >
           {title}
         </Paragraph>
