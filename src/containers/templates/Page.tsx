@@ -235,7 +235,7 @@ function Page({
                 </Box>
                 {title && !topnavs && (
                   <Text
-                    className={classes([scrolled && 'unscrolled', 'single-line-text'])}
+                    className={classes([!scrolled && 'unscrolled', 'single-line-text'])}
                     size="2xl"
                     sx={{
                       marginLeft: '1rem',
