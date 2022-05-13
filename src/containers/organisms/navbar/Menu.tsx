@@ -42,7 +42,8 @@ export function MenuItem({ icon, label, path, active }: MenuItemProps) {
             color: theme?.colors.secondary.default,
             transition: createTransitions('color'),
             '&.active': { fontWeight: 500 },
-            '&:hover, &:focus, &.active': { color: theme?.colors.body.text },
+            '&:focus, &.active': { color: theme?.colors.body.text },
+            [media('lg')]: { '&:hover': { color: theme?.colors.body.text } },
           })}
         >
           <Box sx={{ svg: { margin: '0 auto', width: '1.25rem', height: '1.25rem' } }}>{icon}</Box>

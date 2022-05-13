@@ -30,6 +30,7 @@ import createTransitions from '../../utils/transition';
 import {
   SITE_PATHS,
   NAVBAR_LG_WIDTHS,
+  NAVBAR_HEIGHTS,
   TOPBAR_HEIGHTS,
   COLLECTION_TOP_NAVS,
   USER_SITE_PATHS,
@@ -85,7 +86,6 @@ export function Content({ children }: { children: React.ReactNode }) {
     <Box
       sx={{
         position: 'relative',
-        flex: '1 1 auto',
         [media('lg')]: { paddingLeft: NAVBAR_LG_WIDTHS },
       }}
     >
@@ -164,11 +164,11 @@ function Page({
           [media('lg')]: {
             top: 0,
             right: 'unset',
-            '.Nav__NavbarTemplate': { padding: '1rem 0', width: NAVBAR_LG_WIDTHS },
+            '.Nav__NavbarTemplate': { width: NAVBAR_LG_WIDTHS },
           },
         }}
       >
-        <NavbarTemplate className="Nav__NavbarTemplate">
+        <NavbarTemplate as="div" className="Nav__NavbarTemplate">
           <MenuList>
             <MenuItem
               path={SITE_PATHS.USER_DASHBOARD}
@@ -297,6 +297,7 @@ function Page({
             </MainTemplate>
           )}
         </Content>
+        <Box sx={{ height: NAVBAR_HEIGHTS, [media('lg')]: { display: 'none' } }} />
       </main>
     </>
   );

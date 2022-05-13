@@ -52,8 +52,8 @@ export const COLLECTION_SITE_PATHS = [
   SITE_PATHS.ALBUM_COLLECTIONS,
 ];
 
-export const NAVBAR_WIDTHS = 74;
 export const NAVBAR_LG_WIDTHS = 100;
+export const NAVBAR_HEIGHTS = 74;
 export const TOPBAR_HEIGHTS = 66;
 
 export const LOCAL_UID_KEY = 'uid';
