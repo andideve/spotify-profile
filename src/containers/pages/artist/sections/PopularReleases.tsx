@@ -16,21 +16,34 @@ function PopularReleases({ items }: { items: ArtistTopTracksData['tracks'][0]['a
     <>
       <SectionHead title="Popular Releases" />
       <AlbumList>
-        {items.map((album) => (
-          <AlbumItem
-            key={album.id}
-            link={SITE_PATHS.ALBUM(album.id)}
-            title={album.name}
-            description={
-              <>
-                <AlbumYear date={album.release_date} />
-                &nbsp;•&nbsp;
-                <AlbumType>{album.album_type}</AlbumType>
-              </>
-            }
-            image={{ alt: album.name, src: album.images[0].url }}
-          />
-        ))}
+        {items.map((album) => {
+          const { images } = album;
+          return (
+            <AlbumItem
+              key={album.id}
+              link={SITE_PATHS.ALBUM(album.id)}
+              title={album.name}
+              description={
+                <>
+                  <AlbumYear date={album.release_date} />
+                  &nbsp;•&nbsp;
+                  <AlbumType>{album.album_type}</AlbumType>
+                </>
+              }
+              image={{
+                as: 'picture',
+                children: (
+                  <>
+                    {images.map((image, i) => (
+                      <source key={i} srcSet={image.url} media={`(min-width: ${image.width}px)`} />
+                    ))}
+                    <img alt={album.name} src={images[images.length - 1].url} />
+                  </>
+                ),
+              }}
+            />
+          );
+        })}
       </AlbumList>
     </>
   );

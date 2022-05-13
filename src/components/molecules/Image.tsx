@@ -5,11 +5,12 @@ import { Box } from '../atoms/box';
 import { AspectRatio } from '../atoms/aspect-ratio';
 
 export interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+  as?: keyof JSX.IntrinsicElements;
   ratio?: number;
   sx?: CSSObject;
 }
 
-function Image({ ratio, sx, ...image }: ImageProps) {
+function Image({ as = 'img', ratio, sx, ...image }: ImageProps) {
   return (
     <AspectRatio
       ratio={ratio}
@@ -19,11 +20,11 @@ function Image({ ratio, sx, ...image }: ImageProps) {
         ...sx,
       })}
     >
-      <Box as="img" {...image} />
+      <Box as={as} {...image} />
     </AspectRatio>
   );
 }
 
-Image.defaultProps = { ratio: undefined, sx: undefined };
+Image.defaultProps = { as: undefined, ratio: undefined, sx: undefined };
 
 export default Image;

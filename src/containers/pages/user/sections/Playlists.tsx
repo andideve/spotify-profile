@@ -28,15 +28,28 @@ function Playlists({ items, title = 'Playlists', headingTag, max }: PlaylistsPro
         }
       />
       <AlbumList>
-        {items.map((playlist) => (
-          <AlbumItem
-            key={playlist.id}
-            headingTag={headingTag}
-            link={SITE_PATHS.PLAYLIST(playlist.id)}
-            title={playlist.name}
-            image={{ alt: playlist.name, src: playlist.images[0].url }}
-          />
-        ))}
+        {items.map((playlist) => {
+          const { images } = playlist;
+          return (
+            <AlbumItem
+              key={playlist.id}
+              headingTag={headingTag}
+              link={SITE_PATHS.PLAYLIST(playlist.id)}
+              title={playlist.name}
+              image={{
+                as: 'picture',
+                children: (
+                  <>
+                    {images.map((image, i) => (
+                      <source key={i} srcSet={image.url} media={`(min-width: ${image.width}px)`} />
+                    ))}
+                    <img alt={playlist.name} src={images[images.length - 1].url} />
+                  </>
+                ),
+              }}
+            />
+          );
+        })}
       </AlbumList>
     </>
   );

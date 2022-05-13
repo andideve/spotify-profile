@@ -29,15 +29,28 @@ function Following({ items, title = 'Following', headingTag, max }: FollowingPro
         }
       />
       <AlbumList>
-        {items.map((artist) => (
-          <AlbumItem
-            key={artist.id}
-            link={SITE_PATHS.ARTIST(artist.id)}
-            title={artist.name}
-            description="Profile"
-            image={{ alt: artist.name, src: artist.images[0].url }}
-          />
-        ))}
+        {items.map((artist) => {
+          const { images } = artist;
+          return (
+            <AlbumItem
+              key={artist.id}
+              link={SITE_PATHS.ARTIST(artist.id)}
+              title={artist.name}
+              description="Profile"
+              image={{
+                as: 'picture',
+                children: (
+                  <>
+                    {images.map((image, i) => (
+                      <source key={i} srcSet={image.url} media={`(min-width: ${image.width}px)`} />
+                    ))}
+                    <img alt={artist.name} src={images[images.length - 1].url} />
+                  </>
+                ),
+              }}
+            />
+          );
+        })}
       </AlbumList>
     </>
   );

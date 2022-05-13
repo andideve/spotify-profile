@@ -40,17 +40,34 @@ function Popular({ items }: PopularProps) {
     <>
       <SectionHead title="Popular" />
       <TracksTable head={{ cellAddon: 'Popularity' }} disableHead>
-        {toggleMore.list.map((tracks, i) => (
-          <TracksTableRow
-            key={tracks.id}
-            number={i + 1}
-            image={{ alt: tracks.name, src: tracks.album.images[0].url }}
-            title={tracks.name}
-            artistName=""
-            durationMs={tracks.duration_ms}
-            cellAddon={tracks.popularity.toString()}
-          />
-        ))}
+        {toggleMore.list.map((track, i) => {
+          const { images } = track.album;
+          return (
+            <TracksTableRow
+              key={track.id}
+              number={i + 1}
+              title={track.name}
+              artistName=""
+              durationMs={track.duration_ms}
+              cellAddon={track.popularity.toString()}
+              image={{
+                as: 'picture',
+                children: (
+                  <>
+                    {images.map((image, imageIndex) => (
+                      <source
+                        key={imageIndex}
+                        srcSet={image.url}
+                        media={`(min-width: ${image.width}px)`}
+                      />
+                    ))}
+                    <img alt={track.name} src={images[images.length - 1].url} />
+                  </>
+                ),
+              }}
+            />
+          );
+        })}
       </TracksTable>
       <MoreButton onClick={toggleMore.handler}>
         <Text size="xs">{toggleMore.more ? 'Show Less' : 'See More'}</Text>
