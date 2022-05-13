@@ -36,4 +36,12 @@ export const globalStyles = (theme: Theme) => `
     position: absolute;
     left: -100vw;
   }
+  .single-line-text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .color-secondary {
+    color: ${theme.colors.secondary.default};
+  }
 `;

@@ -8,6 +8,7 @@ const styles = ({ ratio = defaults.ratio }: AspectRatioProps) => `
   height: 0;
   padding-bottom: calc(100% / ${ratio});
   & > img,
+  & > picture > img,
   & > video,
   & > iframe {
     position: absolute;

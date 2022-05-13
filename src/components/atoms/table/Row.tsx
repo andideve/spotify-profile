@@ -35,6 +35,10 @@ const styles = ({ theme, cols }: TableRowProps) => `
     line-height: ${theme?.lineHeights.xs};
     font-weight: 500;
     color: ${theme?.colors.secondary.default};
+    svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
   }
   th, td {
     text-align: inherit;
