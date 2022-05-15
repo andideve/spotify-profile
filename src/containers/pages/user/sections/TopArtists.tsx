@@ -6,44 +6,47 @@ import SectionHead from '../../../organisms/SectionHead';
 import AlbumItem from '../../../organisms/AlbumItem';
 
 import { SITE_PATHS } from '../../../../config/globals';
-import { UserPlaylistsData } from '../../../../services/api';
 
-interface PlaylistsProps {
-  items: UserPlaylistsData['items'];
-  title?: string;
+import { MyTopArtistsData } from '../../../../services/api';
+
+interface TopArtistsProps {
+  items: MyTopArtistsData['items'];
   headingTag?: keyof JSX.IntrinsicElements;
   max?: number;
 }
 
-function Playlists({ items, title = 'Playlists', headingTag, max }: PlaylistsProps) {
+function TopArtists({ items, headingTag, max }: TopArtistsProps) {
   const list = useMemo(() => (max ? items.slice(0, max) : items), [items, max]);
   return (
     <>
       <SectionHead
-        title={title}
+        headingTag={headingTag}
+        title="Top artists this month"
+        description="Only visible to you"
         arrowLink={
           items.length > list.length
-            ? { to: SITE_PATHS.USER_PLAYLISTS, label: 'See all' }
+            ? { to: SITE_PATHS.USER_TOP_ARTISTS, label: 'See all' }
             : undefined
         }
       />
       <AlbumList>
-        {list.map((playlist) => {
-          const { images } = playlist;
+        {list.map((artist) => {
+          const { images } = artist;
           return (
             <AlbumItem
-              key={playlist.id}
-              headingTag={headingTag}
-              link={SITE_PATHS.PLAYLIST(playlist.id)}
-              title={playlist.name}
+              key={artist.id}
+              link={SITE_PATHS.ARTIST(artist.id)}
+              title={artist.name}
+              description="Artist"
               image={{
                 as: 'picture',
+                sx: { borderRadius: 999 },
                 children: (
                   <>
                     {images.map((image, i) => (
                       <source key={i} srcSet={image.url} media={`(min-width: ${image.width}px)`} />
                     ))}
-                    <img alt={playlist.name} src={images[images.length - 1].url} />
+                    <img alt={artist.name} src={images[images.length - 1].url} />
                   </>
                 ),
               }}
@@ -55,7 +58,8 @@ function Playlists({ items, title = 'Playlists', headingTag, max }: PlaylistsPro
   );
 }
 
-Playlists.defaultProps = { title: undefined, headingTag: undefined, max: undefined };
+TopArtists.defaultProps = { headingTag: undefined, max: undefined };
 
-export { Playlists as PlaylistsSection };
-export default Playlists;
+export { TopArtists as TopArtistsSection };
+export default TopArtists;
+

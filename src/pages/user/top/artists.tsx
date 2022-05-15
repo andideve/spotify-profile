@@ -3,23 +3,23 @@ import React, { useEffect, useState } from 'react';
 
 import Page from '../../../containers/templates/Page';
 
-import TopTracksSection from '../../../containers/pages/user/sections/TopTracks';
+import TopArtistsSection from '../../../containers/pages/user/sections/TopArtists';
 
 import { Container } from '../../../components/atoms/container';
 import { Box } from '../../../components/atoms/box';
 
-import API, { MyTopTracksData } from '../../../services/api';
+import API, { MyTopArtistsData } from '../../../services/api';
 
 const BaseSection = Box.withComponent('section');
 
 const Tracks: NextPage = () => {
   const [loading, setLoading] = useState(true);
-  const [topTracks, setTopTracks] = useState<MyTopTracksData>();
+  const [topArtists, setTopArtists] = useState<MyTopArtistsData>();
 
   useEffect(() => {
     (async () => {
       try {
-        setTopTracks(await API.spotify.me.top({ type: 'tracks' }));
+        setTopArtists(await API.spotify.me.top({ type: 'artists' }));
       } catch (err) {
         console.error(err);
       } finally {
@@ -34,7 +34,7 @@ const Tracks: NextPage = () => {
     <Page>
       <BaseSection>
         <Container>
-          <TopTracksSection headingTag="h1" items={topTracks?.items || []} headSticky />
+          <TopArtistsSection headingTag="h1" items={topArtists?.items || []} />
         </Container>
       </BaseSection>
     </Page>

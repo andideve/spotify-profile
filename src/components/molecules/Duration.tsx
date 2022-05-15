@@ -1,7 +1,11 @@
 import React, { useMemo } from 'react';
 import formatDuration from 'format-duration';
 
-export default function Duration({ ms }: { ms: number }) {
-  const formatted = useMemo(() => formatDuration(ms), [ms]);
-  return <span>{formatted}</span>;
+export interface DurationProps extends React.HTMLAttributes<HTMLSpanElement> {
+  ms: number;
+}
+
+export default function Duration({ ms, ...rest }: DurationProps) {
+  const formatted = useMemo(() => formatDuration(ms, { leading: true }), [ms]);
+  return <span {...rest}>{formatted}</span>;
 }

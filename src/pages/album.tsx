@@ -1,12 +1,13 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 
 import Page from '../containers/templates/Page';
 
 import { TracksSection } from '../containers/pages/album/sections';
 
 import AlbumYear from '../components/molecules/AlbumYear';
+import Duration from '../components/molecules/Duration';
 
 import { Container } from '../components/atoms/container';
 import { Box } from '../components/atoms/box';
@@ -21,6 +22,13 @@ const Album: NextPage = () => {
   const [album, setAlbum] = useState<SingleAlbumData>();
 
   const router = useRouter();
+
+  const totalDurations = useMemo(() => {
+    if (!album?.tracks.items.length) {
+      return 0;
+    }
+    return album.tracks.items.reduce((prev, e) => prev + e.duration_ms, 0);
+  }, [album]);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -55,11 +63,15 @@ const Album: NextPage = () => {
         image: { src: album.images[0].url },
         stats: (
           <>
+            <Box as="span" sx={{ fontWeight: 500 }}>
+              {album.artists[0].name}
+            </Box>
             <span>
               <AlbumYear date={album.release_date} />
             </span>
             <span>
-              {album.tracks.total} song{album.tracks.total > 1 ? 's' : ''}
+              {album.tracks.total} song{album.tracks.total > 1 ? 's' : ''},&nbsp;
+              <Duration className="color-secondary" ms={totalDurations} />
             </span>
           </>
         ),

@@ -29,7 +29,7 @@ function Following({ items, title = 'Following', headingTag, max }: FollowingPro
         }
       />
       <AlbumList>
-        {items.map((artist) => {
+        {list.map((artist) => {
           const { images } = artist;
           return (
             <AlbumItem

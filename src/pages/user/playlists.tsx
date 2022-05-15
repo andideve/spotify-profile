@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import Page from '../../containers/templates/Page';
 
-import { PlaylistsSection } from '../../containers/pages/user/sections';
+import PlaylistsSection from '../../containers/pages/user/sections/Playlists';
 
 import { Container } from '../../components/atoms/container';
 import { Box } from '../../components/atoms/box';

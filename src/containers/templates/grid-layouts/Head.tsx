@@ -10,9 +10,9 @@ function FirstColumn({ children }: { children: React.ReactNode }) {
   return (
     <Box
       sx={{
-        gridColumn: '1/span 2',
+        gridColumn: '1/span 3',
         marginTop: TOPBAR_HEIGHTS,
-        [media('lg')]: { gridColumn: '1/span 2', marginTop: 'auto' },
+        [media('lg')]: { gridColumn: 'auto', marginTop: 'auto' },
       }}
     >
       {children}
@@ -26,7 +26,7 @@ function LastColumn({ children }: { children: React.ReactNode }) {
       sx={{
         gridColumn: '1/-1',
         marginTop: '1rem',
-        [media('lg')]: { gridColumn: '3/-1', marginTop: 'auto' },
+        [media('lg')]: { gridColumn: 'auto', marginTop: 'auto' },
       }}
     >
       {children}
@@ -40,8 +40,9 @@ export interface HeadGridProps {
 }
 
 export default function HeadGrid({ image, text }: HeadGridProps) {
+  const imgWidths = 232;
   return (
-    <GridContainer>
+    <GridContainer sx={{ [media('lg')]: { gridTemplateColumns: `${imgWidths}px 1fr` } }}>
       {image ? (
         <>
           <FirstColumn>{image}</FirstColumn>
