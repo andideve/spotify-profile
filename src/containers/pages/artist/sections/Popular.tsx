@@ -49,7 +49,7 @@ function Popular({ items }: PopularProps) {
               title={track.name}
               artistName=""
               durationMs={track.duration_ms}
-              cellAddon={track.popularity.toString()}
+              cellAddon={`${track.popularity}%`}
               image={{
                 as: 'picture',
                 children: (
@@ -78,3 +78,4 @@ function Popular({ items }: PopularProps) {
 
 export { Popular as PopularSection };
 export default Popular;
+

@@ -82,7 +82,7 @@ const Artist: NextPage = () => {
       title={artist.name}
       head={{
         title: artist.name,
-        stats: <span>{artist.popularity} popularity</span>,
+        stats: <span>{artist.popularity}% popularity</span>,
       }}
     >
       {topTracks?.tracks.length ? (
@@ -111,3 +111,4 @@ const Artist: NextPage = () => {
 };
 
 export default Artist;
+

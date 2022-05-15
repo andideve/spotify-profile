@@ -1,10 +1,12 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 
 import Page from '../containers/templates/Page';
 
 import { TracksSection } from '../containers/pages/playlist/sections';
+
+import Duration from '../components/molecules/Duration';
 
 import { Container } from '../components/atoms/container';
 import { Box } from '../components/atoms/box';
@@ -19,6 +21,13 @@ const Playlist: NextPage = () => {
   const [playlist, setPlaylist] = useState<SinglePlaylistData>();
 
   const router = useRouter();
+
+  const totalDurations = useMemo(() => {
+    if (!playlist?.tracks.items.length) {
+      return 0;
+    }
+    return playlist.tracks.items.reduce((prev, e) => prev + (e.track?.duration_ms || 0), 0);
+  }, [playlist]);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -57,7 +66,8 @@ const Playlist: NextPage = () => {
               {playlist.owner.display_name}
             </Box>
             <span>
-              {playlist.tracks.total} song{playlist.tracks.total > 1 ? 's' : ''}
+              {playlist.tracks.total} song{playlist.tracks.total > 1 ? 's' : ''},&nbsp;
+              <Duration className="color-secondary" ms={totalDurations} />
             </span>
           </>
         ),
