@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import Page from '../../../containers/templates/Page';
 
-import { TopTracksSection } from '../../../containers/pages/user/sections';
+import TopTracksSection from '../../../containers/pages/user/sections/TopTracks';
 
 import { Container } from '../../../components/atoms/container';
 import { Box } from '../../../components/atoms/box';

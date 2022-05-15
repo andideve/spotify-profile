@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import Page from '../../../containers/templates/Page';
 
-import { TopArtistsSection } from '../../../containers/pages/user/sections';
+import TopArtistsSection from '../../../containers/pages/user/sections/TopArtists';
 
 import { Container } from '../../../components/atoms/container';
 import { Box } from '../../../components/atoms/box';
