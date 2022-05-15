@@ -6,6 +6,7 @@ import Page from '../containers/templates/Page';
 import Section from '../containers/templates/Section';
 
 import {
+  TopArtistsSection,
   TopTracksSection,
   PlaylistsSection,
   FollowingSection,
@@ -16,6 +17,7 @@ import { Box } from '../components/atoms/box';
 
 import API, {
   MeData,
+  MyTopArtistsData,
   MyTopTracksData,
   UserPlaylistsData,
   MyFollowingArtistsData,
@@ -31,6 +33,7 @@ const Anchor = Box.withComponent('a');
 const User: NextPage = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<MeData>();
+  const [topArtists, setTopArtists] = useState<MyTopArtistsData>();
   const [topTracks, setTopTracks] = useState<MyTopTracksData>();
   const [playlists, setPlaylists] = useState<UserPlaylistsData>();
   const [followedArtists, setFollowedArtists] = useState<MyFollowingArtistsData>();
@@ -56,6 +59,7 @@ const User: NextPage = () => {
         setLoading(false);
       }
 
+      setTopArtists(await API.spotify.me.top({ type: 'artists' }));
       setTopTracks(await API.spotify.me.top({ type: 'tracks' }));
       setPlaylists(await API.spotify.users.playlists({ user_id: uid }));
       setFollowedArtists(await API.spotify.me.following({ type: 'artist' }));
@@ -89,12 +93,19 @@ const User: NextPage = () => {
         ),
       }}
     >
-      {topTracks?.items.length ? (
+      {topArtists?.items.length ? (
         <BaseSection>
+          <Container>
+            <TopArtistsSection items={topArtists.items} max={6} />
+          </Container>
+        </BaseSection>
+      ) : null}
+      {topTracks?.items.length ? (
+        <Section>
           <Container>
             <TopTracksSection items={topTracks.items} max={4} disableHead />
           </Container>
-        </BaseSection>
+        </Section>
       ) : null}
       {publicPlaylists?.length ? (
         <Section>

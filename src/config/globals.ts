@@ -6,6 +6,7 @@ export const SITE_PATHS = {
   LOGIN_DASHBOARD: '/',
   LOGIN_SPOTIFY: '/login',
   USER_DASHBOARD: '/user',
+  USER_TOP_ARTISTS: '/user/top/artists',
   USER_TOP_TRACKS: '/user/top/tracks',
   USER_FOLLOWING: '/user/following',
   USER_PLAYLISTS: '/user/playlists',
