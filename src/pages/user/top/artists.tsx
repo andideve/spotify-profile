@@ -34,7 +34,7 @@ const Tracks: NextPage = () => {
     <Page>
       <BaseSection>
         <Container>
-          <TopArtistsSection headingTag="h1" items={topArtists.items} />
+          <TopArtistsSection headingTag="h1" items={topArtists?.items || []} />
         </Container>
       </BaseSection>
     </Page>
