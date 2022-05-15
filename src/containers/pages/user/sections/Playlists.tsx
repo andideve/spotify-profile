@@ -28,7 +28,7 @@ function Playlists({ items, title = 'Playlists', headingTag, max }: PlaylistsPro
         }
       />
       <AlbumList>
-        {items.map((playlist) => {
+        {list.map((playlist) => {
           const { images } = playlist;
           return (
             <AlbumItem
