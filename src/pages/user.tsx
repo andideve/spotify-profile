@@ -59,8 +59,8 @@ const User: NextPage = () => {
         setLoading(false);
       }
 
-      setTopArtists(await API.spotify.me.top({ type: 'artists' }));
-      setTopTracks(await API.spotify.me.top({ type: 'tracks' }));
+      setTopArtists(await API.spotify.me.top({ type: 'artists' }, { timeRange: 'short_term' }));
+      setTopTracks(await API.spotify.me.top({ type: 'tracks' }, { timeRange: 'short_term' }));
       setPlaylists(await API.spotify.users.playlists({ user_id: uid }));
       setFollowedArtists(await API.spotify.me.following({ type: 'artist' }));
     })();

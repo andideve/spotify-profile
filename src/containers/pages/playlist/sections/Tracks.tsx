@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { TracksTable, TracksTableRow } from '../../../organisms/TracksTable';
+import { TracksTable, TracksTableRow, DataLink } from '../../../organisms/TracksTable';
 
 import { PlaylistsData } from '../../../../services/api';
+import { SITE_PATHS } from '../../../../config/globals';
 
 function Tracks({ items }: { items: PlaylistsData['tracks']['items'] }) {
   return (
@@ -17,9 +18,12 @@ function Tracks({ items }: { items: PlaylistsData['tracks']['items'] }) {
               key={track.id}
               number={i + 1}
               title={track.name}
+              artistId={track.artists[0].id}
               artistName={track.artists[0].name}
               durationMs={track.duration_ms}
-              cellAddon={track.album.name}
+              cellAddon={
+                <DataLink to={SITE_PATHS.ALBUM(track.album.id)}>{track.album.name}</DataLink>
+              }
               image={{
                 as: 'picture',
                 children: (

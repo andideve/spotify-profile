@@ -19,7 +19,7 @@ const Tracks: NextPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        setTopTracks(await API.spotify.me.top({ type: 'tracks' }));
+        setTopTracks(await API.spotify.me.top({ type: 'tracks' }, { timeRange: 'short_term' }));
       } catch (err) {
         console.error(err);
       } finally {

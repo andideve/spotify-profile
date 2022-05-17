@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 import Image, { ImageProps } from '../../components/molecules/Image';
@@ -5,20 +6,25 @@ import Duration from '../../components/molecules/Duration';
 
 import { Box } from '../../components/atoms/box';
 import { Paragraph, Text, TextProps } from '../../components/atoms/typography';
-import { Table, TableRow } from '../../components/atoms/table';
+import { Table, TableRow, TableRowProps } from '../../components/atoms/table';
 import TimeCircle from '../../components/atoms/icons/TimeCircle';
 
 import media from '../../utils/media';
 import classes from '../../utils/classes';
+import createTransitions from '../../utils/transition';
 
-import { TOPBAR_HEIGHTS } from '../../config/globals';
+import { TOPBAR_HEIGHTS, SITE_PATHS } from '../../config/globals';
 
 const TableHead = Box.withComponent('thead');
+const Anchor = Box.withComponent('a');
 
+const HOVERABLE = true;
+
+const TABLE_ROW_HOVERABLE_CLASS = 'table-row-hoverable';
 const CELL_ADDON_CLASS = 'cell-addon';
 const DISABLED_HEAD_CLASS = 'head-inactive';
 
-const rowStyles = `
+const rowStyles = ({ theme }: TableRowProps) => `
   --cell-number-w: 16px;
   --cell-title-w: 4fr;
   --cell-duration-w: minmax(120px, 1fr);
@@ -35,6 +41,9 @@ const rowStyles = `
   table.${DISABLED_HEAD_CLASS} tbody > &:first-of-type {
     margin-top: 0;
   }
+  .TableRow__SecondaryText {
+    transition: ${createTransitions('color', { ms: 150 })};
+  }
   ${media('lg')} {
     grid-template-columns: var(--cell-number-w) var(--cell-title-w) var(--cell-duration-w);
     &.${CELL_ADDON_CLASS} {
@@ -43,6 +52,9 @@ const rowStyles = `
     &.${CELL_ADDON_CLASS} th:nth-of-type(3),
     &.${CELL_ADDON_CLASS} td:nth-of-type(3) {
       display: block;
+    }
+    &.${TABLE_ROW_HOVERABLE_CLASS}:hover .TableRow__SecondaryText {
+      color: ${theme?.colors.secondary.hovered};
     }
   }
 `;
@@ -57,13 +69,34 @@ function SecondaryText({ children, as, className, ...rest }: TextProps) {
 
 SecondaryText.defaultProps = { sx: undefined };
 
+export interface DataLinkProps {
+  to: string;
+  children?: string;
+}
+
+export function DataLink({ children, to }: DataLinkProps) {
+  return (
+    <Link href={to} passHref>
+      <Anchor
+        className="underlined"
+        sx={({ theme }) => ({ '&:focus': { color: theme?.colors.secondary.hovered } })}
+      >
+        {children}
+      </Anchor>
+    </Link>
+  );
+}
+
+DataLink.defaultProps = { children: undefined };
+
 export interface TracksTableRowProps {
   number: number;
   title: string;
   artistName: string;
   durationMs: number;
   image?: ImageProps;
-  cellAddon?: string;
+  cellAddon?: string | React.ReactElement;
+  artistId?: string | number;
 }
 
 export function TracksTableRow({
@@ -73,9 +106,14 @@ export function TracksTableRow({
   image,
   durationMs,
   cellAddon,
+  artistId,
 }: TracksTableRowProps) {
   return (
-    <TableRow className={cellAddon ? CELL_ADDON_CLASS : undefined} sx={rowStyles}>
+    <TableRow
+      className={classes([cellAddon && CELL_ADDON_CLASS, HOVERABLE && TABLE_ROW_HOVERABLE_CLASS])}
+      sx={rowStyles}
+      hoverable={HOVERABLE}
+    >
       <td className="color-secondary">{number}</td>
       <td>
         <Box
@@ -93,13 +131,19 @@ export function TracksTableRow({
             <Paragraph className="single-line-text" title={title}>
               {title}
             </Paragraph>
-            <SecondaryText>{artistName}</SecondaryText>
+            <SecondaryText className="TableRow__SecondaryText">
+              {artistId ? (
+                <DataLink to={SITE_PATHS.ARTIST(artistId)}>{artistName}</DataLink>
+              ) : (
+                artistName
+              )}
+            </SecondaryText>
           </Box>
         </Box>
       </td>
       {cellAddon && (
         <td>
-          <SecondaryText>{cellAddon}</SecondaryText>
+          <SecondaryText className="TableRow__SecondaryText">{cellAddon}</SecondaryText>
         </td>
       )}
       <td>
@@ -111,7 +155,7 @@ export function TracksTableRow({
   );
 }
 
-TracksTableRow.defaultProps = { image: undefined, cellAddon: undefined };
+TracksTableRow.defaultProps = { image: undefined, cellAddon: undefined, artistId: undefined };
 
 export interface TracksTablePropsOptions {
   head?: {
