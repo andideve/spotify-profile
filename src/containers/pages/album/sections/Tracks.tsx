@@ -13,6 +13,7 @@ function Tracks({ items }: { items: SingleAlbumData['tracks']['items'] }) {
             key={track.id}
             number={i + 1}
             title={track.name}
+            artistId={track.artists[0].id}
             artistName={track.artists[0].name}
             durationMs={track.duration_ms}
           />

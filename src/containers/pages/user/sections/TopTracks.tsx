@@ -5,11 +5,11 @@ import {
   TracksTable,
   TracksTablePropsOptions,
   TracksTableRow,
+  DataLink,
 } from '../../../organisms/TracksTable';
 
-import { SITE_PATHS } from '../../../../config/globals';
-
 import { MyTopTracksData } from '../../../../services/api';
+import { SITE_PATHS } from '../../../../config/globals';
 
 interface TopTracksProps extends TracksTablePropsOptions {
   items: MyTopTracksData['items'];
@@ -39,9 +39,12 @@ function TopTracks({ items, headingTag, max, ...options }: TopTracksProps) {
               key={track.id}
               number={i + 1}
               title={track.name}
+              artistId={track.artists[0].id}
               artistName={track.artists[0].name}
               durationMs={track.duration_ms}
-              cellAddon={track.album.name}
+              cellAddon={
+                <DataLink to={SITE_PATHS.ALBUM(track.album.id)}>{track.album.name}</DataLink>
+              }
               image={{
                 as: 'picture',
                 children: (
