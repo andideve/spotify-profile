@@ -1,10 +1,15 @@
 import React, { useMemo } from 'react';
 import styled from '@emotion/styled';
 
+import defaults from './defaults';
 import media from '../../../utils/media';
 import { styleFunction } from '../../../utils/with-sx-prop';
+import classes from '../../../utils/classes';
+import createTransitions from '../../../utils/transition';
 
 import { TableRowProps } from './types';
+
+const HOVERABLE_CLASS = 'hoverable';
 
 const styles = ({ theme, cols }: TableRowProps) => `
   display: grid;
@@ -13,9 +18,13 @@ const styles = ({ theme, cols }: TableRowProps) => `
   padding-right: 0.25rem;
   padding-left: 0.25rem;
   border-radius: 0.25rem;
+  transition: ${createTransitions('background-color', { ms: 100 })};
   ${media('lg')} {
     padding-right: 1rem;
     padding-left: 1rem;
+    &.${HOVERABLE_CLASS}:hover {
+      background-color: ${theme?.colors.card.hovered};
+    }
   }
   thead > & {
     padding-top: 0.525rem;
@@ -48,10 +57,18 @@ const styles = ({ theme, cols }: TableRowProps) => `
 const BaseTableRow = styled.tr<TableRowProps>(styles, styleFunction);
 
 const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
-  ({ children, cols: _cols, ...rest }, ref) => {
+  (
+    { children, className, cols: _cols = defaults.cols, hoverable = defaults.hoverable, ...rest },
+    ref,
+  ) => {
     const cols = useMemo(() => _cols || React.Children.toArray(children).length, [_cols, children]);
     return (
-      <BaseTableRow ref={ref} cols={cols} {...rest}>
+      <BaseTableRow
+        ref={ref}
+        className={classes([hoverable && HOVERABLE_CLASS, className])}
+        cols={cols}
+        {...rest}
+      >
         {children}
       </BaseTableRow>
     );
