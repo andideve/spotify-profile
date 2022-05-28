@@ -36,6 +36,12 @@ export type AlbumID = string;
 export type MyTopItemsTypes = 'artists' | 'tracks';
 export type MyFollowingTypes = 'artist';
 
+export interface SpotifyImage {
+  url: string;
+  height: number;
+  width: number;
+}
+
 // request or response
 
 export interface SpotifyError {
@@ -82,3 +88,26 @@ export interface RefreshAccessTokenBody {
 }
 
 export type RefreshAccessTokenResponse = BaseTokenResponse;
+
+export interface CurrentUserResponse {
+  country: string;
+  display_name: string;
+  email: string;
+  explicit_content: {
+    filter_enabled: boolean;
+    filter_locked: boolean;
+  };
+  external_urls: {
+    spotify: string;
+  };
+  followers: {
+    href: string;
+    total: number;
+  };
+  href: string;
+  id: UserID;
+  images: SpotifyImage[];
+  product: string;
+  type: string;
+  uri: string;
+}
