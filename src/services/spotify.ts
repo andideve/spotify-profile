@@ -10,7 +10,10 @@ import {
   AccessTokenResponse,
   RefreshAccessTokenBody,
   RefreshAccessTokenResponse,
+  CurrentUserResponse,
 } from '../types/spotify';
+
+export type { CurrentUserResponse };
 
 const BASIC = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
 
@@ -56,6 +59,15 @@ export async function refreshToken(arg: Omit<RefreshAccessTokenBody, 'grant_type
     },
     body: qs.stringify(body),
   }).then((res) => res.json() as Promise<RefreshAccessTokenResponse>);
+}
+
+export async function getMe({ access_token }: { access_token: string }) {
+  return fetch(SPOTIFY_ENDPOINTS.CURRENT_USER, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  }).then((res) => res.json() as Promise<CurrentUserResponse>);
 }
 
 const Spotify = new SpotifyApi({

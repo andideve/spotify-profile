@@ -1,6 +1,6 @@
 import type { NextApiHandler } from 'next';
 
-import Spotify from '../../../services/spotify';
+import * as Spotify from '../../../services/spotify';
 import refreshToken from '../../../services/api-middlewares/refresh-token';
 
 import runMiddleware from '../../../utils/api-middleware';
@@ -8,7 +8,7 @@ import spotifyErrors from '../../../utils/spotify-errors';
 
 import { SpotifyError } from '../../../types/spotify';
 
-export type MeData = SpotifyApi.CurrentUsersProfileResponse;
+export type MeData = Spotify.CurrentUserResponse;
 export type MeError = SpotifyError;
 
 const handler: NextApiHandler<MeData | MeError> = async (req, res) => {
@@ -18,10 +18,9 @@ const handler: NextApiHandler<MeData | MeError> = async (req, res) => {
   }
 
   const token = await runMiddleware(req, res, refreshToken);
-  Spotify.setAccessToken(token.access_token);
-  const response = await Spotify.getMe();
+  const response = await Spotify.getMe({ access_token: token.access_token });
 
-  res.status(200).json(response.body);
+  res.status(200).json(response);
 };
 
 export default handler;
