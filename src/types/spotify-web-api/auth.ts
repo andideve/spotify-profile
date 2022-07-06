@@ -1,3 +1,5 @@
+// https://developer.spotify.com/documentation/general/guides/authorization/scopes/
+
 export interface UserAuthParameter {
   client_id: string;
   response_type: 'code';
