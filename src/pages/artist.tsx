@@ -53,7 +53,7 @@ const Artist: NextPage = () => {
   }, [router.isReady, currentCountryCode]);
 
   return (
-    <Page title="Paterpan">
+    <Page title={data.artist?.name}>
       {!loading && !data.artist && <p className="color-secondary">Not Found</p>}
       {data.artistTopTracks.length ? (
         <Section>
