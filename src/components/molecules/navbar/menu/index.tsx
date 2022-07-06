@@ -69,7 +69,10 @@ function MenuItem({ to, label, Icon }: MenuWithIcon) {
   return (
     <li className="p-relative">
       <Link href={to} passHref>
-        <MenuAnchor className={clsx(active && 'active', 'overlay--after')}>
+        <MenuAnchor
+          aria-current={active ? 'page' : undefined}
+          className={clsx(active && 'active', 'overlay--after')}
+        >
           <Icon />
           <Text size="sm" fontWeight="bold" className="MenuAnchor__Text">
             {label}

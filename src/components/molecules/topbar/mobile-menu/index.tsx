@@ -35,7 +35,12 @@ function MenuItem({ label, to }: Menu) {
   return (
     <li className="p-relative">
       <Link href={to} passHref>
-        <MenuAnchor className={clsx(active && 'active', 'overlay--after')}>{label}</MenuAnchor>
+        <MenuAnchor
+          aria-current={active ? 'page' : undefined}
+          className={clsx(active && 'active', 'overlay--after')}
+        >
+          {label}
+        </MenuAnchor>
       </Link>
     </li>
   );
