@@ -47,9 +47,7 @@ export function TracksTableRow({
   const duration = useMemo(() => formatDuration(_duration), [_duration]);
   return (
     <tr>
-      <td className="color-secondary" style={{ width: tableConfig.numberColWidth }}>
-        {number}
-      </td>
+      <td style={{ width: tableConfig.numberColWidth }}>{number}</td>
       <td>
         <div className="d-flex items-center">
           {images.length ? (
