@@ -1,47 +1,62 @@
-import * as Spotify from '../spotify';
+import qs from 'query-string';
 
-import { MiddlewareFunction } from '../../utils/api-middleware';
+import fetchJson from '../../utils/fetch-json';
 
-import { TOKEN_VERSION } from '../../config/spotify';
 import {
-  ACCESS_TOKEN_NAME,
-  REFRESH_TOKEN_NAME,
-  TOKEN_VERSION_NAME,
-  createResetTokenCookies,
-  createTokenCookies,
-} from '../../config/cookies';
+  CLIENT_ID,
+  CLIENT_SECRET,
+  COOKIE_NAMES,
+  SPOTIFY_SCOPE_VERSION,
+  SPOTIFY_ENDPOINTS,
+} from '../../config/globals';
+import { cookiesReset, newCookies } from '../../config/cookies';
 
-type Data = {
-  access_token: string;
-};
+import type { MiddlewareFunction } from '../../utils/api-middleware';
+import {
+  RefreshAccessTokenBody,
+  RefreshAccessTokenResponse,
+} from '../../types/spotify-web-api/token-post';
 
-const refreshToken: MiddlewareFunction<Promise<Data>> = async (req, res) => {
+const BASIC = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
+
+type Data = { access_token: string | undefined };
+
+export const refreshToken: MiddlewareFunction<Promise<Data>> = async (req, res) => {
   const cookies = {
-    access_token: req.cookies[ACCESS_TOKEN_NAME],
-    refresh_token: req.cookies[REFRESH_TOKEN_NAME],
-    token_version: req.cookies[TOKEN_VERSION_NAME],
+    token_version: req.cookies[COOKIE_NAMES.TOKEN_VERSION] || '',
+    access_token: req.cookies[COOKIE_NAMES.ACCESS_TOKEN] || '',
+    refresh_token: req.cookies[COOKIE_NAMES.REFRESH_TOKEN] || '',
   };
 
-  if (Number(cookies.token_version) !== TOKEN_VERSION) {
-    res.setHeader('Set-Cookie', createResetTokenCookies());
-    return { access_token: cookies.access_token };
+  if (SPOTIFY_SCOPE_VERSION !== Number(cookies.token_version)) {
+    res.setHeader('Set-Cookie', cookiesReset);
+    return { access_token: undefined };
   }
 
-  if (!cookies.access_token && cookies.refresh_token) {
-    const token = await Spotify.refreshToken({ refresh_token: cookies.refresh_token });
-
-    const newCookies = createTokenCookies({
-      access_token: token.access_token,
+  if (cookies.refresh_token) {
+    const body: RefreshAccessTokenBody = {
+      grant_type: 'refresh_token',
       refresh_token: cookies.refresh_token,
-      expires_in: token.expires_in,
+    };
+    const token = await fetchJson<RefreshAccessTokenResponse>(SPOTIFY_ENDPOINTS.TOKEN, {
+      method: 'POST',
+      headers: {
+        Authorization: `Basic ${BASIC}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: qs.stringify(body),
     });
-
-    res.setHeader('Set-Cookie', newCookies);
+    res.setHeader(
+      'Set-Cookie',
+      newCookies({
+        access_token: token.access_token,
+        refresh_token: cookies.refresh_token,
+        expires_in: token.expires_in,
+      }),
+    );
 
     return { access_token: token.access_token };
   }
 
   return { access_token: cookies.access_token };
 };
-
-export default refreshToken;

@@ -1,44 +1,28 @@
-import { TOKEN_VERSION } from './spotify';
+/* eslint-disable camelcase */
+import { COOKIE_NAMES, SPOTIFY_SCOPE_VERSION } from './globals';
+import { createExpires } from '../utils/cookie';
 
-import { createCookie } from '../utils/cookie';
-import { CookieOptions } from '../types/cookie';
+const options = 'Path=/;SameSite=Strict;Secure;HttpOnly;';
 
-export const TOKEN_VERSION_NAME = 'token_version';
-export const ACCESS_TOKEN_NAME = 'access_token';
-export const REFRESH_TOKEN_NAME = 'refresh_token';
+export const cookiesReset = [
+  [`${COOKIE_NAMES.TOKEN_VERSION}=`, options].join(';'),
+  [`${COOKIE_NAMES.ACCESS_TOKEN}=`, options].join(';'),
+  [`${COOKIE_NAMES.REFRESH_TOKEN}=`, options].join(';'),
+];
 
-const cookieOptions: CookieOptions = {
-  path: '/',
-  sameSite: 'Strict',
-  secure: true,
-  httpOnly: true,
-};
-
-export interface TokenOptions {
+export function newCookies({
+  access_token,
+  refresh_token,
+  expires_in,
+}: {
   access_token: string;
   refresh_token: string;
   expires_in: number;
+}) {
+  const expires = `Expires=${createExpires(86400 + expires_in)}`;
+  return [
+    [`${COOKIE_NAMES.TOKEN_VERSION}=${SPOTIFY_SCOPE_VERSION}`, options, expires].join(';'),
+    [`${COOKIE_NAMES.ACCESS_TOKEN}=${access_token}`, options, expires].join(';'),
+    [`${COOKIE_NAMES.REFRESH_TOKEN}=${refresh_token}`, options, expires].join(';'),
+  ];
 }
-
-export const createTokenCookies = (token: TokenOptions) => [
-  createCookie(ACCESS_TOKEN_NAME, token.access_token, {
-    ...cookieOptions,
-    expires: token.expires_in,
-  }),
-  createCookie(REFRESH_TOKEN_NAME, token.refresh_token, {
-    ...cookieOptions,
-    // set expires to be 1 week + `token.expires_in`
-    // it will be reset after requesting to the refresh token api
-    expires: 86400 * 1 + token.expires_in,
-  }),
-  createCookie(TOKEN_VERSION_NAME, TOKEN_VERSION.toString(), {
-    ...cookieOptions,
-    expires: 86400 * 1 + token.expires_in, // same as `refresh_token` expires
-  }),
-];
-
-export const createResetTokenCookies = () => [
-  createCookie(ACCESS_TOKEN_NAME, '', cookieOptions),
-  createCookie(REFRESH_TOKEN_NAME, '', cookieOptions),
-  createCookie(TOKEN_VERSION_NAME, '', cookieOptions),
-];

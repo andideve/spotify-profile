@@ -1,7 +1,3 @@
-export interface GeonamesError {
-  message: string;
-}
-
 export interface GeonamesAuthParameter {
   username: string;
 }

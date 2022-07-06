@@ -1,37 +1,42 @@
 import type { NextApiHandler } from 'next';
+import qs from 'query-string';
 
-import Geonames, {
+import fetchJson from '../../../utils/fetch-json';
+
+import { GEONAMES_USERNAME } from '../../../config/globals';
+
+import {
+  CountryCodeParameter,
   RequiredCountryCodeParameter,
   CountryCodeResponse,
-} from '../../../services/geonames';
-import { GeonamesError } from '../../../types/geonames';
+} from '../../../types/geonames';
+import { ErrorResponse } from '../../../types/api';
 
-export type { RequiredCountryCodeParameter };
+export type { RequiredCountryCodeParameter, CountryCodeResponse };
 
-export type CountryCodeParameter = RequiredCountryCodeParameter;
-export type CountryCodeData = CountryCodeResponse;
-export type CountryCodeError = GeonamesError;
+type Data = CountryCodeResponse;
 
-const handler: NextApiHandler<CountryCodeData | CountryCodeError> = async (req, res) => {
+const handler: NextApiHandler<Data | ErrorResponse> = async (req, res) => {
   if (req.method !== 'GET') {
-    res.status(404);
+    res.status(404).json({ message: 'Not Found' });
     return;
   }
 
-  const query = req.query as Partial<CountryCodeParameter>;
+  const { lat, lng } = req.query as Partial<RequiredCountryCodeParameter>;
 
-  if (!(typeof query.lat === 'string' && typeof query.lng === 'string')) {
-    res.status(400).json({
-      message: 'Provide `lat` and `lng` as query parameter',
-    });
+  if (!(typeof lat === 'string' && typeof lng === 'string')) {
+    res.status(400).json({ message: 'Missing required parameter: lat or lng' });
     return;
   }
 
   try {
-    const response = await Geonames.countryCode({ lat: query.lat, lng: query.lng });
-    res.status(200).json(response);
+    const parameter: CountryCodeParameter = { username: GEONAMES_USERNAME, lat, lng };
+    const data = await fetchJson<Data>(
+      `http://api.geonames.org/countryCodeJSON?${qs.stringify(parameter)}`,
+    );
+    res.json(data);
   } catch (err) {
-    res.status(500).json({ message: 'Error happened' });
+    res.status(500).json({ message: String(err) });
   }
 };
 

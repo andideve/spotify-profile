@@ -1,109 +1,75 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import Page from '../containers/templates/Page';
-import Section from '../containers/templates/Section';
+import Page, { Section } from '../containers/templates/Page';
 
-import {
-  PopularSection,
-  PopularReleasesSection,
-  AlbumSection,
-} from '../containers/pages/artist/sections';
+import { TracksTable, TracksTableRow } from '../containers/organisms/tables/tracks';
 
-import { Container } from '../components/atoms/container';
-import { Box } from '../components/atoms/box';
+import SectionHead from '../components/molecules/section-head';
 
-import API, { SingleArtistData, ArtistTopTracksData, ArtistAlbumsData } from '../services/api';
+import useCurrentCountryCode from '../hooks/useCurrentCountryCode';
 
-import geolocationAsync from '../utils/geolocation-async';
-import { SITE_PATHS } from '../config/globals';
+import { API, ArtistResponse, ArtistTopTracksResponse } from '../services/api';
 
-const BaseSection = Box.withComponent('section');
-
-type ArtistTopTrack = ArtistTopTracksData['tracks'][0];
-
-function getPopularReleases(tracks: ArtistTopTrack[] = []): ArtistTopTrack['album'][] {
-  const obj: Record<ArtistTopTrack['album']['id'], ArtistTopTrack> = {};
-  tracks.forEach((track) => {
-    obj[track.album.id] = track;
-  });
-
-  return Object.values(obj).map((track) => track.album);
+interface PageData {
+  artist: ArtistResponse | null;
+  artistTopTracks: ArtistTopTracksResponse['tracks'];
 }
 
 const Artist: NextPage = () => {
   const [loading, setLoading] = useState(true);
-  const [artist, setArtist] = useState<SingleArtistData>();
-  const [topTracks, setTopTracks] = useState<ArtistTopTracksData>();
-  const [albums, setAlbums] = useState<ArtistAlbumsData>();
+  const [data, setData] = useState<PageData>({ artist: null, artistTopTracks: [] });
 
   const router = useRouter();
+  const currentCountryCode = useCurrentCountryCode();
 
-  const popularReleases = useMemo(() => getPopularReleases(topTracks?.tracks), [topTracks]);
+  const fetchData = async ({ id, countryCode }: { id: string; countryCode: string }) => {
+    const artist = await API.getArtist({ id });
+    const artistTopTracks = await API.getArtistTopTracks({ id, market: countryCode });
+
+    const pageData: PageData = {
+      artist,
+      artistTopTracks: artistTopTracks.tracks,
+    };
+
+    return pageData;
+  };
 
   useEffect(() => {
-    if (!router.isReady) return;
-
     const { id } = router.query;
 
-    if (typeof id !== 'string') {
-      router.push(SITE_PATHS.USER_DASHBOARD);
+    if (!router.isReady || !currentCountryCode || !(typeof id === 'string')) {
       return;
     }
 
     (async () => {
       try {
-        setArtist(await API.spotify.artists.single({ id }));
-      } catch (err) {
-        console.error(err);
+        setData(await fetchData({ id, countryCode: currentCountryCode }));
       } finally {
         setLoading(false);
       }
-
-      if ('geolocation' in window.navigator) {
-        const { coords } = await geolocationAsync.getCurrentPosition();
-        const { countryCode } = await API.geonames.countryCode({
-          lat: coords.latitude,
-          lng: coords.longitude,
-        });
-        setTopTracks(await API.spotify.artists.topTracks({ country: countryCode, artist_id: id }));
-      }
-
-      setAlbums(await API.spotify.artists.albums({ artist_id: id }));
     })();
-  }, [router.isReady]);
-
-  // TODO
-  if (loading || !artist) return <Page />;
+  }, [router.isReady, currentCountryCode]);
 
   return (
-    <Page
-      title={artist.name}
-      head={{
-        title: artist.name,
-        stats: <span>{artist.popularity}% popularity</span>,
-      }}
-    >
-      {topTracks?.tracks.length ? (
-        <BaseSection>
-          <Container>
-            <PopularSection items={topTracks.tracks} />
-          </Container>
-        </BaseSection>
-      ) : null}
-      {popularReleases.length ? (
+    <Page title="Paterpan">
+      {!loading && !data.artist && <p className="color-secondary">Not Found</p>}
+      {data.artistTopTracks.length ? (
         <Section>
-          <Container>
-            <PopularReleasesSection items={popularReleases} />
-          </Container>
-        </Section>
-      ) : null}
-      {albums?.items.length ? (
-        <Section>
-          <Container>
-            <AlbumSection items={albums.items} />
-          </Container>
+          <SectionHead title="Artist Top Tracks" description="Based on your location" />
+          <TracksTable cols={['Listeners']} disableHead>
+            {data.artistTopTracks.map((topTrack, i) => (
+              <TracksTableRow
+                key={topTrack.id}
+                number={i + 1}
+                images={topTrack.album.images}
+                title={topTrack.name}
+                duration={topTrack.duration_ms}
+                cols={['TODO']}
+              />
+            ))}
+          </TracksTable>
         </Section>
       ) : null}
     </Page>
@@ -111,4 +77,3 @@ const Artist: NextPage = () => {
 };
 
 export default Artist;
-

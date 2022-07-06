@@ -1,83 +1,65 @@
+/* eslint-disable camelcase */
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import Page from '../containers/templates/Page';
+import Page, { Section } from '../containers/templates/Page';
 
-import { TracksSection } from '../containers/pages/playlist/sections';
+import { TracksTable, TracksTableRow } from '../containers/organisms/tables/tracks';
 
-import Duration from '../components/molecules/Duration';
+import SectionHead from '../components/molecules/section-head';
 
-import { Container } from '../components/atoms/container';
-import { Box } from '../components/atoms/box';
+import { formatDateAdded } from '../utils/date-formatter';
 
-import API, { SinglePlaylistData } from '../services/api';
-import { SITE_PATHS } from '../config/globals';
-
-const BaseSection = Box.withComponent('section');
+import { API, PlaylistResponse } from '../services/api';
 
 const Playlist: NextPage = () => {
   const [loading, setLoading] = useState(true);
-  const [playlist, setPlaylist] = useState<SinglePlaylistData>();
+  const [playlist, setPlaylist] = useState<PlaylistResponse>();
 
   const router = useRouter();
 
-  const totalDurations = useMemo(() => {
-    if (!playlist?.tracks.items.length) {
-      return 0;
-    }
-    return playlist.tracks.items.reduce((prev, e) => prev + (e.track?.duration_ms || 0), 0);
-  }, [playlist]);
+  const fetchData = async (id: string) => API.getPlaylist({ playlist_id: id });
 
   useEffect(() => {
-    if (!router.isReady) return;
-
     const { id } = router.query;
 
-    if (typeof id !== 'string') {
-      router.push(SITE_PATHS.USER_DASHBOARD);
+    if (!router.isReady || !(typeof id === 'string')) {
       return;
     }
 
     (async () => {
       try {
-        setPlaylist(await API.spotify.playlists.single({ id }));
-      } catch (err) {
-        console.error(err);
+        setPlaylist(await fetchData(id));
       } finally {
         setLoading(false);
       }
     })();
   }, [router.isReady]);
 
-  // TODO
-  if (loading || !playlist) return <Page />;
+  const formatDateAddedCb = useCallback(formatDateAdded, []);
 
   return (
-    <Page
-      title={playlist.name}
-      head={{
-        category: 'Playlist',
-        title: playlist.name,
-        image: { src: playlist.images[0].url },
-        stats: (
-          <>
-            <Box as="span" sx={{ fontWeight: 500 }}>
-              {playlist.owner.display_name}
-            </Box>
-            <span>
-              {playlist.tracks.total} song{playlist.tracks.total > 1 ? 's' : ''},&nbsp;
-              <Duration className="color-secondary" ms={totalDurations} />
-            </span>
-          </>
-        ),
-      }}
-    >
-      <BaseSection>
-        <Container>
-          <TracksSection items={playlist.tracks.items} />
-        </Container>
-      </BaseSection>
+    <Page title={playlist?.name}>
+      {!loading && !playlist && <p className="color-secondary">Not Found</p>}
+      {playlist && (
+        <Section>
+          <SectionHead title={playlist.name} />
+          <TracksTable cols={['Album', 'Date Added']}>
+            {playlist.tracks.items.map(({ added_at, track }, i) => (
+              <TracksTableRow
+                key={track.id}
+                number={i + 1}
+                images={track.album.images}
+                title={track.name}
+                artist={track.artists[0].name}
+                duration={track.duration_ms}
+                cols={[track.album.name, formatDateAddedCb(added_at)]}
+              />
+            ))}
+          </TracksTable>
+        </Section>
+      )}
     </Page>
   );
 };

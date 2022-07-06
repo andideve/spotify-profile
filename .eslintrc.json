@@ -21,15 +21,15 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+    "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
     "import/extensions": [1, { "js": "never", "ts": "never", "tsx": "never" }],
-    "import/prefer-default-export": 0,
     "react/function-component-definition": 0,
-    "react/jsx-props-no-spreading": 0,
-    "react/no-array-index-key": 0,
-    "react/prop-types": 0,
     "no-unused-vars": 0,
-    "no-console": 0
+    "no-console": 0,
+    "import/prefer-default-export": 0,
+    "react/jsx-props-no-spreading": 0,
+    "react/prop-types": 0,
+    "react/no-array-index-key": 0
   },
   "settings": {
     "import/resolver": {
@@ -39,7 +39,6 @@
     }
   },
   "globals": {
-    "JSX": "readonly",
-    "SpotifyApi": "readonly"
+    "JSX": "readonly"
   }
 }

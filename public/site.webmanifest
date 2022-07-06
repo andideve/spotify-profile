@@ -17,5 +17,5 @@
   "background_color": "#121212",
   "display": "standalone",
   "theme_color": "#FFFFFF",
-  "description": "Spotify Profile built using Next.js"
+  "description": "Spotify client built using Next.js"
 }
