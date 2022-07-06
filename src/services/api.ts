@@ -1,185 +1,105 @@
 import qs from 'query-string';
 
+import fetchJson from '../utils/fetch-json';
+
+import type {
+  RequiredCountryCodeParameter,
+  CountryCodeResponse,
+} from '../pages/api/geonames/country-code';
 import type { LoginParameter, LoginData } from '../pages/api/login';
 import type { LogoutData } from '../pages/api/logout';
-import type { MeData } from '../pages/api/spotify/me';
+import type { CurrentUserProfile } from '../pages/api/me';
 import type {
   MyTopItemsParameter,
-  RequiredMyTopItemsParameter,
   OptionalMyTopItemsParameter,
-  MyTopItemsData,
-  MyTopTracksData,
-  MyTopArtistsData,
-} from '../pages/api/spotify/me/top';
+  MyTopArtistsResponse,
+  MyTopTracksResponse,
+} from '../pages/api/me/top';
 import type {
-  UserPlaylistsParameter,
-  RequiredUserPlaylistsParameter,
-  UserPlaylistsData,
-} from '../pages/api/spotify/users/playlists';
+  OptionalCurrentUserPlaylistsParameter,
+  CurrentUserPlaylistsResponse,
+} from '../pages/api/me/playlists';
 import type {
-  MyFollowingParameter,
-  RequiredMyFollowingParameter,
-  MyFollowingData,
-  MyFollowingArtistsData,
-} from '../pages/api/spotify/me/following';
+  MyFollowedArtistsParameter,
+  OptionalMyFollowedArtistsParameter,
+  MyFollowedArtistsResponse,
+} from '../pages/api/me/following';
+import type { OptionalMySavedAlbumsParameter, MySavedAlbumsResponse } from '../pages/api/me/albums';
 import type {
-  PlaylistsParameter,
-  RequiredSinglePlaylistParameter,
-  PlaylistsData,
-  SinglePlaylistData,
-} from '../pages/api/spotify/playlists';
-import type {
-  ArtistsParameter,
-  RequiredSingleArtistParameter,
-  ArtistsData,
-  SingleArtistData,
-} from '../pages/api/spotify/artists';
+  PlaylistParameter,
+  RequiredPlaylistPathParameter,
+  OptionalPlaylistParameter,
+  PlaylistResponse,
+} from '../pages/api/playlists';
+import type { RequiredArtistPathParameter, ArtistResponse } from '../pages/api/artists';
 import type {
   ArtistTopTracksParameter,
-  RequiredArtistTopTracksParameter,
-  ArtistTopTracksData,
-} from '../pages/api/spotify/artists/top-tracks';
+  ArtistTopTracksResponse,
+} from '../pages/api/artists/top-tracks';
 import type {
-  CountryCodeParameter,
-  RequiredCountryCodeParameter,
-  CountryCodeData,
-} from '../pages/api/geonames/country-code';
-import type {
-  ArtistAlbumsParameter,
-  RequiredArtistAlbumsParameter,
-  ArtistAlbumsData,
-} from '../pages/api/spotify/artists/albums';
-import type {
-  AlbumsParameter,
-  RequiredSingleAlbumParameter,
-  AlbumsData,
-  SingleAlbumData,
-} from '../pages/api/spotify/albums';
-import type { MySavedAlbumsData } from '../pages/api/spotify/me/albums';
+  AlbumParameter,
+  RequiredAlbumPathParameter,
+  OptionalAlbumParameter,
+  AlbumResponse,
+} from '../pages/api/albums';
 
-export type { LoginParameter, LoginData };
-export type { LogoutData };
-export type { MeData };
-export type {
-  MyTopItemsParameter,
-  RequiredMyTopItemsParameter,
-  OptionalMyTopItemsParameter,
-  MyTopItemsData,
-  MyTopTracksData,
-  MyTopArtistsData,
-};
-export type { UserPlaylistsParameter, RequiredUserPlaylistsParameter, UserPlaylistsData };
-export type {
-  MyFollowingParameter,
-  RequiredMyFollowingParameter,
-  MyFollowingData,
-  MyFollowingArtistsData,
-};
-export type {
-  PlaylistsParameter,
-  RequiredSinglePlaylistParameter,
-  PlaylistsData,
-  SinglePlaylistData,
-};
-export type { ArtistsParameter, RequiredSingleArtistParameter, ArtistsData, SingleArtistData };
-export type { ArtistTopTracksParameter, RequiredArtistTopTracksParameter, ArtistTopTracksData };
-export type { CountryCodeParameter, RequiredCountryCodeParameter, CountryCodeData };
-export type { ArtistAlbumsParameter, RequiredArtistAlbumsParameter, ArtistAlbumsData };
-export type { AlbumsParameter, RequiredSingleAlbumParameter, AlbumsData, SingleAlbumData };
-export type { MySavedAlbumsData };
+export type { CountryCodeResponse };
+export type { CurrentUserProfile };
+export type { MyTopArtistsResponse, MyTopTracksResponse };
+export type { CurrentUserPlaylistsResponse };
+export type { MyFollowedArtistsResponse };
+export type { MySavedAlbumsResponse };
+export type { PlaylistResponse };
+export type { ArtistResponse };
+export type { ArtistTopTracksResponse };
+export type { AlbumResponse };
 
-async function login(parameter: LoginParameter) {
-  return fetch(`/api/login?${qs.stringify(parameter)}`).then(
-    (res) => res.json() as Promise<LoginData>,
-  );
-}
-
-async function logout() {
-  return fetch('/api/logout', { method: 'POST' }).then((res) => res.json() as Promise<LogoutData>);
-}
-
-const spotify = {
+export const API = {
+  async getCountryCode(parameter: RequiredCountryCodeParameter) {
+    return fetchJson<CountryCodeResponse>(`/api/geonames/country-code?${qs.stringify(parameter)}`);
+  },
+  async login(parameter: LoginParameter) {
+    return fetchJson<LoginData>(`/api/login?${qs.stringify(parameter)}`);
+  },
+  async logout() {
+    return fetchJson<LogoutData>('/api/logout', { method: 'POST' });
+  },
   async getMe() {
-    return fetch('/api/spotify/me').then((res) => res.json() as Promise<MeData>);
+    return fetchJson<CurrentUserProfile>('/api/me');
   },
-
-  me: {
-    async top<T = MyTopItemsData>(
-      parameter: RequiredMyTopItemsParameter,
-      options: OptionalMyTopItemsParameter = {},
-    ) {
-      const allParameter: MyTopItemsParameter = { ...parameter, ...options };
-      return fetch(`/api/spotify/me/top?${qs.stringify(allParameter)}`).then(
-        (res) => res.json() as Promise<T>,
-      );
-    },
-
-    async following<T = MyFollowingData>(parameter: RequiredMyFollowingParameter) {
-      return fetch(`/api/spotify/me/following?${qs.stringify(parameter)}`).then(
-        (res) => res.json() as Promise<T>,
-      );
-    },
-
-    async albums() {
-      return fetch('/api/spotify/me/albums').then(
-        (res) => res.json() as Promise<MySavedAlbumsData>,
-      );
-    },
+  async getMyTopArtists(options: Omit<OptionalMyTopItemsParameter, 'type'> = {}) {
+    const parameter: MyTopItemsParameter = { type: 'artists', ...options };
+    return fetchJson<MyTopArtistsResponse>(`/api/me/top?${qs.stringify(parameter)}`);
   },
-
-  users: {
-    async playlists(parameter: RequiredUserPlaylistsParameter) {
-      return fetch(`/api/spotify/users/playlists?${qs.stringify(parameter)}`).then(
-        (res) => res.json() as Promise<UserPlaylistsData>,
-      );
-    },
+  async getMyTopTracks(options: Omit<OptionalMyTopItemsParameter, 'type'> = {}) {
+    const parameter: MyTopItemsParameter = { type: 'tracks', ...options };
+    return fetchJson<MyTopTracksResponse>(`/api/me/top?${qs.stringify(parameter)}`);
   },
-
-  playlists: {
-    async single(parameter: RequiredSinglePlaylistParameter) {
-      return fetch(`/api/spotify/playlists?${qs.stringify(parameter)}`).then(
-        (res) => res.json() as Promise<SinglePlaylistData>,
-      );
-    },
+  async getMyPlaylists(options: OptionalCurrentUserPlaylistsParameter = {}) {
+    return fetchJson<CurrentUserPlaylistsResponse>(`/api/me/playlists?${qs.stringify(options)}`);
   },
-
-  artists: {
-    async single(parameter: RequiredSingleArtistParameter) {
-      return fetch(`/api/spotify/artists?${qs.stringify(parameter)}`).then(
-        (res) => res.json() as Promise<SingleArtistData>,
-      );
-    },
-
-    async topTracks(parameter: RequiredArtistTopTracksParameter) {
-      return fetch(`/api/spotify/artists/top-tracks?${qs.stringify(parameter)}`).then(
-        (res) => res.json() as Promise<ArtistTopTracksData>,
-      );
-    },
-
-    async albums(parameter: RequiredArtistAlbumsParameter) {
-      return fetch(`/api/spotify/artists/albums?${qs.stringify(parameter)}`).then(
-        (res) => res.json() as Promise<ArtistAlbumsData>,
-      );
-    },
+  async getMyFollowedArtists(options: OptionalMyFollowedArtistsParameter = {}) {
+    const parameter: MyFollowedArtistsParameter = { type: 'artist', ...options };
+    return fetchJson<MyFollowedArtistsResponse>(`/api/me/following?${qs.stringify(parameter)}`);
   },
-
-  albums: {
-    async single(parameter: RequiredSingleAlbumParameter) {
-      return fetch(`/api/spotify/albums?${qs.stringify(parameter)}`).then(
-        (res) => res.json() as Promise<SingleAlbumData>,
-      );
-    },
+  async getMySavedAlbums(options: OptionalMySavedAlbumsParameter = {}) {
+    return fetchJson<MySavedAlbumsResponse>(`/api/me/albums?${qs.stringify(options)}`);
+  },
+  async getPlaylist(
+    parameter: RequiredPlaylistPathParameter,
+    options: OptionalPlaylistParameter = {},
+  ) {
+    const allParameter: PlaylistParameter = { ...parameter, ...options };
+    return fetchJson<PlaylistResponse>(`/api/playlists?${qs.stringify(allParameter)}`);
+  },
+  async getArtist(parameter: RequiredArtistPathParameter) {
+    return fetchJson<ArtistResponse>(`/api/artists?${qs.stringify(parameter)}`);
+  },
+  async getArtistTopTracks(parameter: ArtistTopTracksParameter) {
+    return fetchJson<ArtistTopTracksResponse>(`/api/artists/top-tracks?${qs.stringify(parameter)}`);
+  },
+  async getAlbum(parameter: RequiredAlbumPathParameter, options: OptionalAlbumParameter = {}) {
+    const allParameter: AlbumParameter = { ...parameter, ...options };
+    return fetchJson<AlbumResponse>(`/api/albums?${qs.stringify(allParameter)}`);
   },
 };
-
-const geonames = {
-  async countryCode(parameter: RequiredCountryCodeParameter) {
-    return fetch(`/api/geonames/country-code?${qs.stringify(parameter)}`).then(
-      (res) => res.json() as Promise<CountryCodeData>,
-    );
-  },
-};
-
-const API = { login, logout, spotify, geonames };
-
-export default API;

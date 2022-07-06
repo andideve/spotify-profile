@@ -1,60 +1,71 @@
-const ARTIST_PATH = '/artist';
-const PLAYLIST_PATH = '/playlist';
-const ALBUM_PATH = '/album';
+import qs from 'query-string';
+import { createScope } from '../utils/spotify';
+import { UserAuthParameter } from '../types/spotify-web-api/auth';
+
+// Env
+
+export const CLIENT_ID = process.env.CLIENT_ID || '';
+export const CLIENT_SECRET = process.env.CLIENT_SECRET || '';
+export const REDIRECT_URI = process.env.REDIRECT_URI || '';
+export const GEONAMES_USERNAME = process.env.GEONAMES_USERNAME || '';
+
+// Site
 
 export const SITE_PATHS = {
   LOGIN_DASHBOARD: '/',
-  LOGIN_SPOTIFY: '/login',
+  SPOTIFY_LOGIN: '/login',
   USER_DASHBOARD: '/user',
-  USER_TOP_ARTISTS: '/user/top/artists',
-  USER_TOP_TRACKS: '/user/top/tracks',
-  USER_FOLLOWING: '/user/following',
-  USER_PLAYLISTS: '/user/playlists',
-  ARTIST: (id: string | number) => `${ARTIST_PATH}?id=${id}`,
-  PLAYLIST: (id: string | number) => `${PLAYLIST_PATH}?id=${id}`,
-  ALBUM: (id: string | number) => `${ALBUM_PATH}?id=${id}`,
-  COLLECTION: '/collection',
-  PLAYLIST_COLLECTIONS: '/collection/playlists',
-  ARTIST_COLLECTIONS: '/collection/artists',
-  ALBUM_COLLECTIONS: '/collection/albums',
+  PROFILE: '/user',
+  PLAYLISTS: '/user/collection/playlists',
+  ARTISTS: '/user/collection/artists',
+  ALBUMS: '/user/collection/albums',
+  TOP_ARTISTS: '/user/top/artists',
+  TOP_TRACKS: '/user/top/tracks',
+  ARTIST: (id: string | number) => `/artist?id=${id}`,
+  PLAYLIST: (id: string | number) => `/playlist?id=${id}`,
+  ALBUM: (id: string | number) => `/album?id=${id}`,
 };
 
-export const PROTECTED_PATHS = [
-  SITE_PATHS.USER_DASHBOARD,
-  SITE_PATHS.USER_TOP_TRACKS,
-  SITE_PATHS.USER_FOLLOWING,
-  SITE_PATHS.USER_PLAYLISTS,
-  ARTIST_PATH,
-  PLAYLIST_PATH,
-  ALBUM_PATH,
-  SITE_PATHS.COLLECTION,
-  SITE_PATHS.PLAYLIST_COLLECTIONS,
-  SITE_PATHS.ARTIST_COLLECTIONS,
-  SITE_PATHS.ALBUM_COLLECTIONS,
-];
+export const PROTECTED_PATHS = ['/user', '/artist', '/playlist', '/album'];
 
-export const COLLECTION_TOP_NAVS = [
-  { to: SITE_PATHS.PLAYLIST_COLLECTIONS, label: 'Playlists' },
-  { to: SITE_PATHS.ARTIST_COLLECTIONS, label: 'Artists' },
-  { to: SITE_PATHS.ALBUM_COLLECTIONS, label: 'Albums' },
-];
+// UI
 
-export const USER_SITE_PATHS = [
-  SITE_PATHS.USER_DASHBOARD,
-  SITE_PATHS.USER_TOP_TRACKS,
-  SITE_PATHS.USER_FOLLOWING,
-  SITE_PATHS.USER_PLAYLISTS,
-];
+export const NAVBAR_LG_WIDTHS = 250;
+export const NAVBAR_HEIGHTS = 64;
+export const TOPBAR_HEIGHTS = 64;
 
-export const COLLECTION_SITE_PATHS = [
-  SITE_PATHS.COLLECTION,
-  SITE_PATHS.PLAYLIST_COLLECTIONS,
-  SITE_PATHS.ARTIST_COLLECTIONS,
-  SITE_PATHS.ALBUM_COLLECTIONS,
-];
+// Spotify
 
-export const NAVBAR_LG_WIDTHS = 100;
-export const NAVBAR_HEIGHTS = 74;
-export const TOPBAR_HEIGHTS = 66;
+export const SPOTIFY_SCOPE_VERSION = 4;
+export const SPOTIFY_AUTH_SCOPES = createScope([
+  'user-read-email',
+  'user-read-private',
+  'user-follow-read',
+  'user-top-read',
+  'playlist-read-private',
+  'user-library-read',
+]);
 
-export const LOCAL_UID_KEY = 'uid';
+export const SPOTIFY_BASE_URI = 'https://api.spotify.com/v1';
+
+export const SPOTIFY_ENDPOINTS = {
+  TOKEN: 'https://accounts.spotify.com/api/token',
+};
+
+export function SPOTIFY_AUTH_URL(parameter: UserAuthParameter) {
+  return `https://accounts.spotify.com/authorize?${qs.stringify(parameter)}`;
+}
+
+export function SPOTIFY_SIGNUP_URL(forwardUrl: string) {
+  return `https://www.spotify.com/id/signup?${qs.stringify({ forward_url: forwardUrl })}`;
+}
+
+export const SPOTIFY_ACCOUNT_URL = 'https://www.spotify.com/id/account/overview/';
+
+// Cookies
+
+export const COOKIE_NAMES = {
+  TOKEN_VERSION: 'token_version',
+  ACCESS_TOKEN: 'access_token',
+  REFRESH_TOKEN: 'refresh_token',
+};

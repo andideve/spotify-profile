@@ -1,50 +1,25 @@
+import NextHead from 'next/head';
 import React from 'react';
 
-import { Box, BoxProps } from '../../components/atoms/box';
-import media from '../../utils/media';
+export interface HeadProps {
+  title?: string;
+  description?: string;
+}
 
-export default function Head({ children, ...rest }: Omit<BoxProps, 'sx'>) {
+function Head({ title, description }: HeadProps) {
   return (
-    <>
-      <Box
-        sx={{
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-end',
-          padding: '1.5rem 4vw',
-          minHeight: 340,
-          [media('lg')]: { paddingRight: '2vw', paddingLeft: '2vw' },
-        }}
-        {...rest}
-      >
-        {/* Head background */}
-        <Box
-          sx={({ theme }) => ({
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            backgroundColor: theme?.colors.card.default,
-            backgroundImage: `linear-gradient(transparent 0, hsla(0, 0%, 0%, .5) 100%)`,
-            zIndex: -1,
-          })}
-        />
-        {children}
-      </Box>
-      {/* Gradient bottom */}
-      <Box
-        sx={({ theme }) => ({
-          position: 'absolute',
-          right: 0,
-          left: 0,
-          height: 232,
-          backgroundColor: theme?.colors.card.default,
-          backgroundImage: `linear-gradient(hsla(0, 0%, 0%, .6) 0, ${theme?.colors.body.background} 100%)`,
-          zIndex: -1,
-        })}
-      />
-    </>
+    <NextHead>
+      <title>{title}</title>
+      {description && <meta name="description" content={description} />}
+      <link rel="icon" href="/favicons/favicon.ico" type="image/x-icon" />
+      <link rel="icon" href="/favicons/favicon-16x16.png" type="image/png" />
+      <link rel="icon" href="/favicons/favicon-32x32.png" type="image/png" />
+      <link rel="apple-touch-icon" href="/favicons/apple-touch-icon.png" />
+      <link rel="manifest" href="/site.webmanifest" />
+    </NextHead>
   );
 }
+
+Head.defaultProps = { title: undefined, description: undefined };
+
+export default Head;

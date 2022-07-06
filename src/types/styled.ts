@@ -1,5 +1,5 @@
 import React from 'react';
-import { Theme } from '../theme';
+import { Theme } from '@emotion/react';
 
 export interface StyledProps<T = HTMLElement> {
   ref?: React.Ref<T>;

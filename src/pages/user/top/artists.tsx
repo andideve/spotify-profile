@@ -2,43 +2,35 @@ import type { NextPage } from 'next';
 import React, { useEffect, useState } from 'react';
 
 import Page from '../../../containers/templates/Page';
+import { sections, PageData } from '../../../containers/pages/user-profile-sections';
 
-import TopArtistsSection from '../../../containers/pages/user/sections/TopArtists';
+import { API } from '../../../services/api';
 
-import { Container } from '../../../components/atoms/container';
-import { Box } from '../../../components/atoms/box';
-
-import API, { MyTopArtistsData } from '../../../services/api';
-
-const BaseSection = Box.withComponent('section');
-
-const Tracks: NextPage = () => {
+const TopArtists: NextPage = () => {
   const [loading, setLoading] = useState(true);
-  const [topArtists, setTopArtists] = useState<MyTopArtistsData>();
+  const [data, setData] = useState<PageData['topArtists']>({ items: [], hasMore: false });
+
+  const fetchData = async () => {
+    const topArtists = await API.getMyTopArtists({ time_range: 'short_term', limit: 10 });
+    const pageData: PageData['topArtists'] = {
+      items: topArtists.items,
+      hasMore: false,
+    };
+
+    return pageData;
+  };
 
   useEffect(() => {
     (async () => {
       try {
-        setTopArtists(await API.spotify.me.top({ type: 'artists' }, { timeRange: 'short_term' }));
-      } catch (err) {
-        console.error(err);
+        setData(await fetchData());
       } finally {
         setLoading(false);
       }
     })();
   }, []);
 
-  if (loading) return <Page />;
-
-  return (
-    <Page>
-      <BaseSection>
-        <Container>
-          <TopArtistsSection headingTag="h1" items={topArtists?.items || []} />
-        </Container>
-      </BaseSection>
-    </Page>
-  );
+  return <Page>{!loading && sections.top.artists(data)}</Page>;
 };
 
-export default Tracks;
+export default TopArtists;
