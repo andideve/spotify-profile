@@ -27,6 +27,7 @@ const fetchUserInfo = async (): Promise<User> => {
     API.getMe()
       .then(({ id, display_name, images }) => {
         const user: User = { uid: id, name: display_name, images };
+        authStorage.set(user);
         resolve(user);
       })
       .catch(reject);
@@ -78,7 +79,6 @@ const LoginWatcher = withCtx(UserCtx.Consumer, ({ value: { state, dispatch } }) 
       (async () => {
         try {
           const user = await fetchUserInfo();
-          authStorage.set(user);
           dispatch?.((s) => ({ ...s, ...user, isLogin: true }));
         } catch (err) {
           if (state.isLogin) dispatch?.({ ...userInitialState, isLogin: false });
