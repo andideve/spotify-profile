@@ -3,7 +3,7 @@ import { User } from '../types/user';
 const key = 'auth-storage';
 
 export const authStorage = {
-  get(): User {
+  get(): User | undefined {
     const data = window.localStorage.getItem(key);
     return data ? JSON.parse(data) : undefined;
   },
