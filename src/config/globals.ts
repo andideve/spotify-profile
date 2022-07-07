@@ -30,6 +30,8 @@ export const PROTECTED_PATHS = ['/user', '/artist', '/playlist', '/album'];
 
 // UI
 
+export const FRAME_X = 16;
+export const FRAME_LG_X = 32;
 export const NAVBAR_LG_WIDTHS = 250;
 export const NAVBAR_HEIGHTS = 64;
 export const TOPBAR_HEIGHTS = 64;

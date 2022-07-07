@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Box, Container, media, newTransition } from '@andideve/ds-react';
 import styled from '@emotion/styled';
-import clsx from 'clsx';
 
 import Head, { HeadProps } from './Head';
 
@@ -9,7 +8,14 @@ import Navbar from '../organisms/navbar';
 import Topbar from '../organisms/topbar';
 import Hero, { BaseHeroProps } from '../organisms/hero';
 
-import { NAVBAR_HEIGHTS, NAVBAR_LG_WIDTHS, SITE_PATHS, TOPBAR_HEIGHTS } from '../../config/globals';
+import {
+  NAVBAR_HEIGHTS,
+  NAVBAR_LG_WIDTHS,
+  SITE_PATHS,
+  TOPBAR_HEIGHTS,
+  FRAME_X,
+  FRAME_LG_X,
+} from '../../config/globals';
 
 import { Menu } from '../../types/default';
 
@@ -18,7 +24,6 @@ import { siteMenu } from '../../_data/app/site-menu';
 
 function TopbarFrame({
   children,
-  className,
   primaryColor = 'hsl(0, 0%, 7%)',
   ...rest
 }: React.HTMLAttributes<HTMLElement> & { primaryColor?: string }) {
@@ -47,17 +52,7 @@ function TopbarFrame({
   );
 
   return (
-    <Box
-      ml={{ 2: NAVBAR_LG_WIDTHS }}
-      px={{ _: '1rem', 2: '2rem' }}
-      h={TOPBAR_HEIGHTS}
-      className={clsx('p-fixed inset-0', className)}
-      sx={{
-        bottom: 'unset',
-        zIndex: 999,
-      }}
-      {...rest}
-    >
+    <Box px={{ _: FRAME_X, 2: FRAME_LG_X }} h={TOPBAR_HEIGHTS} {...rest}>
       {background}
       {children}
     </Box>
@@ -76,11 +71,11 @@ const Main = styled.main`
 const HeroFrame = styled.div`
   display: flex;
   align-items: flex-end;
-  padding: 1.5rem 1rem;
+  padding: 1.5rem ${FRAME_X}px;
   ${media('lg')} {
     padding-top: 0;
-    padding-right: 2rem;
-    padding-left: 2rem;
+    padding-right: ${FRAME_LG_X}px;
+    padding-left: ${FRAME_LG_X}px;
     height: 30vh;
     max-height: 500px;
     min-height: 340px;
@@ -95,7 +90,7 @@ export const SectionStack = styled.div`
 
 export function Section({ children }: { children: React.ReactNode }) {
   return (
-    <Box as="section" mb="1rem" px={{ _: '1rem', 2: '2rem' }}>
+    <Box as="section" mb="1rem" px={{ _: FRAME_X, 2: FRAME_LG_X }}>
       {children}
     </Box>
   );
@@ -128,13 +123,20 @@ export default function Page({
       <header>
         <h1 className="sr-only">{fullTitle}</h1>
         <Navbar menuItems={siteMenu} />
+
         {!hero && <div style={{ height: TOPBAR_HEIGHTS }} />}
-        <TopbarFrame primaryColor={primaryColor}>
-          <Topbar
-            brand={{ name: siteMetadata.title, path: SITE_PATHS.USER_DASHBOARD }}
-            menuItems={menuItems}
-          />
-        </TopbarFrame>
+        <Box
+          ml={{ 2: NAVBAR_LG_WIDTHS }}
+          className="p-fixed inset-0"
+          sx={{ bottom: 'unset', zIndex: 999 }}
+        >
+          <TopbarFrame primaryColor={primaryColor}>
+            <Topbar
+              brand={{ name: siteMetadata.title, path: SITE_PATHS.USER_DASHBOARD }}
+              menuItems={menuItems}
+            />
+          </TopbarFrame>
+        </Box>
       </header>
       <Main>
         <Container>
