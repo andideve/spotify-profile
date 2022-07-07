@@ -111,7 +111,22 @@ export interface PlaylistResponse {
   id: SpotifyID;
   images: SpotifyImage[];
   name: string;
-  owner: unknown; // TODO
+  owner: {
+    // object
+    external_urls: {
+      spotify: string;
+    };
+    followers: {
+      href: string;
+      total: number;
+    };
+    href: string;
+    id: SpotifyID;
+    type: 'user';
+    uri: string;
+    // object
+    display_name: string | null;
+  };
   public: boolean;
   snapshot_id: SpotifyID;
   tracks: {

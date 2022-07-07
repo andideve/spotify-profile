@@ -9,14 +9,14 @@ import { BrowserNavigationProps, BrowserNavigationTypes } from './types';
 
 const Button = styled.button`
   --size: 2rem;
-  --i-size: 1.375rem;
+  --i-size: 1.875rem;
   display: flex;
   align-items: center;
   justify-content: center;
   width: var(--size);
   height: var(--size);
   border-radius: 999px;
-  background-color: var(--color-black);
+  background-color: hsl(0, 0%, 0%, 0.7);
   &[disabled] {
     cursor: not-allowed;
     opacity: 0.6;
@@ -36,8 +36,8 @@ const Button = styled.button`
 Button.defaultProps = { type: 'button' };
 
 const icons: Record<BrowserNavigationTypes, React.ReactElement> = {
-  back: <ChevronLeft />,
-  forward: <ChevronRight />,
+  back: <ChevronLeft strokeWidth={1.5} />,
+  forward: <ChevronRight strokeWidth={1.5} />,
 };
 
 function BrowserNavigation({ className, type, ...rest }: BrowserNavigationProps) {
