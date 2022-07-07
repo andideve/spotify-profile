@@ -143,6 +143,7 @@ export default function Page({
           {hero && (
             <section>
               <Hero
+                mb="1rem"
                 pt={{ _: TOPBAR_HEIGHTS, 2: 0 }}
                 Frame={HeroFrame}
                 primaryColor={primaryColor}
