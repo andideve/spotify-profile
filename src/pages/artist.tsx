@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
-import Page, { Section } from '../containers/templates/Page';
+import Page, { Section, HeroProps } from '../containers/templates/Page';
 
 import { TracksTable, TracksTableRow } from '../containers/organisms/tables/tracks';
 
@@ -52,8 +52,18 @@ const Artist: NextPage = () => {
     })();
   }, [router.isReady, currentCountryCode]);
 
+  function getHeroProps(): HeroProps | undefined {
+    if (!data.artist) return undefined;
+    return {
+      type: 'profile',
+      images: data.artist.images,
+      category: 'Artist',
+      title: data.artist.name,
+    };
+  }
+
   return (
-    <Page title={data.artist?.name}>
+    <Page title={data.artist?.name} hero={getHeroProps()} primaryColor={undefined}>
       {!loading && !data.artist && <p className="color-secondary">Not Found</p>}
       {data.artistTopTracks.length ? (
         <Section>

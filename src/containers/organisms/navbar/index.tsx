@@ -12,8 +12,6 @@ const Nav = Box.withComponent('nav');
 const Frame = styled.div`
   padding: 0 0.5rem;
   height: ${NAVBAR_HEIGHTS}px;
-  border-top-width: 1px;
-  border-color: var(--color-border);
   background-color: var(--color-black);
   ${media('lg')} {
     flex-direction: column;
@@ -21,8 +19,6 @@ const Frame = styled.div`
     padding-bottom: 1.5rem;
     width: ${NAVBAR_LG_WIDTHS}px;
     height: 100%;
-    border-width: 0;
-    border-right-width: 1px;
   }
 `;
 

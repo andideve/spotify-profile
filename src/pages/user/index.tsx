@@ -1,10 +1,13 @@
 import type { NextPage } from 'next';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import Page, { SectionStack } from '../../containers/templates/Page';
+import Page, { SectionStack, HeroProps } from '../../containers/templates/Page';
+
 import { sections, PageData } from '../../containers/pages/user-profile-sections';
 
 import useUserData from '../../hooks/useUserData';
+
+import { getProfileDesc } from '../../utils/heros';
 
 import { API } from '../../services/api';
 
@@ -57,8 +60,27 @@ const Home: NextPage = () => {
     })();
   }, []);
 
+  const description = useMemo(() => {
+    const count = {
+      playlists: data.playlists.items.length,
+      followings: data.followedArtists.items.length,
+    };
+    return getProfileDesc({ publicPlaylists: count.playlists, followings: count.followings });
+  }, [data.playlists.items.length, data.followedArtists.items.length]);
+
+  function getHeroProps(): HeroProps | undefined {
+    if (!user.uid) return undefined;
+    return {
+      type: 'profile',
+      images: user.images,
+      category: 'Profile',
+      title: user.name,
+      description,
+    };
+  }
+
   return (
-    <Page title={user.name}>
+    <Page title={user.name} hero={getHeroProps()} primaryColor={undefined}>
       {!loading && (
         <SectionStack>
           {sections.top.artists(data.topArtists)}

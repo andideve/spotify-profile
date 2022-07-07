@@ -1,18 +1,23 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import Page, { Section } from '../containers/templates/Page';
+import Page, { Section, HeroProps } from '../containers/templates/Page';
 
 import { TracksTable, TracksTableRow } from '../containers/organisms/tables/tracks';
 
-import SectionHead from '../components/molecules/section-head';
+import { getAlbumDesc } from '../utils/heros';
+import { getTotalHours } from '../utils/tracks';
 
 import { API, AlbumResponse } from '../services/api';
 
 const Album: NextPage = () => {
   const [loading, setLoading] = useState(true);
   const [album, setAlbum] = useState<AlbumResponse>();
+
+  const artist = album?.artists[0].name;
+  const date = album?.release_date;
+  const tracks = album?.tracks.items || [];
 
   const router = useRouter();
 
@@ -34,14 +39,34 @@ const Album: NextPage = () => {
     })();
   }, [router.isReady]);
 
+  const count = {
+    songs: album?.tracks.items.length,
+    hours: useMemo(() => getTotalHours(tracks.map((track) => track.duration_ms)), [tracks]),
+  };
+  const description = useMemo(
+    () => getAlbumDesc({ artist, date, songs: count.songs, hours: count.hours }),
+    [artist, date, count.songs, count.hours],
+  );
+
+  function getHeroProps(): HeroProps | undefined {
+    if (!album) return undefined;
+    return {
+      type: 'album',
+      images: album.images,
+      category: 'Album',
+      title: album.name,
+      description,
+    };
+  }
+
   return (
-    <Page title={album?.name}>
+    <Page title={album?.name} hero={getHeroProps()} primaryColor={undefined}>
       {!loading && !album && <p className="color-secondary">Not Found</p>}
       {album && (
         <Section>
-          <SectionHead title={album.name} />
+          <h2 className="sr-only">album tracks</h2>
           <TracksTable>
-            {album.tracks.items.map((track, i) => (
+            {tracks.map((track, i) => (
               <TracksTableRow
                 key={track.id}
                 number={i + 1}

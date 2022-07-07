@@ -110,15 +110,7 @@ const ContentWrapper = styled.div`
   }
 `;
 
-function Topbar({
-  Frame: _Frame,
-  brand,
-  menuItems,
-}: {
-  brand: BrandProps;
-  Frame?: React.FC;
-  menuItems?: Menu[];
-}) {
+function Topbar({ brand, menuItems }: { brand: BrandProps; menuItems?: Menu[] }) {
   const [open, setOpen] = useState(false);
 
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -133,9 +125,7 @@ function Topbar({
 
   useRootClose(drawerRef, close);
 
-  const Frame = _Frame || React.Fragment;
-
-  const content = (
+  return (
     <ContentWrapper className="d-flex items-center justify-between">
       <Box d={{ _: 'none', 2: 'flex' }} className="items-center">
         <BrowserNavigationList className="Topbar__BrowserNavigationList">
@@ -170,10 +160,8 @@ function Topbar({
       </div>
     </ContentWrapper>
   );
-
-  return <Frame>{content}</Frame>;
 }
 
-Topbar.defaultProps = { Frame: undefined, menuItems: undefined };
+Topbar.defaultProps = { menuItems: undefined };
 
 export default Topbar;

@@ -7,6 +7,7 @@ import Head, { HeadProps } from './Head';
 
 import Navbar from '../organisms/navbar';
 import Topbar from '../organisms/topbar';
+import Hero, { BaseHeroProps } from '../organisms/hero';
 
 import { NAVBAR_HEIGHTS, NAVBAR_LG_WIDTHS, SITE_PATHS, TOPBAR_HEIGHTS } from '../../config/globals';
 
@@ -15,7 +16,12 @@ import { Menu } from '../../types/default';
 import { siteMetadata } from '../../_data/app/site-metadata';
 import { siteMenu } from '../../_data/app/site-menu';
 
-function TopbarFrame({ children, className, ...rest }: React.HTMLAttributes<HTMLElement>) {
+function TopbarFrame({
+  children,
+  className,
+  primaryColor = 'hsl(0, 0%, 7%)',
+  ...rest
+}: React.HTMLAttributes<HTMLElement> & { primaryColor?: string }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -31,7 +37,7 @@ function TopbarFrame({ children, className, ...rest }: React.HTMLAttributes<HTML
       className="overlay"
       style={{
         opacity: scrolled ? 1 : 0,
-        backgroundColor: 'hsl(0, 0%, 7%)',
+        backgroundColor: primaryColor,
         zIndex: -1,
         transition: newTransition('opacity', { duration: 100 }),
       }}
@@ -41,32 +47,43 @@ function TopbarFrame({ children, className, ...rest }: React.HTMLAttributes<HTML
   );
 
   return (
-    <>
-      <div style={{ height: TOPBAR_HEIGHTS }} />
-      <Box
-        ml={{ 2: NAVBAR_LG_WIDTHS }}
-        px={{ _: '1rem', 2: '2rem' }}
-        h={TOPBAR_HEIGHTS}
-        className={clsx('p-fixed inset-0', className)}
-        sx={{
-          bottom: 'unset',
-          borderBottomWidth: 1,
-          borderColor: 'var(--color-border)',
-          zIndex: 999,
-        }}
-        {...rest}
-      >
-        {background}
-        {children}
-      </Box>
-    </>
+    <Box
+      ml={{ 2: NAVBAR_LG_WIDTHS }}
+      px={{ _: '1rem', 2: '2rem' }}
+      h={TOPBAR_HEIGHTS}
+      className={clsx('p-fixed inset-0', className)}
+      sx={{
+        bottom: 'unset',
+        zIndex: 999,
+      }}
+      {...rest}
+    >
+      {background}
+      {children}
+    </Box>
   );
 }
+
+TopbarFrame.defaultProps = { primaryColor: undefined };
 
 const Main = styled.main`
   padding-bottom: 2rem;
   ${media('lg')} {
     margin-left: ${NAVBAR_LG_WIDTHS}px;
+  }
+`;
+
+const HeroFrame = styled.div`
+  display: flex;
+  align-items: flex-end;
+  padding: 1.5rem 1rem;
+  ${media('lg')} {
+    padding-top: 0;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    height: 30vh;
+    max-height: 500px;
+    min-height: 340px;
   }
 `;
 
@@ -84,9 +101,13 @@ export function Section({ children }: { children: React.ReactNode }) {
   );
 }
 
+export type HeroProps = Omit<BaseHeroProps, 'Frame' | 'primaryColor'>;
+
 interface PageProps extends HeadProps {
   children: React.ReactNode;
   menuItems?: Menu[];
+  hero?: HeroProps;
+  primaryColor?: string;
 }
 
 export default function Page({
@@ -94,6 +115,8 @@ export default function Page({
   title,
   description = siteMetadata.description,
   menuItems,
+  hero,
+  primaryColor,
 }: PageProps) {
   const fullTitle = useMemo(
     () => (title ? [title, siteMetadata.title].join(' - ') : siteMetadata.title),
@@ -105,18 +128,33 @@ export default function Page({
       <header>
         <h1 className="sr-only">{fullTitle}</h1>
         <Navbar menuItems={siteMenu} />
-        <Topbar
-          Frame={TopbarFrame}
-          brand={{ name: siteMetadata.title, path: SITE_PATHS.USER_DASHBOARD }}
-          menuItems={menuItems}
-        />
+        {!hero && <div style={{ height: TOPBAR_HEIGHTS }} />}
+        <TopbarFrame primaryColor={primaryColor}>
+          <Topbar
+            brand={{ name: siteMetadata.title, path: SITE_PATHS.USER_DASHBOARD }}
+            menuItems={menuItems}
+          />
+        </TopbarFrame>
       </header>
       <Main>
-        <Container>{children}</Container>
+        <Container>
+          {hero && (
+            <section>
+              <Hero
+                pt={{ _: TOPBAR_HEIGHTS, 2: 0 }}
+                Frame={HeroFrame}
+                primaryColor={primaryColor}
+                {...hero}
+              />
+            </section>
+          )}
+
+          {children}
+        </Container>
       </Main>
       <Box h={{ _: NAVBAR_HEIGHTS, 2: 0 }} />
     </>
   );
 }
 
-Page.defaultProps = { menuItems: undefined };
+Page.defaultProps = { menuItems: undefined, hero: undefined, primaryColor: undefined };

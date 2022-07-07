@@ -23,8 +23,8 @@ const global = (theme: Theme) => `
   --color-border: hsl(0, 0%, 12%);
   --color-border-hovered: var(--color-primary);
 
-  --color-card: hsla(0, 0%, 100%, .04);
-  --color-card-hovered: hsl(0, 0%, 12%);
+  --color-card: hsl(0, 0%, 9%);
+  --color-card-hovered: hsl(0, 0%, 16%);
 
   // end of 'ds-react' overrides
 
