@@ -22,7 +22,6 @@ const imgClasses: Record<HeroTypes, string | undefined> = {
 
 export default function Hero({
   Frame,
-  className,
   type,
   images,
   category,
@@ -52,17 +51,15 @@ export default function Hero({
     }
 
     return (
-      <div className={avatarClass} style={{ minWidth: avatarSize }}>
-        <Image
-          ratio={imgRatios[type]}
-          alt={title}
-          width={images[0].width}
-          src={images[0].url}
-          srcSet={images.map((img) => `${img.url} ${img.width || 320}w`).toString()}
-          className={imgClasses[type]}
-          style={{ boxShadow: '0 .25rem 3.75rem hsl(0, 0%, 0%, .5)' }}
-        />
-      </div>
+      <Image
+        ratio={imgRatios[type]}
+        alt={title}
+        width={images[0].width}
+        src={images[0].url}
+        srcSet={images.map((img) => `${img.url} ${img.width || 320}w`).toString()}
+        className={clsx(imgClasses[type], avatarClass)}
+        style={{ minWidth: avatarSize, boxShadow: '0 .25rem 3.75rem hsl(0, 0%, 0%, .5)' }}
+      />
     );
   }
 
@@ -90,7 +87,7 @@ export default function Hero({
   );
 
   return (
-    <Box className={clsx('p-relative', className)} {...rest}>
+    <Box className="p-relative" {...rest}>
       <div className="overlay" style={{ backgroundColor: primaryColor, zIndex: -1 }} />
       <div
         className="overlay"

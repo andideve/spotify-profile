@@ -51,17 +51,14 @@ export function TracksTableRow({
       <td>
         <div className="d-flex items-center">
           {images.length ? (
-            <div
+            <Image
+              ratio={1}
+              alt={title}
+              width={images[0].width}
+              src={images[0].url}
+              srcSet={images.map((img) => `${img.url} ${img.width || 320}w`).toString()}
               style={{ marginRight: '1rem', width: '100%', maxWidth: tableConfig.albumImageWidth }}
-            >
-              <Image
-                ratio={1}
-                alt={title}
-                width={images[0].width}
-                src={images[0].url}
-                srcSet={images.map((img) => `${img.url} ${img.width || 320}w`).toString()}
-              />
-            </div>
+            />
           ) : null}
           <div>
             <Text className="song-title d-block color-foreground">{title}</Text>

@@ -2,10 +2,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { CSSProperties } from 'react';
 import styled from '@emotion/styled';
-import { Box, BoxProps } from '@andideve/ds-react';
+import { Box, media } from '@andideve/ds-react';
 import clsx from 'clsx';
 
-import { TOPBAR_HEIGHTS } from '../../../../config/globals';
+import { FRAME_LG_X, FRAME_X, TOPBAR_HEIGHTS } from '../../../../config/globals';
 
 import { Menu } from '../../../../types/default';
 
@@ -14,12 +14,16 @@ const MenuAnchor = styled.a`
   align-items: center;
   width: 100%;
   height: ${TOPBAR_HEIGHTS}px;
-  padding: 0 2rem;
+  padding: 0 ${FRAME_X}px;
   border-bottom: 1px solid var(--color-border);
   color: var(--color-secondary);
   &:focus,
   &.active {
     color: var(--color-secondary-hovered);
+  }
+  ${media('lg')} {
+    padding-right: ${FRAME_LG_X}px;
+    padding-left: ${FRAME_LG_X}px;
   }
 `;
 
@@ -51,7 +55,11 @@ export function Drawer({
   offsetTop,
   offsetBottom,
   ...rest
-}: { offsetTop: number; offsetBottom: number } & Omit<BoxProps, 'className' | 'sx'>) {
+}: {
+  children: React.ReactNode;
+  offsetTop: number;
+  offsetBottom: number;
+}) {
   const css = {
     '--offset-top': `${offsetTop}px`,
     '--offset-bottom': `${offsetBottom}px`,

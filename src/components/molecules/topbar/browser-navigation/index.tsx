@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 import styled from '@emotion/styled';
-import clsx from 'clsx';
 
 import ChevronLeft from '../../../atoms/icons/ChevronLeft';
 import ChevronRight from '../../../atoms/icons/ChevronRight';
 
-import { BrowserNavigationProps, BrowserNavigationTypes } from './types';
+import { NavigationTypes } from './types';
+import { StyleProps } from '../../../../types/default';
 
 const Button = styled.button`
   --size: 2rem;
@@ -35,17 +35,33 @@ const Button = styled.button`
 
 Button.defaultProps = { type: 'button' };
 
-const icons: Record<BrowserNavigationTypes, React.ReactElement> = {
+const List = styled.div`
+  display: flex;
+  button {
+    margin-right: 1rem;
+  }
+`;
+
+const icons: Record<NavigationTypes, React.ReactElement> = {
   back: <ChevronLeft strokeWidth={1.5} />,
   forward: <ChevronRight strokeWidth={1.5} />,
 };
 
-function BrowserNavigation({ className, type, ...rest }: BrowserNavigationProps) {
+function Navigation({ type }: { type: NavigationTypes }) {
   const handler = useCallback(() => window.history[type](), []);
   return (
-    <Button aria-label={type} className={clsx(type, className)} onClick={handler} {...rest}>
+    <Button aria-label={type} className={type} onClick={handler}>
       {icons[type]}
     </Button>
+  );
+}
+
+function BrowserNavigation(props: StyleProps) {
+  return (
+    <List {...props}>
+      <Navigation type="back" />
+      <Navigation type="forward" />
+    </List>
   );
 }
 

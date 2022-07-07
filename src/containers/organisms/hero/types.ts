@@ -13,4 +13,4 @@ export interface BaseHeroProps {
   primaryColor?: string;
 }
 
-export type HeroProps = BaseHeroProps & BoxProps;
+export type HeroProps = BaseHeroProps & Pick<BoxProps, 'mb' | 'pt'>;

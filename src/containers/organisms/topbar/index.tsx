@@ -13,7 +13,6 @@ import {
   UserDropdown,
   Drawer,
   MobileMenu,
-  BrandProps,
   Brand,
 } from '../../../components/molecules/topbar';
 
@@ -24,22 +23,9 @@ import { UserCtx, UserCtxValue } from '../../../context/user';
 
 import withCtx from '../../../utils/with-ctx';
 
-import {
-  NAVBAR_HEIGHTS,
-  SITE_PATHS,
-  SPOTIFY_ACCOUNT_URL,
-  SPOTIFY_SIGNUP_URL,
-  TOPBAR_HEIGHTS,
-} from '../../../config/globals';
+import { SITE_PATHS, SPOTIFY_ACCOUNT_URL, SPOTIFY_SIGNUP_URL } from '../../../config/globals';
 
-import { Menu } from '../../../types/default';
-
-const BrowserNavigationList = styled.div`
-  display: flex;
-  button {
-    margin-right: 1rem;
-  }
-`;
+import { TopbarProps } from './types';
 
 const User = withCtx<UserCtxValue, { className?: string }>(
   UserCtx.Consumer,
@@ -64,9 +50,9 @@ const User = withCtx<UserCtxValue, { className?: string }>(
     if (!state.isLogin || !state.uid) {
       return (
         <div className="d-flex items-center">
-          <Signup href={SPOTIFY_SIGNUP_URL(origin)}>Sign up</Signup>
+          <Signup href={SPOTIFY_SIGNUP_URL(origin)} />
           <Link href={SITE_PATHS.SPOTIFY_LOGIN} passHref>
-            <Login>Log in</Login>
+            <Login />
           </Link>
         </div>
       );
@@ -110,7 +96,7 @@ const ContentWrapper = styled.div`
   }
 `;
 
-function Topbar({ brand, menuItems }: { brand: BrandProps; menuItems?: Menu[] }) {
+function Topbar({ brand, drawerOffset, menuItems }: TopbarProps) {
   const [open, setOpen] = useState(false);
 
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -128,10 +114,7 @@ function Topbar({ brand, menuItems }: { brand: BrandProps; menuItems?: Menu[] })
   return (
     <ContentWrapper className="d-flex items-center justify-between">
       <Box d={{ _: 'none', 2: 'flex' }} className="items-center">
-        <BrowserNavigationList className="Topbar__BrowserNavigationList">
-          <BrowserNavigation type="back" />
-          <BrowserNavigation type="forward" />
-        </BrowserNavigationList>
+        <BrowserNavigation />
         {menuItems && (
           <nav className="Topbar__DNav">
             <DesktopMenu items={menuItems} />
@@ -150,7 +133,7 @@ function Topbar({ brand, menuItems }: { brand: BrandProps; menuItems?: Menu[] })
                 <MenuIcon />
               </button>
               {open && (
-                <Drawer offsetTop={TOPBAR_HEIGHTS} offsetBottom={NAVBAR_HEIGHTS}>
+                <Drawer offsetTop={drawerOffset.top} offsetBottom={drawerOffset.bottom}>
                   <MobileMenu items={menuItems} />
                 </Drawer>
               )}
