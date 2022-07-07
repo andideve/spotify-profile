@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Box, Container, media, newTransition } from '@andideve/ds-react';
 import styled from '@emotion/styled';
 
@@ -7,6 +7,8 @@ import Head, { HeadProps } from './Head';
 import Navbar from '../organisms/navbar';
 import Topbar from '../organisms/topbar';
 import Hero, { BaseHeroProps } from '../organisms/hero';
+
+import useScrolled from '../../hooks/useScrolled';
 
 import {
   NAVBAR_HEIGHTS,
@@ -25,17 +27,11 @@ import { siteMenu } from '../../_data/app/site-menu';
 function TopbarFrame({
   children,
   primaryColor = 'hsl(0, 0%, 7%)',
-  ...rest
-}: React.HTMLAttributes<HTMLElement> & { primaryColor?: string }) {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 0);
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+}: {
+  children: React.ReactNode;
+  primaryColor?: string;
+}) {
+  const scrolled = useScrolled();
 
   const background = (
     <div
@@ -52,7 +48,7 @@ function TopbarFrame({
   );
 
   return (
-    <Box px={{ _: FRAME_X, 2: FRAME_LG_X }} h={TOPBAR_HEIGHTS} {...rest}>
+    <Box px={{ _: FRAME_X, 2: FRAME_LG_X }} h={TOPBAR_HEIGHTS}>
       {background}
       {children}
     </Box>
@@ -133,6 +129,7 @@ export default function Page({
           <TopbarFrame primaryColor={primaryColor}>
             <Topbar
               brand={{ name: siteMetadata.title, path: SITE_PATHS.USER_DASHBOARD }}
+              drawerOffset={{ top: TOPBAR_HEIGHTS, bottom: NAVBAR_HEIGHTS }}
               menuItems={menuItems}
             />
           </TopbarFrame>

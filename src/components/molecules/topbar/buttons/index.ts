@@ -18,6 +18,8 @@ export const Signup = styled.a`
   }
 `;
 
+Signup.defaultProps = { children: 'Sign up' };
+
 export const Login = styled.a`
   text-decoration: none !important;
   color: inherit;
@@ -35,3 +37,5 @@ export const Login = styled.a`
     transform: scale(1.04);
   }
 `;
+
+Login.defaultProps = { children: 'Log in' };

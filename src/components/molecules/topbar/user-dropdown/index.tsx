@@ -71,16 +71,15 @@ function UserDropdown({ className, images, name, menuItems }: UserDropdownProps)
   return (
     <div ref={dropdownRef} className="p-relative">
       <Button className={clsx(open && 'active', className)} onClick={toggle} disabled={!menuItems}>
-        <div style={{ width: 28 }}>
-          <Image
-            ratio={1}
-            alt={name}
-            width={images[0]?.width}
-            src={images[0]?.url}
-            srcSet={images.map((img) => `${img.url} ${img.width || 320}w`).toString()}
-            className="rounded-full"
-          />
-        </div>
+        <Image
+          ratio={1}
+          alt={name}
+          width={images[0]?.width}
+          src={images[0]?.url}
+          srcSet={images.map((img) => `${img.url} ${img.width || 320}w`).toString()}
+          className="rounded-full"
+          style={{ width: 28 }}
+        />
         <Text size="sm" fontWeight="bold" className="user-name UserDropdown__Name">
           {name}
         </Text>

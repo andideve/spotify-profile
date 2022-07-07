@@ -6,13 +6,11 @@ import { ImageProps } from './types';
 
 function Image({ ratio, className, style, ...rest }: ImageProps) {
   return (
-    <AspectRatio
-      ratio={ratio}
-      className={clsx('overflow-hidden bg-color-card', className)}
-      style={style}
-    >
-      <img alt="" {...rest} />
-    </AspectRatio>
+    <span className={clsx('overflow-hidden bg-color-card', className)} style={style}>
+      <AspectRatio ratio={ratio}>
+        <img alt="" {...rest} />
+      </AspectRatio>
+    </span>
   );
 }
 

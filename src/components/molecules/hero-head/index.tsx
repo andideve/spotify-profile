@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
 import { Paragraph, Text, TextSizes } from '@andideve/ds-react';
 
+import { StyleProps } from '../../../types/default';
+
 export default function HeroHead({
   category,
   title,
@@ -10,7 +12,7 @@ export default function HeroHead({
   title: string;
   category?: string;
   description?: string;
-} & React.HTMLAttributes<HTMLElement>) {
+} & StyleProps) {
   const headingSize = useMemo((): TextSizes => {
     if (title.length < 10) return '8xl';
     return '5xl';
