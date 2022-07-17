@@ -1,8 +1,7 @@
 import React from 'react';
-import { Box, media } from '@andideve/ds-react';
+import { Box, Image, media } from '@andideve/ids-react';
 import clsx from 'clsx';
 
-import Image from '../../../components/molecules/Image';
 import HeroHead from '../../../components/molecules/hero-head';
 
 import { HeroProps, HeroTypes } from './types';
@@ -58,7 +57,7 @@ export default function Hero({
         src={images[0].url}
         srcSet={images.map((img) => `${img.url} ${img.width || 320}w`).toString()}
         className={clsx(imgClasses[type], avatarClass)}
-        style={{ minWidth: avatarSize, boxShadow: '0 .25rem 3.75rem hsl(0, 0%, 0%, .5)' }}
+        style={{ width: avatarSize, boxShadow: '0 .25rem 3.75rem hsl(0, 0%, 0%, .5)' }}
       />
     );
   }
@@ -74,7 +73,7 @@ export default function Hero({
           [media('lg')]: { flexWrap: 'nowrap' },
         }}
       >
-        {renderImage('Hero__AvatarImage')}
+        <div className="d-flex">{renderImage('Hero__AvatarImage')}</div>
         <HeroHead
           className="p-relative"
           category={category}

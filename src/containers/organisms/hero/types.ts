@@ -1,5 +1,5 @@
 import React from 'react';
-import { BoxProps } from '@andideve/ds-react';
+import { BoxProps } from '@andideve/ids-react';
 
 export type HeroTypes = 'profile' | 'playlist' | 'artist' | 'album';
 

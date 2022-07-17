@@ -1,9 +1,15 @@
 import Link from 'next/link';
 import React from 'react';
-import { Box, Text, Paragraph, GridContainer, GridContainerProps } from '@andideve/ds-react';
+import {
+  Box,
+  Text,
+  Paragraph,
+  GridContainer,
+  GridContainerProps,
+  Image,
+} from '@andideve/ids-react';
 import clsx from 'clsx';
 
-import Image from '../../../components/molecules/Image';
 import { SpotifyCardProps, SpotifyCardTypes } from './types';
 
 const newTextLimitationStyles = (line: number) => `

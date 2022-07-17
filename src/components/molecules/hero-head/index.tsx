@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Paragraph, Text, TextSizes } from '@andideve/ds-react';
+import { Paragraph, Text, TypographySizes } from '@andideve/ids-react';
 
 import { StyleProps } from '../../../types/default';
 
@@ -13,7 +13,7 @@ export default function HeroHead({
   category?: string;
   description?: string;
 } & StyleProps) {
-  const headingSize = useMemo((): TextSizes => {
+  const headingSize = useMemo((): TypographySizes => {
     if (title.length < 10) return '8xl';
     return '5xl';
   }, [title.length]);
@@ -21,20 +21,19 @@ export default function HeroHead({
     <header {...rest}>
       {category && (
         <Text
-          mt="1rem"
           size="xs"
           fontWeight="bold"
           className="category d-block"
-          sx={{ textTransform: 'uppercase' }}
+          sx={{ textTransform: 'uppercase', marginTop: '1rem' }}
         >
           {category}
         </Text>
       )}
-      <Text as="h2" py=".08em" size={headingSize} fontWeight="bold">
+      <Text as="h2" size={headingSize} fontWeight="bold" style={{ padding: '.08em 0' }}>
         {title}
       </Text>
       {description && (
-        <Paragraph mt=".5rem" size="sm">
+        <Paragraph size="sm" style={{ marginTop: '.5rem' }}>
           {description}
         </Paragraph>
       )}

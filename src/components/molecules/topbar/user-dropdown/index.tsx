@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import { media, Text } from '@andideve/ds-react';
+import { media, Text, Image } from '@andideve/ids-react';
 import clsx from 'clsx';
 import useRootClose from 'react-overlays/useRootClose';
 
@@ -8,8 +8,6 @@ import DropdownMenu from '../../dropdown-menu';
 
 import ChevronUp from '../../../atoms/icons/ChevronUp';
 import ChevronDown from '../../../atoms/icons/ChevronDown';
-
-import Image from '../../Image';
 
 import { UserDropdownProps } from './types';
 

@@ -1,10 +1,8 @@
-import { media, newTransition, Theme } from '@andideve/ds-react';
+import { media, newTransition, Theme } from '@andideve/ids-react';
 
 const global = (theme: Theme) => `
 :root {
-  // 'ds-react' overrides
-
-  --color-foreground: hsl(0, 0%, 100%);
+   --color-foreground: hsl(0, 0%, 100%);
   --color-background: hsl(0, 0%, 7%);
 
   --color-button-foreground: var(--color-white);
@@ -26,11 +24,13 @@ const global = (theme: Theme) => `
   --color-card: hsl(0, 0%, 9%);
   --color-card-hovered: hsl(0, 0%, 16%);
 
-  // end of 'ds-react' overrides
-
   color-scheme: dark;
 }
 
+body {
+  color: var(--color-foreground);
+  background-color: var(--color-background);
+}
 #__next {
   overflow-x: hidden;
   position: relative;

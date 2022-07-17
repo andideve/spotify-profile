@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import styled from '@emotion/styled';
-import { Text, StyledProps, media } from '@andideve/ds-react';
+import { Text, StyledProps, media } from '@andideve/ids-react';
 
 import { Menu } from '../../../../types/default';
 

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { media, newTransition, StyledProps, Text } from '@andideve/ds-react';
+import { media, newTransition, StyledProps, Text } from '@andideve/ids-react';
 import styled from '@emotion/styled';
 import clsx from 'clsx';
 

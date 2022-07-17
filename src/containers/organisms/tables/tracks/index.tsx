@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
-import { Box, Text } from '@andideve/ds-react';
+import { Box, Text, Image } from '@andideve/ids-react';
 import clsx from 'clsx';
 
-import Image from '../../../../components/molecules/Image';
 import Clock from '../../../../components/atoms/icons/Clock';
 
 import { formatDuration } from '../../../../utils/time-formatter';
@@ -22,7 +21,7 @@ export function TracksTable({ children, cols, disableHead }: TracksTableProps) {
           <th style={{ width: tableConfig.numberColWidth }}>#</th>
           <th>Title</th>
           {cols?.map((col) => (
-            <Th key={col} d={{ _: 'none', 2: 'table-cell' }}>
+            <Th key={col} display={{ _: 'none', 2: 'table-cell' }}>
               {col}
             </Th>
           ))}
@@ -71,7 +70,7 @@ export function TracksTableRow({
         </div>
       </td>
       {cols?.map((col, i) => (
-        <Td key={i} d={{ _: 'none', 2: 'table-cell' }}>
+        <Td key={i} display={{ _: 'none', 2: 'table-cell' }}>
           <Text size="sm">{col}</Text>
         </Td>
       ))}

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { Text } from '@andideve/ds-react';
+import { Text } from '@andideve/ids-react';
 
 export interface BrandProps {
   name: string;

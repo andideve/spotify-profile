@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Box, media } from '@andideve/ds-react';
+import { Box, media } from '@andideve/ids-react';
 
 import { NavMenu } from '../../../components/molecules/navbar';
 

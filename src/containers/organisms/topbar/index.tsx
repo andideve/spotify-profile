@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import { Box, media } from '@andideve/ds-react';
+import { Box, media } from '@andideve/ids-react';
 import useRootClose from 'react-overlays/useRootClose';
 
 import {
@@ -113,7 +113,7 @@ function Topbar({ brand, drawerOffset, menuItems }: TopbarProps) {
 
   return (
     <ContentWrapper className="d-flex items-center justify-between">
-      <Box d={{ _: 'none', 2: 'flex' }} className="items-center">
+      <Box display={{ _: 'none', 2: 'flex' }} className="items-center">
         <BrowserNavigation />
         {menuItems && (
           <nav className="Topbar__DNav">
@@ -121,7 +121,7 @@ function Topbar({ brand, drawerOffset, menuItems }: TopbarProps) {
           </nav>
         )}
       </Box>
-      <Box d={{ _: 'block', 2: 'none' }}>
+      <Box display={{ _: 'block', 2: 'none' }}>
         <Brand {...brand} />
       </Box>
       <div className="d-flex items-center">

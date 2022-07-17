@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from '@emotion/styled';
-import { media, StyledProps, Text } from '@andideve/ds-react';
+import { media, StyledProps, Text } from '@andideve/ids-react';
 
 import { DropdownMenuProps } from './types';
 

@@ -2,7 +2,7 @@
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef } from 'react';
-import { Provider, theme } from '@andideve/ds-react';
+import { Provider, theme } from '@andideve/ids-react';
 import { Global } from '@emotion/react';
 
 import { globalStyles } from '../styles/global';

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { CSSProperties } from 'react';
 import styled from '@emotion/styled';
-import { Box, media } from '@andideve/ds-react';
+import { Box, media } from '@andideve/ids-react';
 import clsx from 'clsx';
 
 import { FRAME_LG_X, FRAME_X, TOPBAR_HEIGHTS } from '../../../../config/globals';

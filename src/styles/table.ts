@@ -1,4 +1,4 @@
-import { media, Theme } from '@andideve/ds-react';
+import { media, Theme } from '@andideve/ids-react';
 
 const table = (theme: Theme) => `
 // Table > Layout

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Box, Container, media, newTransition } from '@andideve/ds-react';
+import { Box, Container, media, newTransition } from '@andideve/ids-react';
 import styled from '@emotion/styled';
 
 import Head, { HeadProps } from './Head';

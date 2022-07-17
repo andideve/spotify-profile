@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { Box, Paragraph, Text } from '@andideve/ds-react';
+import { Box, Paragraph, Text } from '@andideve/ids-react';
 
 import { Menu } from '../../../types/default';
 
