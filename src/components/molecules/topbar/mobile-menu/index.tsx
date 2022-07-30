@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
-import { Box, media } from '@andideve/ids-react';
+import { media } from '@andideve/ids-react';
 import clsx from 'clsx';
 
 import { FRAME_LG_X, FRAME_X, TOPBAR_HEIGHTS } from '../../../../config/globals';
@@ -37,7 +37,7 @@ function MenuItem({ label, to }: Menu) {
   const router = useRouter();
   const active = router.asPath === to;
   return (
-    <li className="p-relative">
+    <li className="relative">
       <Link href={to} passHref>
         <MenuAnchor
           aria-current={active ? 'page' : undefined}
@@ -47,38 +47,6 @@ function MenuItem({ label, to }: Menu) {
         </MenuAnchor>
       </Link>
     </li>
-  );
-}
-
-export function Drawer({
-  children,
-  offsetTop,
-  offsetBottom,
-  ...rest
-}: {
-  children: React.ReactNode;
-  offsetTop: number;
-  offsetBottom: number;
-}) {
-  const css = {
-    '--offset-top': `${offsetTop}px`,
-    '--offset-bottom': `${offsetBottom}px`,
-  } as CSSProperties;
-  return (
-    <Box
-      className="overlay p-fixed"
-      style={css}
-      sx={{
-        top: 'var(--offset-top)',
-        maxHeight: 'calc(100vh - (var(--offset-top) + var(--offset-bottom)))',
-        overflowY: 'auto',
-        backgroundColor: 'var(--color-background)',
-        zIndex: 999,
-      }}
-      {...rest}
-    >
-      {children}
-    </Box>
   );
 }
 

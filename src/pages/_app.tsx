@@ -2,7 +2,7 @@
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef } from 'react';
-import { Provider, theme } from '@andideve/ids-react';
+import { Provider, theme as defaultTheme, Theme } from '@andideve/ids-react';
 import { Global } from '@emotion/react';
 
 import { globalStyles } from '../styles/global';
@@ -98,12 +98,34 @@ const LoginWatcher = withCtx(UserCtx.Consumer, ({ value: { state, dispatch } }) 
   return null;
 });
 
+const fontFamilies = [
+  'system-ui',
+  '-apple-system',
+  'BlinkMacSystemFont',
+  "'Segoe UI'",
+  'Roboto',
+  'Oxygen',
+  'Ubuntu',
+  'Cantarell',
+  "'Open Sans'",
+  "'Helvetica Neue'",
+  'sans-serif',
+].toString();
+
 function MyApp({ Component, pageProps }: AppProps) {
   const userCtx = useUserCtx();
   return (
-    <Provider>
-      <Global styles={() => globalStyles(theme)} />
-      <Global styles={() => tableStyles(theme)} />
+    <Provider
+      theme={{
+        fonts: {
+          ...defaultTheme.fonts,
+          body: fontFamilies,
+          heading: fontFamilies,
+        },
+      }}
+    >
+      <Global styles={(theme) => globalStyles(theme as Theme)} />
+      <Global styles={(theme) => tableStyles(theme as Theme)} />
 
       <UserCtx.Provider value={userCtx.ctxValue}>
         <Component {...pageProps} />

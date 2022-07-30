@@ -1,4 +1,4 @@
-import { media, newTransition, Theme } from '@andideve/ids-react';
+import { styles, media, newTransition, Theme } from '@andideve/ids-react';
 
 const global = (theme: Theme) => `
 :root {
@@ -26,6 +26,11 @@ const global = (theme: Theme) => `
 
   color-scheme: dark;
 }
+
+${styles.flexbox}
+${styles.layouts}
+${styles.size}
+${styles.typography}
 
 body {
   color: var(--color-foreground);
@@ -73,84 +78,6 @@ ul {
 }
 .bg-color-card {
   background-color: var(--color-card);
-}
-
-// Layouts
-
-.overlay--before:before,
-.overlay--after:after {
-  content: '';
-}
-.overlay,
-.overlay--before:before,
-.overlay--after:after {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-.inset-0,
-.overlay,
-.overlay--before:before,
-.overlay--after:after {
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-.p-relative {
-  position: relative;
-}
-.p-absolute {
-  position: absolute;
-}
-.p-fixed {
-  position: fixed;
-}
-.d-block {
-  display: block;
-}
-.d-inline-block {
-  display: inline-block;
-}
-.d-flex {
-  display: flex;
-}
-.items-center {
-  align-items: center;
-}
-.justify-center {
-  justify-content: center;
-}
-.justify-between {
-  justify-content: space-between;
-}
-.overflow-hidden {
-  overflow: hidden;
-}
-
-// Typography
-
-.font-regular {
-  font-weight: 400 !important;
-}
-.font-medium {
-  font-weight: 500;
-}
-.font-semibold {
-  font-weight: 600 !important;
-}
-.font-bold {
-  font-weight: 700 !important;
-}
-.font-extrabold {
-  font-weight: 800 !important;
-}
-.text-center {
-  text-align: center;
-}
-.text-right {
-  text-align: right;
 }
 
 // Radii

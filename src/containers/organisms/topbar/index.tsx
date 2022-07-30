@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import { Box, media } from '@andideve/ids-react';
+import { Box, Drawer, useDisclosure, media } from '@andideve/ids-react';
 import useRootClose from 'react-overlays/useRootClose';
 
 import {
@@ -11,7 +11,6 @@ import {
   Signup,
   Login,
   UserDropdown,
-  Drawer,
   MobileMenu,
   Brand,
 } from '../../../components/molecules/topbar';
@@ -49,7 +48,7 @@ const User = withCtx<UserCtxValue, { className?: string }>(
 
     if (!state.isLogin || !state.uid) {
       return (
-        <div className="d-flex items-center">
+        <div className="flex items-center">
           <Signup href={SPOTIFY_SIGNUP_URL(origin)} />
           <Link href={SITE_PATHS.SPOTIFY_LOGIN} passHref>
             <Login />
@@ -97,22 +96,14 @@ const ContentWrapper = styled.div`
 `;
 
 function Topbar({ brand, drawerOffset, menuItems }: TopbarProps) {
-  const [open, setOpen] = useState(false);
+  const disclosure = useDisclosure();
 
   const drawerRef = useRef<HTMLDivElement>(null);
 
-  const toggle = useCallback(() => {
-    setOpen((s) => !s);
-  }, []);
-
-  const close = useCallback(() => {
-    setOpen(false);
-  }, []);
-
-  useRootClose(drawerRef, close);
+  useRootClose(drawerRef, disclosure.onClose);
 
   return (
-    <ContentWrapper className="d-flex items-center justify-between">
+    <ContentWrapper className="flex items-center justify-between">
       <Box display={{ _: 'none', 2: 'flex' }} className="items-center">
         <BrowserNavigation />
         {menuItems && (
@@ -124,19 +115,33 @@ function Topbar({ brand, drawerOffset, menuItems }: TopbarProps) {
       <Box display={{ _: 'block', 2: 'none' }}>
         <Brand {...brand} />
       </Box>
-      <div className="d-flex items-center">
+      <div className="flex items-center">
         <User className="Topbar__User" />
         <div ref={drawerRef}>
           {menuItems && (
             <nav className="Topbar__MNav">
-              <button type="button" onClick={toggle}>
+              <button type="button" onClick={disclosure.toggle}>
                 <MenuIcon />
               </button>
-              {open && (
-                <Drawer offsetTop={drawerOffset.top} offsetBottom={drawerOffset.bottom}>
+              <Drawer
+                isOpen={disclosure.isOpen}
+                transition={{
+                  props: ['opacity', 'transform'],
+                  duration: 100,
+                  easing: 'linear',
+                  initial: { opacity: 0, transform: 'translateY(-1.5rem)' },
+                  expanded: { opacity: 1, transform: 'translateY(0)' },
+                }}
+                style={{
+                  top: drawerOffset.top,
+                  height: `calc(100vh - ${drawerOffset.top})`,
+                  backgroundColor: 'var(--color-background)',
+                }}
+              >
+                <Drawer.Content>
                   <MobileMenu items={menuItems} />
-                </Drawer>
-              )}
+                </Drawer.Content>
+              </Drawer>
             </nav>
           )}
         </div>

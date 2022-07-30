@@ -72,7 +72,7 @@ function SpotifyCard({
   return (
     <Box
       as={as}
-      className={clsx(link ? 'card-hoverable' : 'card', 'p-relative')}
+      className={clsx(link ? 'card-hoverable' : 'card', 'relative')}
       sx={{
         '.SpotifyCard__Image': { marginBottom: '1rem' },
         '.SpotifyCard__Description': { marginTop: '.25rem' },
@@ -84,7 +84,7 @@ function SpotifyCard({
         width={images[0]?.width}
         src={images[0]?.url}
         srcSet={images.map((img) => `${img.url} ${img.width || 320}w`).toString()}
-        className={`SpotifyCard__Image d-block ${imgClasses[type]}`}
+        className={`SpotifyCard__Image block ${imgClasses[type]}`}
         style={{ boxShadow: '0 .5rem 1.5rem hsl(0, 0%, 0%, .5)' }}
       />
       {link ? (

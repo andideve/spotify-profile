@@ -67,7 +67,7 @@ function MenuItem({ to, label, Icon }: MenuWithIcon) {
   const router = useRouter();
   const active = router.asPath === to;
   return (
-    <li className="p-relative">
+    <li className="relative">
       <Link href={to} passHref>
         <MenuAnchor
           aria-current={active ? 'page' : undefined}

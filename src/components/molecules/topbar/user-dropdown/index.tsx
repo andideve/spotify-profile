@@ -67,7 +67,7 @@ function UserDropdown({ className, images, name, menuItems }: UserDropdownProps)
   useRootClose(dropdownRef, close);
 
   return (
-    <div ref={dropdownRef} className="p-relative">
+    <div ref={dropdownRef} className="relative">
       <Button className={clsx(open && 'active', className)} onClick={toggle} disabled={!menuItems}>
         <Image
           ratio={1}

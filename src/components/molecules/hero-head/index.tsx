@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Paragraph, Text, TypographySizes } from '@andideve/ids-react';
+import { Heading, Paragraph, Text, TypographySizes } from '@andideve/ids-react';
 
 import { StyleProps } from '../../../types/default';
 
@@ -21,19 +21,20 @@ export default function HeroHead({
     <header {...rest}>
       {category && (
         <Text
+          mt="1rem"
           size="xs"
           fontWeight="bold"
-          className="category d-block"
-          sx={{ textTransform: 'uppercase', marginTop: '1rem' }}
+          textTransform="uppercase"
+          className="category block"
         >
           {category}
         </Text>
       )}
-      <Text as="h2" size={headingSize} fontWeight="bold" style={{ padding: '.08em 0' }}>
+      <Heading as="h2" py=".08em" size={headingSize} fontWeight="bold">
         {title}
-      </Text>
+      </Heading>
       {description && (
-        <Paragraph size="sm" style={{ marginTop: '.5rem' }}>
+        <Paragraph mt=".5rem" size="sm">
           {description}
         </Paragraph>
       )}

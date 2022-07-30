@@ -48,7 +48,7 @@ export function TracksTableRow({
     <tr>
       <td style={{ width: tableConfig.numberColWidth }}>{number}</td>
       <td>
-        <div className="d-flex items-center">
+        <div className="flex items-center">
           {images.length ? (
             <Image
               ratio={1}
@@ -60,9 +60,9 @@ export function TracksTableRow({
             />
           ) : null}
           <div>
-            <Text className="song-title d-block color-foreground">{title}</Text>
+            <Text className="song-title block color-foreground">{title}</Text>
             {artist && (
-              <Text size="sm" className="song-artist d-block">
+              <Text size="sm" className="song-artist block">
                 {artist}
               </Text>
             )}

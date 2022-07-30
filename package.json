@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@andideve/ids-react": "^0.0.1-alpha.10",
+    "@andideve/ids-react": "^0.0.3",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "clsx": "^1.2.1",

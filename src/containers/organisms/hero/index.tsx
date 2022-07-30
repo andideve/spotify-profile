@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Image, media } from '@andideve/ids-react';
+import { Box, Image } from '@andideve/ids-react';
 import clsx from 'clsx';
 
 import HeroHead from '../../../components/molecules/hero-head';
@@ -63,19 +63,15 @@ export default function Hero({
   }
 
   const content = (
-    <Frame className="p-relative">
+    <Frame className="relative">
       <Box
-        className="d-flex"
-        sx={{
-          flexWrap: 'wrap',
-          alignItems: 'flex-end',
-          '.Hero__AvatarImage': { marginRight: '1.5rem' },
-          [media('lg')]: { flexWrap: 'nowrap' },
-        }}
+        flexWrap={{ _: 'wrap', 2: 'nowrap' }}
+        className="flex items-end"
+        sx={{ '.Hero__AvatarImage': { marginRight: '1.5rem' } }}
       >
-        <div className="d-flex">{renderImage('Hero__AvatarImage')}</div>
+        {renderImage('Hero__AvatarImage')}
         <HeroHead
-          className="p-relative"
+          className="relative"
           category={category}
           title={title}
           description={description}
@@ -86,7 +82,7 @@ export default function Hero({
   );
 
   return (
-    <Box className="p-relative" {...rest}>
+    <Box className="relative" {...rest}>
       <div className="overlay" style={{ backgroundColor: primaryColor, zIndex: -1 }} />
       <div
         className="overlay"
@@ -97,7 +93,7 @@ export default function Hero({
       />
       {content}
       <div
-        className="p-absolute"
+        className="absolute"
         style={{
           width: '100%',
           height: avatarSize,

@@ -58,7 +58,7 @@ function DropdownMenu({ items, onClose, ...rest }: DropdownMenuProps) {
         <li key={i} role="presentation">
           <Button
             role="menuitem"
-            className="d-flex justify-between"
+            className="flex justify-between"
             data-index={i}
             onClick={onSelect}
           >

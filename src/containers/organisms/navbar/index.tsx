@@ -25,7 +25,7 @@ const Frame = styled.div`
 export default function Navbar({ menuItems }: { menuItems: MenuWithIcon[] }) {
   return (
     <Nav
-      className="p-fixed inset-0"
+      className="fixed inset-0"
       sx={{
         top: 'unset',
         zIndex: 1000,

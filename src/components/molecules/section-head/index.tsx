@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { Box, Paragraph, Text } from '@andideve/ids-react';
+import { Box, Heading, Paragraph, Text } from '@andideve/ids-react';
 
 import { Menu } from '../../../types/default';
 
@@ -17,16 +17,16 @@ function SectionHead({
   arrow?: Menu;
 }) {
   const heading = (
-    <Text as="h2" size="2xl" fontWeight="bold" sx={{ letterSpacing: '-0.04em' }}>
+    <Heading as="h2" size="2xl" fontWeight="bold" sx={{ letterSpacing: '-0.04em' }}>
       {title}
-    </Text>
+    </Heading>
   );
   return (
-    <Header my="1rem" className="d-flex justify-between" sx={{ alignItems: 'flex-end' }}>
+    <Header my="1rem" className="flex items-end justify-between">
       <div>
         {arrow ? (
           <Link href={arrow.to}>
-            <a href={arrow.to} className="d-inline-block" style={{ color: 'inherit' }}>
+            <a href={arrow.to} className="inline-block" style={{ color: 'inherit' }}>
               {heading}
             </a>
           </Link>

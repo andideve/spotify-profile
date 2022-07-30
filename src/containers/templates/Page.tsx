@@ -123,7 +123,7 @@ export default function Page({
         {!hero && <div style={{ height: TOPBAR_HEIGHTS }} />}
         <Box
           ml={{ 2: NAVBAR_LG_WIDTHS }}
-          className="p-fixed inset-0"
+          className="fixed inset-0"
           sx={{ bottom: 'unset', zIndex: 999 }}
         >
           <TopbarFrame primaryColor={primaryColor}>
